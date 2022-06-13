@@ -1,0 +1,28 @@
+@media only screen and (min-width: 700px) {
+    .nav {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .nav li {
+        text-decoration: none;
+        list-style-type: none;
+        width: 200px;
+        text-align: center;
+        padding: 8px;
+    }
+}
+
+@media only screen and (max-width: 690px) {
+    .nav {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .nav li {
+        text-decoration: none;
+        width: 200px;
+        text-align: left;
+        padding: 8px;
+    }
+}

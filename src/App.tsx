@@ -1,25 +1,22 @@
-import { Grid } from '@mui/material';
 import Container from '@mui/material/Container';
-import { OverviewPage } from './pages/overview.page';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Link
 } from "react-router-dom";
-import { ExpenseByCategoryPage } from './pages/expense-by-category';
-import { MonthlyLimitationPage } from './pages/monthly-limitation';
-import styles from './App.module.css'
-import { YearMonthlyPage } from './pages/monthly-year.page';
-import { DailyExpensePage } from './pages/daily-expense.page';
 import { MyCV } from './pages/CV/my-cv.page';
+import FinanceComponent from './pages/finance-index.page';
+import { HomePage } from './pages/home/home.page';
 
 function App() {
   return (
     <Router>
       <Container>
         <Routes>
-          <Route path="/" element={<MyCV />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<MyCV />} />
+          <Route path="/finance/*" element={<FinanceComponent />} />
         </Routes>
       </Container>
     </Router>
