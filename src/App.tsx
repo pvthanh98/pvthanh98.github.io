@@ -1,9 +1,9 @@
 import Container from '@mui/material/Container';
 import {
-  BrowserRouter as Router,
+  // BrowserRouter as Router,
   Routes,
   Route,
-  Link
+  HashRouter
 } from "react-router-dom";
 import { MyCV } from './pages/CV/my-cv.page';
 import FinanceComponent from './pages/finance-index.page';
@@ -11,7 +11,7 @@ import { HomePage } from './pages/home/home.page';
 
 function App() {
   return (
-    <Router>
+    <HashRouter>
       <Container>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -19,7 +19,7 @@ function App() {
           <Route path="/finance/*" element={<FinanceComponent />} />
         </Routes>
       </Container>
-    </Router>
+    </HashRouter>
   );
 }
 
