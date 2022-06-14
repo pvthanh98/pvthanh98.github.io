@@ -11,7 +11,7 @@ import { HomePage } from './pages/home/home.page';
 
 function App() {
   return (
-    <Router basename="/">
+    <Router>
       <Container>
         <Routes>
           <Route path="/" element={<HomePage />} />
