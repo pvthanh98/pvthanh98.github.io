@@ -42,6 +42,12 @@ export function DailyExpenseTableComponent(props: DailyExpenseData) {
             >
               Description
             </TableCell>
+            <TableCell
+              align='left'
+              style={{ fontWeight: "bold" }}
+            >
+              EM
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -65,6 +71,9 @@ export function DailyExpenseTableComponent(props: DailyExpenseData) {
               </TableCell>
               <TableCell align="left" component="th" scope="row">
                 {row.description}
+              </TableCell>
+              <TableCell align="left" component="th" scope="row">
+                <img src="/phuong-yen.jpg" height="30px"/>
               </TableCell>
             </TableRow>
           ))}

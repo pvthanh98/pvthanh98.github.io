@@ -10,19 +10,26 @@ import AddIcon from '@mui/icons-material/Add';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import { createAction } from '@reduxjs/toolkit';
+import { updateDataAction } from '../redux/actions/daily-expense.action';
 const moment = require("moment")
 
-const date = new Date();
 export const DailyExpensePage = () => {
-    const [dailyExpense, setDailyExpense] = useState<Array<DailyExpenseRow>>([]);
-    const [isLoad, setIsLoad] = useState<boolean>(true);
+    const dailyExpense = useSelector((state:RootState)=>state.dailyExpense);
+    const dispatch = useDispatch();
+    const [isLoad, setIsLoad] = useState<boolean>(false);
     const [dateInput, setDateInput] = useState<String>(moment(new Date()).format("YYYY-MM-DD"));
     const [descriptionInput, setdescriptionInput] = useState<String>('');
     const [amountInput, setAmountInput] = useState<Number>(0);
     const [categoryInput, setcategoryInput] = useState('Food & Drink');
 
     useEffect(() => {
-        getOverviewExpense();
+        if (dailyExpense && dailyExpense.value && dailyExpense.value.length <= 0){
+            // Cache data
+            getOverviewExpense();
+        }
     }, []);
 
     const handleCategoryChange = (event: SelectChangeEvent) => {
@@ -62,8 +69,9 @@ export const DailyExpensePage = () => {
     }
 
     const getOverviewExpense = async () => {
+        setIsLoad(true)
         const response = await axios.get(`${process.env.REACT_APP_SERVER_HOST}/dashboard/expense-daily`);
-        setDailyExpense([...response.data])
+        dispatch(updateDataAction([...response.data]))
         setIsLoad(false)
     }
 
@@ -88,7 +96,7 @@ export const DailyExpensePage = () => {
                 </Typography>
             </Grid>
             <Grid item xs={12} md={8}>
-                <DailyExpenseTableComponent rows={dailyExpense} />
+                <DailyExpenseTableComponent rows={dailyExpense.value || []} />
             </Grid>
             <Grid item xs={12} md={4}>
                 <Typography variant='body1' style={{
