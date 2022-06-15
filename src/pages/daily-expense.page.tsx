@@ -12,12 +12,14 @@ import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import { createAction } from '@reduxjs/toolkit';
-import { updateDataAction } from '../redux/actions/daily-expense.action';
+import { clearAddExpenseData, updateAddDataAction, updateDataAction } from '../redux/actions/daily-expense.action';
+import { setAuth } from '../redux/actions/auth.action';
+
 const moment = require("moment")
 
 export const DailyExpensePage = () => {
-    const dailyExpense = useSelector((state:RootState)=>state.dailyExpense);
+    const dailyExpense = useSelector((state: RootState) => state.dailyExpense);
+    const dailyExpenseAddData = useSelector((state: RootState) => state.dailyExpenseAddData);
     const dispatch = useDispatch();
     const [isLoad, setIsLoad] = useState<boolean>(false);
     const [dateInput, setDateInput] = useState<String>(moment(new Date()).format("YYYY-MM-DD"));
@@ -26,7 +28,7 @@ export const DailyExpensePage = () => {
     const [categoryInput, setcategoryInput] = useState('Food & Drink');
 
     useEffect(() => {
-        if (dailyExpense && dailyExpense.value && dailyExpense.value.length <= 0){
+        if (dailyExpense && dailyExpense.value && dailyExpense.value.length <= 0) {
             // Cache data
             getOverviewExpense();
         }
@@ -45,34 +47,66 @@ export const DailyExpensePage = () => {
     const onAddExpense = async (e: any) => {
         try {
 
-            if (amountInput<=0) {
+            if (amountInput <= 0) {
                 alert("Error");
                 return
             }
 
-            if (descriptionInput=='') {
+            if (descriptionInput == '') {
                 alert("Error");
                 return
             }
-            setIsLoad(true)
-            const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST}/dashboard/expense-daily`,{
+            const data = {
                 category: categoryInput,
                 amount: amountInput,
                 description: descriptionInput,
                 date: dateInput
-            });
-            getOverviewExpense();
-            resetInput()
-        } catch(e: any){
+            } as DailyExpenseRow;
+            dispatch(updateAddDataAction(data))
+        } catch (e: any) {
             alert(e.message);
         }
     }
 
+    const saveExpense = async () => {
+        try {
+            setIsLoad(true)
+            await axios.post(`${process.env.REACT_APP_SERVER_HOST}/dashboard/expense-daily`, {
+                expenses: dailyExpenseAddData.value
+            }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                }
+            });
+            dispatch(clearAddExpenseData())
+            getOverviewExpense();
+            resetInput()
+        } catch (e: any) {
+            if (e.response.status === 401) {
+                localStorage.removeItem("accessToken");
+                dispatch(setAuth(false))
+            }
+            setIsLoad(false)
+        }
+    }
+
     const getOverviewExpense = async () => {
-        setIsLoad(true)
-        const response = await axios.get(`${process.env.REACT_APP_SERVER_HOST}/dashboard/expense-daily`);
-        dispatch(updateDataAction([...response.data]))
-        setIsLoad(false)
+        try {
+            setIsLoad(true)
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_HOST}/dashboard/expense-daily`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                }
+            });
+            dispatch(updateDataAction([...response.data]))
+            setIsLoad(false);
+        } catch (e: any) {
+            if (e.response.status === 401) {
+                localStorage.removeItem("accessToken");
+                dispatch(setAuth(false))
+            }
+            setIsLoad(false)
+        }
     }
 
     const onDateInputChange = (e: any) => {
@@ -96,7 +130,26 @@ export const DailyExpensePage = () => {
                 </Typography>
             </Grid>
             <Grid item xs={12} md={8}>
-                <DailyExpenseTableComponent rows={dailyExpense.value || []} />
+
+                <DailyExpenseTableComponent rows={dailyExpense.value || []} editRows={dailyExpenseAddData.value || []} />
+                {
+                    dailyExpenseAddData.value.length > 0 &&
+                    <div style={{
+                        textAlign: "right"
+                    }}>
+                        <Button style={{
+                            marginTop: "4px",
+                            marginRight: "4px"
+                        }} onClick={() => dispatch(clearAddExpenseData())} variant="contained" color="inherit" endIcon={<RestartAltIcon />}>
+                            CANCEL
+                        </Button>
+                        <Button style={{
+                            marginTop: "4px"
+                        }} onClick={saveExpense} variant="contained" color="success" endIcon={<AddIcon />}>
+                            SAVE
+                        </Button>
+                    </div>
+                }
             </Grid>
             <Grid item xs={12} md={4}>
                 <Typography variant='body1' style={{
@@ -107,7 +160,7 @@ export const DailyExpensePage = () => {
                 <Input
                     placeholder="Date"
                     type="date"
-                    defaultValue={dateInput}        
+                    defaultValue={dateInput}
                     onChange={onDateInputChange}
                     style={{
                         width: "100%",
@@ -125,8 +178,8 @@ export const DailyExpensePage = () => {
                     label="Age"
                     onChange={handleCategoryChange}
                     style={{
-                        width:"100%",
-                        height:"50px"
+                        width: "100%",
+                        height: "50px"
                     }}
                 >
                     <MenuItem value={'Food & Drink'}>Food & Drink</MenuItem>

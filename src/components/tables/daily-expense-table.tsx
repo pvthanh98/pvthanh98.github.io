@@ -73,10 +73,39 @@ export function DailyExpenseTableComponent(props: DailyExpenseData) {
                 {row.description}
               </TableCell>
               <TableCell align="left" component="th" scope="row">
-                <img src="/phuong-yen.jpg" height="30px"/>
+                <img src="/phuong-yen.jpg" height="30px" />
               </TableCell>
             </TableRow>
           ))}
+
+          {props.editRows.map((row, index) => (
+            <TableRow
+              key={`${row.category}-${index}`}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              style={{
+                backgroundColor: "#0e3600"
+              }}
+            >
+              <TableCell align="left" component="th" scope="row" style={{color:"white"}}>
+                {/* {row.date} */}
+                {moment(row.date).format("DD-MM-YYYY")}
+              </TableCell>
+              <TableCell align="left" component="th" scope="row" style={{color:"white"}}>
+                {row.category}
+              </TableCell>
+              <TableCell align="left" style={{color:"white"}}>
+                <CurrencyFormat value={row.amount} prefix={'đ'} />
+              </TableCell>
+              <TableCell align="left" component="th" scope="row" style={{color:"white"}}>
+                {row.description}
+              </TableCell>
+              <TableCell align="left" component="th" scope="row" style={{color:"white"}}>
+                <img src="/phuong-yen.jpg" height="30px" />
+              </TableCell>
+            </TableRow>
+          ))}
+
+
         </TableBody>
       </Table>
     </TableContainer>

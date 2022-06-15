@@ -6,5 +6,6 @@ export interface DailyExpenseRow {
 }
 
 export interface DailyExpenseData {
-    rows: Array<DailyExpenseRow>
+    rows: Array<DailyExpenseRow>;
+    editRows: Array<DailyExpenseRow>;
 }

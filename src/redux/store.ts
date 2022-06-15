@@ -1,8 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import dailyExpenseReducer from './reducers/daily-expense.reducer';
+import dailyExpenseAddData from './reducers/daily-expense-for-add';
+import authReducer from './reducers/auth.reducer';
 const store = configureStore({
   reducer: {
-    dailyExpense: dailyExpenseReducer
+    dailyExpense: dailyExpenseReducer,
+    dailyExpenseAddData: dailyExpenseAddData,
+    isAuth: authReducer
   },
 })
 
