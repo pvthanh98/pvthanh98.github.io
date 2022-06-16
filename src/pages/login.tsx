@@ -5,13 +5,15 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAuth } from '../redux/actions/auth.action';
 
-import { Button, Input } from '@mui/material';
+import { Button, CircularProgress, Input } from '@mui/material';
 import { Navigate } from 'react-router-dom';
 import { RootState } from '../redux/store';
+
 
 export const LoginPage = () => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [isLoad, setIsLoad] = useState<boolean>(false);
     const dispatch = useDispatch();
     const authState = useSelector((state: RootState) => state.isAuth)
 
@@ -26,21 +28,21 @@ export const LoginPage = () => {
     const onSubmit = async (e: any) => {
         e.preventDefault();
         try {
-            // setIsLoad(true)
+            setIsLoad(true)
             const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST}/auth/login`, {
                 email, password
             });
             console.log(response.data)
             localStorage.setItem("accessToken", response.data.access_token)
             dispatch(setAuth(true))
-            // setIsLoad(false);
+            setIsLoad(false);
         } catch (e: any) {
             console.log(e)
             if (e.response.status === 401) {
                 dispatch(setAuth(false))
                 localStorage.removeItem("accessToken");
             }
-            // setIsLoad(false)
+            setIsLoad(false)
         }
     }
 
@@ -103,7 +105,10 @@ export const LoginPage = () => {
                                 color="success"
                                 type="submit"
                             >
-                                Login
+                               {
+                                isLoad ? <CircularProgress color="inherit" size="25px" /> : "Login"
+                               }
+                                
                             </Button>
 
                         </div>
