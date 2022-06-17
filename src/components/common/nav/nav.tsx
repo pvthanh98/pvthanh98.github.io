@@ -22,7 +22,7 @@ export const NavComponent = () => {
             <Link to="/finance/expense-by-month">Year</Link>
         </li>
         <li>
-            <Link to="/about">Profile</Link>
+            <Link to="/cv">My CV</Link>
         </li>
     </ul>
 }

@@ -6,84 +6,94 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import LinearProgress from '@mui/material/LinearProgress'
 import { LinenearProgressLoading } from '../components/common/common-component';
 import { setAuth } from '../redux/actions/auth.action';
+import { RootState } from '../redux/store';
+import { fetchIncomeData, fetchRemainingData, fetchUsageData } from '../redux/actions/overview-expense.action';
+import { Container } from '@mui/system';
+import { NavComponent } from '../components/common/nav/nav';
 
 export const OverviewPage = () => {
-    const [usageData, setUsageData] = useState<Array<OverviewRow>>([]);
-    const [remaining, setRemaining] = useState<Array<OverviewRow>>([]);
-    const [income, setIncome] = useState<Array<OverviewRow>>([]);
-    const [isLoad, setIsLoad] = useState<boolean>(true);
+
+    const usageData = useSelector((state: RootState) => state.overviewExpense.usage);
+    const remaining = useSelector((state: RootState) => state.overviewExpense.remaining);
+    const income = useSelector((state: RootState) => state.overviewExpense.income);
+
+    const [isLoad, setIsLoad] = useState<boolean>(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        getOverviewExpense();
+        if (usageData.length === 0 || remaining.length === 0 || income.length === 0) {
+            getOverviewExpense();
+        }
     }, []);
 
     const getOverviewExpense = async () => {
         try {
-            console.log(`Bearer ${localStorage.getItem("accessToken")}`)
+            setIsLoad(true)
             const response = await axios.get(`${process.env.REACT_APP_SERVER_HOST}/dashboard/overview`,
-            {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
-                }
-            });
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    }
+                });
             const { usage, income, remaining } = response.data;
-            console.log(response.data)
             if (usage) {
                 const data: Array<OverviewRow> = convertOverviewData(usage);
-                setUsageData([...data])
+                dispatch(fetchUsageData(data))
             }
 
             if (remaining) {
                 const data: Array<OverviewRow> = convertOverviewData(remaining);
-                setRemaining([...data])
+                dispatch(fetchRemainingData(data))
             }
 
             if (income) {
                 const data: Array<OverviewRow> = convertOverviewData(income);
-                setIncome([...data])
+                dispatch(fetchIncomeData(data))
             }
             setIsLoad(false)
         } catch (e: any) {
-            console.log(e)
             if (e.response.status === 401) {
-                console.log(401)
-                // dispatch(setAuth(false))
-                // localStorage.removeItem("accessToken");
+                dispatch(setAuth(false))
+                localStorage.removeItem("accessToken");
             }
             setIsLoad(false)
         }
     }
     return (
-        <Grid container spacing={2}>
-            <LinenearProgressLoading isLoad={isLoad} />
+        <Container>
             <Grid item xs={12} md={12}>
-                <Typography variant="h5" style={{ fontWeight: "bold", marginTop: "8px" }}>
-                    Overview
-                </Typography>
+                <h3>ThanhPhan</h3>
+                <NavComponent />
             </Grid>
-            <Grid item xs={12} md={6}>
-                <Typography variant="h6" style={{ marginTop: "8px" }}>
-                    Usage
-                </Typography>
-                <TableComponent rows={usageData} />
+            <Grid container spacing={2}>
+                <LinenearProgressLoading isLoad={isLoad} />
+                <Grid item xs={12} md={12}>
+                    <Typography variant="h5" style={{ fontWeight: "bold", marginTop: "8px" }}>
+                        Overview
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <Typography variant="h6" style={{ marginTop: "8px" }}>
+                        Usage
+                    </Typography>
+                    <TableComponent rows={usageData} />
 
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <Typography variant="h6" style={{ marginTop: "8px" }}>
+                        Income
+                    </Typography>
+                    <TableComponent rows={income} />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <Typography variant="h6" style={{ marginTop: "8px" }}>
+                        Remaining
+                    </Typography>
+                    <TableComponent rows={remaining} />
+                </Grid>
             </Grid>
-            <Grid item xs={12} md={6}>
-                <Typography variant="h6" style={{ marginTop: "8px" }}>
-                    Income
-                </Typography>
-                <TableComponent rows={income} />
-            </Grid>
-            <Grid item xs={12} md={6}>
-                <Typography variant="h6" style={{ marginTop: "8px" }}>
-                    Remaining
-                </Typography>
-                <TableComponent rows={remaining} />
-            </Grid>
-        </Grid>
+        </Container>
     )
 }

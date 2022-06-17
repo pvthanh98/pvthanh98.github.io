@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { NavComponent } from "../../components/common/nav/nav";
 import axios from 'axios';
 import moment from 'moment';
-import { Button, CircularProgress } from "@mui/material";
+import { Button, CircularProgress, Container } from "@mui/material";
 import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
 import { Box } from "@mui/system";
 
@@ -27,50 +27,51 @@ export function HomePage() {
   }
   return (
     <div>
-      <h3>ThanhPhan</h3>
-      <NavComponent />
+      <Container>
+        <h3>ThanhPhan</h3>
+        <NavComponent />
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Button
+            variant="contained"
+            color="primary"
+            endIcon={<ConnectWithoutContactIcon />}
+            onClick={pingServer}
+          >
+            {
+              isLoad ? <CircularProgress size="30px" color="inherit" /> : "PING"
+            }
+          </Button>
 
-      <Box sx={{display:"flex", alignItems:"center"}}>
-        <Button
-          variant="contained"
-          color="primary"
-          endIcon={<ConnectWithoutContactIcon />}
-          onClick={pingServer}
-        >
-          {
-            isLoad ? <CircularProgress size="30px" color="inherit" /> : "PING"
-          }
-        </Button>
-        
-      </Box>
-      {
-        logs.map((log: any) => {
-          return (
-            <div
-              style={{
-                marginTop: "8px"
-              }}
-            >
-              {/* <div>
+        </Box>
+        {
+          logs.map((log: any) => {
+            return (
+              <div
+                style={{
+                  marginTop: "8px"
+                }}
+              >
+                {/* <div>
                 Log ID: {log.id}
               </div> */}
-              <div>
-                Message: {log.message}
+                <div>
+                  Message: {log.message}
+                </div>
+                <div>
+                  From: {log.from}
+                </div>
+                <div>
+                  Type: {log.type}
+                </div>
+                <div>
+                  Created At: {moment(log.createdAt).format("DD-MMM-YY, h:mm:ss a")} ({moment(log.createdAt).fromNow()})
+                </div>
+                <hr />
               </div>
-              <div>
-                From: {log.from}
-              </div>
-              <div>
-                Type: {log.type}
-              </div>
-              <div>
-                Created At: {moment(log.createdAt).format("DD-MMM-YY, h:mm:ss a")} ({moment(log.createdAt).fromNow()})
-              </div>
-              <hr />
-            </div>
-          )
-        })
-      }
+            )
+          })
+        }
+      </Container>
 
     </div>
   );

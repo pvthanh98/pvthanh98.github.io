@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAuth } from '../redux/actions/auth.action';
 
-import { Button, CircularProgress, Input } from '@mui/material';
+import { Button, CircularProgress, Container, Input } from '@mui/material';
 import { Link, Navigate } from 'react-router-dom';
 import { RootState } from '../redux/store';
 import { Box } from '@mui/system';
@@ -29,101 +29,108 @@ export const LoginPage = () => {
     const onSubmit = async (e: any) => {
         e.preventDefault();
         try {
-            setIsLoad(true)
-            const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST}/auth/login`, {
-                email, password
-            });
-            console.log(response.data)
-            localStorage.setItem("accessToken", response.data.access_token)
-            dispatch(setAuth(true))
-            setIsLoad(false);
+            if (email !== "" && password !== "") {
+                setIsLoad(true)
+                const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST}/auth/login`, {
+                    email, password
+                });
+                localStorage.setItem("accessToken", response.data.access_token)
+                dispatch(setAuth(true))
+                setIsLoad(false);
+            } else {
+                alert(
+                    "Email or password cannot be empty"
+                )
+            }
         } catch (e: any) {
-            console.log(e)
             if (e.response.status === 401) {
-                dispatch(setAuth(false))
-                localStorage.removeItem("accessToken");
+                alert(
+                    "Incorrect email or password"
+                )
             }
             setIsLoad(false)
         }
     }
 
     return (
-        <Grid container spacing={2}>
-            {authState.value && <Navigate to="/finance" />}
-            <Grid item xs={12} md={12}>
-                <div style={{
-                    marginTop: "8px",
-                    display: "flex",
-                    justifyContent: "center",
-                    flexDirection: "row",
-                }}>
-                    <form
-                        onSubmit={onSubmit}
-                        style={{
-                            width: "400px",
-                            border:"2px solid #bebebe",
-                            padding:"30px",
-                            minHeight:"600px",
-                            borderRadius:"12px",
-                            boxShadow:"5px 10px #888888"
-                        }}
-                    >
-                        <Typography variant='h5' style={{
-                            marginTop: "10px"
-                        }}>
-                            Sign In
-                        </Typography>
-                        <Typography variant='body1' style={{
-                            marginTop: "20px"
-                        }}>
-                            Email
-                        </Typography>
-                        <Input
-                            type="text"
-                            onChange={onEmailChange}
-                            value={email}
+        <Container>
+            <Grid container spacing={2}>
+                {authState.value && <Navigate to="/finance" />}
+                <Grid item xs={12} md={12}>
+                    <div style={{
+                        marginTop: "8px",
+                        display: "flex",
+                        justifyContent: "center",
+                        flexDirection: "row",
+                    }}>
+                        <form
+                            onSubmit={onSubmit}
                             style={{
-                                width: "100%"
+                                width: "400px",
+                                border: "2px solid #bebebe",
+                                padding: "30px",
+                                minHeight: "600px",
+                                borderRadius: "12px",
+                                boxShadow: "5px 10px #888888"
                             }}
-                        />
-                        <Typography variant='body1' style={{
-                            marginTop: "10px",
-                        }}>
-                            Password
-                        </Typography>
-                        <Input
-                            type="password"
-                            onChange={onPasswordChange}
-                            value={password}
-                            style={{
-                                width: "100%"
-                            }}
-                        />
-                        <div style={{
-
-                        }}>
-                            <Button
+                        >
+                            <Typography variant='h5' style={{
+                                marginTop: "10px"
+                            }}>
+                                Sign In
+                            </Typography>
+                            <Typography variant='body1' style={{
+                                marginTop: "20px"
+                            }}>
+                                Email
+                            </Typography>
+                            <Input
+                                type="text"
+                                onChange={onEmailChange}
+                                value={email}
                                 style={{
-                                    marginTop: "8px",
                                     width: "100%"
                                 }}
-                                variant="contained"
-                                color="success"
-                                type="submit"
-                            >
-                                {
-                                    isLoad ? <CircularProgress color="inherit" size="25px" /> : "Login"
-                                }
+                            />
+                            <Typography variant='body1' style={{
+                                marginTop: "10px",
+                            }}>
+                                Password
+                            </Typography>
+                            <Input
+                                type="password"
+                                onChange={onPasswordChange}
+                                value={password}
+                                style={{
+                                    width: "100%"
+                                }}
+                            />
+                            <div style={{
 
-                            </Button>
-                            <Box sx={{display:"flex", justifyContent:"right", marginTop:"8px"}}>
-                                <Link to="/">Go to home page</Link>
-                            </Box>
-                        </div>
-                    </form>
-                </div>
+                            }}>
+                                <Button
+                                    style={{
+                                        marginTop: "8px",
+                                        width: "100%"
+                                    }}
+                                    variant="contained"
+                                    color="success"
+                                    type="submit"
+                                >
+                                    {
+                                        isLoad ? <CircularProgress color="inherit" size="25px" /> : "Login"
+                                    }
+
+                                </Button>
+                                <Box sx={{ display: "flex", justifyContent: "right", marginTop: "8px" }}>
+                                    <Link to="/">Go to home page</Link>
+                                </Box>
+                            </div>
+                        </form>
+                    </div>
+                </Grid>
+
             </Grid>
-
-        </Grid>
+        </Container>
     )
 }

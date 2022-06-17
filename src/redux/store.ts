@@ -2,11 +2,19 @@ import { configureStore } from '@reduxjs/toolkit'
 import dailyExpenseReducer from './reducers/daily-expense.reducer';
 import dailyExpenseAddData from './reducers/daily-expense-for-add';
 import authReducer from './reducers/auth.reducer';
+import overviewExpenseReducer from './reducers/overview-expense.reducer';
+import categoryExpenseReducer from './reducers/category-expense.reducer';
+import monthlyLimitReducer from './reducers/limit-expense.reducer';
+import monthByExpenseReducer from './reducers/month-by-year.reducer';
 const store = configureStore({
   reducer: {
     dailyExpense: dailyExpenseReducer,
     dailyExpenseAddData: dailyExpenseAddData,
-    isAuth: authReducer
+    isAuth: authReducer,
+    overviewExpense: overviewExpenseReducer,
+    categoryExpense: categoryExpenseReducer,
+    monthlyLimitReducer: monthlyLimitReducer,
+    monthByYear: monthByExpenseReducer
   },
 })
 
@@ -16,5 +24,5 @@ export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
 
 export {
-    store
+  store
 }

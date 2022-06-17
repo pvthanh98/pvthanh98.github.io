@@ -8,39 +8,46 @@ import axios from 'axios';
 import { CategoryExpenseTableComponent } from '../components/tables/category-expense-table';
 import { CategoryExpenseRow } from '../interfaces/category-expense-row';
 import { LinenearProgressLoading } from '../components/common/common-component';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setAuth } from '../redux/actions/auth.action';
+import { RootState } from '../redux/store';
+import { fetchDailyData, fetchMonthlyData, fetchYearlyData } from '../redux/actions/category-expense.action';
+import { Container } from '@mui/system';
+import { NavComponent } from '../components/common/nav/nav';
 
 
 export const ExpenseByCategoryPage = () => {
-    const [dailyData, setDailyData] = useState<Array<CategoryExpenseRow>>([]);
-    const [monthlyData, setMonthly] = useState<Array<CategoryExpenseRow>>([]);
-    const [yearlyData, setYearly] = useState<Array<CategoryExpenseRow>>([]);
-    const [isLoad, setIsLoad] = useState<boolean>(true);
+    const dailyData = useSelector((state: RootState) => state.categoryExpense.daily);
+    const monthlyData = useSelector((state: RootState) => state.categoryExpense.monthly);
+    const yearlyData = useSelector((state: RootState) => state.categoryExpense.yearly);
+
+    const [isLoad, setIsLoad] = useState<boolean>(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        getOverviewExpense();
+        if (dailyData.length === 0 || monthlyData.length === 0 || yearlyData.length === 0) {
+            getOverviewExpense();
+        }
     }, []);
 
     const getOverviewExpense = async () => {
         try {
-            const response = await axios.get(`${process.env.REACT_APP_SERVER_HOST}/dashboard/expense-by-category`,{
+            setIsLoad(true);
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_HOST}/dashboard/expense-by-category`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("accessToken")}`
                 }
             });
             const { daily, monthly, yearly } = response.data;
             if (daily) {
-                setDailyData([...daily])
+                dispatch(fetchDailyData([...daily]))
             }
             if (monthly) {
-                setMonthly([...monthly])
+                dispatch(fetchMonthlyData([...monthly]))
             }
             if (yearly) {
-                setYearly([...yearly])
+                dispatch(fetchYearlyData([...yearly]))
             }
-
             setIsLoad(false)
         } catch (e: any) {
             if (e.response && e.response.status === 401) {
@@ -52,32 +59,38 @@ export const ExpenseByCategoryPage = () => {
 
     }
     return (
-        <Grid container spacing={2}>
-            <LinenearProgressLoading isLoad={isLoad} />
-            <Grid item xs={12} md={12}>
-                <Typography variant="h5" style={{ fontWeight: "bold", marginTop: "8px" }}>
-                    Category Expenses
-                </Typography>
-            </Grid>
-            <Grid item xs={12} md={4}>
-                <Typography variant="h6" style={{ marginTop: "8px" }}>
-                    Daily
-                </Typography>
-                <CategoryExpenseTableComponent rows={dailyData} />
-            </Grid>
-            <Grid item xs={12} md={4}>
-                <Typography variant="h6" style={{ marginTop: "8px" }}>
-                    Monthly
-                </Typography>
-                <CategoryExpenseTableComponent rows={monthlyData} />
-            </Grid>
-            <Grid item xs={12} md={4}>
-                <Typography variant="h6" style={{ marginTop: "8px" }}>
-                    Yearly
-                </Typography>
-                <CategoryExpenseTableComponent rows={yearlyData} />
-            </Grid>
+        <Container>
+            <Grid container spacing={2}>
+                <Grid item xs={12} md={12}>
+                    <h3>ThanhPhan</h3>
+                    <NavComponent />
+                </Grid>
+                <LinenearProgressLoading isLoad={isLoad} />
+                <Grid item xs={12} md={12}>
+                    <Typography variant="h5" style={{ fontWeight: "bold", marginTop: "8px" }}>
+                        Category Expenses
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                    <Typography variant="h6" style={{ marginTop: "8px" }}>
+                        Daily
+                    </Typography>
+                    <CategoryExpenseTableComponent rows={dailyData} />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                    <Typography variant="h6" style={{ marginTop: "8px" }}>
+                        Monthly
+                    </Typography>
+                    <CategoryExpenseTableComponent rows={monthlyData} />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                    <Typography variant="h6" style={{ marginTop: "8px" }}>
+                        Yearly
+                    </Typography>
+                    <CategoryExpenseTableComponent rows={yearlyData} />
+                </Grid>
 
-        </Grid>
+            </Grid>
+        </Container>
     )
 }

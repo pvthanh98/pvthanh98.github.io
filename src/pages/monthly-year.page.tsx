@@ -2,33 +2,38 @@ import { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import axios from 'axios';
-import { MonthByYearRow } from '../interfaces/month-by-year';
 import { MonthByYearTableComponent } from '../components/tables/month-by-year-table';
 import { LinenearProgressLoading } from '../components/common/common-component';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setAuth } from '../redux/actions/auth.action';
+import { RootState } from '../redux/store';
+import { updateMonthByYearAaction } from '../redux/actions/month-by-year-expense.action';
+import { Container } from '@mui/system';
+import { NavComponent } from '../components/common/nav/nav';
 
 
 export const YearMonthlyPage = () => {
-    const [monthsData, setMonthsData] = useState<Array<MonthByYearRow>>([]);
-    const [isLoad, setIsLoad] = useState<boolean>(true);
+    const monthsData = useSelector((state: RootState) => state.monthByYear.value)
+    const [isLoad, setIsLoad] = useState<boolean>(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        getOverviewExpense();
+        if (monthsData.length === 0) {
+            getOverviewExpense();
+        }
     }, []);
 
     const getOverviewExpense = async () => {
-        try{
-            const response = await axios.get(`${process.env.REACT_APP_SERVER_HOST}/dashboard/expense-by-month`,{
+        try {
+            setIsLoad(true)
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_HOST}/dashboard/expense-by-month`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("accessToken")}`
                 }
             });
-            setMonthsData([...response.data])
+            dispatch(updateMonthByYearAaction([...response.data]))
             setIsLoad(false)
         } catch (e: any) {
-            console.log(e)
             if (e.response.status === 401) {
                 dispatch(setAuth(false));
                 localStorage.removeItem("accessToken");
@@ -37,19 +42,25 @@ export const YearMonthlyPage = () => {
         }
     }
     return (
-        <Grid container spacing={2}>
-            <LinenearProgressLoading isLoad={isLoad} />
+        <Container>
             <Grid item xs={12} md={12}>
-                <Typography variant="h5" style={{ fontWeight: "bold", marginTop: "8px" }}>
-                    Year By Month
-                </Typography>
+                <h3>ThanhPhan</h3>
+                <NavComponent />
             </Grid>
-            <Grid item xs={12} md={12}>
-                <Typography variant="h6" style={{ marginTop: "8px" }}>
-                    Month
-                </Typography>
-                <MonthByYearTableComponent rows={monthsData} />
+            <Grid container spacing={2}>
+                <LinenearProgressLoading isLoad={isLoad} />
+                <Grid item xs={12} md={12}>
+                    <Typography variant="h5" style={{ fontWeight: "bold", marginTop: "8px" }}>
+                        Year By Month
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} md={12}>
+                    <Typography variant="h6" style={{ marginTop: "8px" }}>
+                        Month
+                    </Typography>
+                    <MonthByYearTableComponent rows={monthsData} />
+                </Grid>
             </Grid>
-        </Grid>
+        </Container>
     )
 }

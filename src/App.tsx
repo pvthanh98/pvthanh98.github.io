@@ -1,7 +1,6 @@
 import Container from '@mui/material/Container';
-import { useEffect } from 'react';
 import {
-  // BrowserRouter as Router,
+  BrowserRouter,
   Routes,
   Route,
   HashRouter
@@ -15,16 +14,14 @@ import { LoginPage } from './pages/login';
 function App() {
   return (
     <HashRouter>
-      <Container>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/about" element={<MyCV />} />
-          <Route element={<ProtectedRoute />}>
-            <Route path="/finance/*" element={<FinanceComponent />} />
-          </Route>
-        </Routes>
-      </Container>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/cv" element={<MyCV />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/finance/*" element={<FinanceComponent />} />
+        </Route>
+      </Routes>
     </HashRouter>
   );
 }

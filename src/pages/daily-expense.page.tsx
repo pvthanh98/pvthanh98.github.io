@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { DailyExpenseRow } from '../interfaces/daily-expense-row';
 import { DailyExpenseTableComponent } from '../components/tables/daily-expense-table';
 import { LinenearProgressLoading } from '../components/common/common-component';
@@ -14,10 +14,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { clearAddExpenseData, updateAddDataAction, updateDataAction } from '../redux/actions/daily-expense.action';
 import { setAuth } from '../redux/actions/auth.action';
+import { Container } from '@mui/system';
+import { NavComponent } from '../components/common/nav/nav';
 
 const moment = require("moment")
 
 export const DailyExpensePage = () => {
+    const inputSelectCategoryRef = useRef(null);
     const dailyExpense = useSelector((state: RootState) => state.dailyExpense);
     const dailyExpenseAddData = useSelector((state: RootState) => state.dailyExpenseAddData);
     const dispatch = useDispatch();
@@ -45,15 +48,16 @@ export const DailyExpensePage = () => {
     }
 
     const onAddExpense = async (e: any) => {
+        e.preventDefault();
         try {
 
             if (amountInput <= 0) {
-                alert("Error");
+                alert("Amount cannot less than or equal 0");
                 return
             }
 
             if (descriptionInput == '') {
-                alert("Error");
+                alert("Desciption required");
                 return
             }
             const data = {
@@ -62,11 +66,14 @@ export const DailyExpensePage = () => {
                 description: descriptionInput,
                 date: dateInput
             } as DailyExpenseRow;
-            dispatch(updateAddDataAction(data))
+            dispatch(updateAddDataAction(data));
+            clearInput();
         } catch (e: any) {
             alert(e.message);
         }
     }
+
+
 
     const saveExpense = async () => {
         try {
@@ -80,7 +87,7 @@ export const DailyExpensePage = () => {
             });
             dispatch(clearAddExpenseData())
             getOverviewExpense();
-            resetInput()
+            resetInput();
         } catch (e: any) {
             if (e.response.status === 401) {
                 localStorage.removeItem("accessToken");
@@ -121,117 +128,131 @@ export const DailyExpensePage = () => {
         setdescriptionInput(e.target.value)
     }
 
-    return (
-        <Grid container spacing={2}>
-            <LinenearProgressLoading isLoad={isLoad} />
-            <Grid item xs={12} md={12}>
-                <Typography variant="h5" style={{ fontWeight: "bold", marginTop: "8px" }}>
-                    Daily Expense
-                </Typography>
-            </Grid>
-            <Grid item xs={12} md={8}>
+    const clearInput = () => {
+        setAmountInput(0);
+        setdescriptionInput("");
+    }
 
-                <DailyExpenseTableComponent rows={dailyExpense.value || []} editRows={dailyExpenseAddData.value || []} />
-                {
-                    dailyExpenseAddData.value.length > 0 &&
-                    <div style={{
-                        textAlign: "right"
-                    }}>
-                        <Button style={{
-                            marginTop: "4px",
-                            marginRight: "4px"
-                        }} onClick={() => dispatch(clearAddExpenseData())} variant="contained" color="inherit" endIcon={<RestartAltIcon />}>
-                            CANCEL
-                        </Button>
-                        <Button style={{
-                            marginTop: "4px"
-                        }} onClick={saveExpense} variant="contained" color="success" endIcon={<AddIcon />}>
-                            SAVE
-                        </Button>
-                    </div>
-                }
+    return (
+        <Container>
+            <Grid item xs={12} md={12}>
+                <h3>ThanhPhan</h3>
+                <NavComponent />
             </Grid>
-            <Grid item xs={12} md={4}>
-                <Typography variant='body1' style={{
-                    marginTop: "10px",
-                }}>
-                    Date
-                </Typography>
-                <Input
-                    placeholder="Date"
-                    type="date"
-                    defaultValue={dateInput}
-                    onChange={onDateInputChange}
-                    style={{
-                        width: "100%",
-                    }}
-                />
-                <Typography variant='body1' style={{
-                    marginTop: "10px",
-                }}>
-                    Category
-                </Typography>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={categoryInput}
-                    label="Age"
-                    onChange={handleCategoryChange}
-                    style={{
-                        width: "100%",
-                        height: "50px"
-                    }}
-                >
-                    <MenuItem value={'Food & Drink'}>Food & Drink</MenuItem>
-                    <MenuItem value={'Petrol'}>Petrol</MenuItem>
-                    <MenuItem value={'Entertainment'}>Entertainment</MenuItem>
-                    <MenuItem value={'Party'}>Party</MenuItem>
-                    <MenuItem value={'Giving'}>Giving</MenuItem>
-                    <MenuItem value={'Rental fee'}>Rental fee</MenuItem>
-                    <MenuItem value={'Shopping'}>Shopping</MenuItem>
-                    <MenuItem value={'Others'}>Others</MenuItem>
-                </Select>
-                <Typography variant='body1' style={{
-                    marginTop: "10px",
-                }}>
-                    Description
-                </Typography>
-                <TextField
-                    variant="outlined" color="success"
-                    onChange={onDescriptionChange}
-                    style={{
-                        width: "100%",
-                    }}
-                    value={descriptionInput}
-                />
-                <Typography variant='body1' style={{
-                    marginTop: "10px",
-                }}>
-                    Amount
-                </Typography>
-                <Input
-                    type="number"
-                    onChange={onAmountChange}
-                    value={amountInput}
-                    style={{
-                        width: "100%",
-                        color: "red",
-                        fontWeight: "bold"
-                    }}
-                />
-                <div style={{
-                    display: "flex",
-                    flexDirection: "row-reverse",
-                    marginTop: "8px"
-                }}>
-                    <Button onClick={onAddExpense} variant="contained" style={{ marginLeft: "4px" }} endIcon={<AddIcon />}>
-                        Add
-                    </Button>
-                    <Button variant="outlined" style={{ marginLeft: "4px" }} startIcon={<RestartAltIcon />}>
-                        Reset
-                    </Button>
-                </div>
+            <Grid container spacing={2}>
+                <LinenearProgressLoading isLoad={isLoad} />
+                <Grid item xs={12} md={12}>
+                    <Typography variant="h5" style={{ fontWeight: "bold", marginTop: "8px" }}>
+                        Daily Expense
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} md={8}>
+
+                    <DailyExpenseTableComponent rows={dailyExpense.value || []} editRows={dailyExpenseAddData.value || []} />
+                    {
+                        dailyExpenseAddData.value.length > 0 &&
+                        <div style={{
+                            textAlign: "right"
+                        }}>
+                            <Button style={{
+                                marginTop: "4px",
+                                marginRight: "4px"
+                            }} onClick={() => dispatch(clearAddExpenseData())} variant="contained" color="inherit" endIcon={<RestartAltIcon />}>
+                                CANCEL
+                            </Button>
+                            <Button style={{
+                                marginTop: "4px"
+                            }} onClick={saveExpense} variant="contained" color="success" endIcon={<AddIcon />}>
+                                SAVE
+                            </Button>
+                        </div>
+                    }
+                </Grid>
+                <Grid item xs={12} md={4}>
+                    <form onSubmit={onAddExpense}>
+                        <Typography variant='body1' style={{
+                            marginTop: "10px",
+                        }}>
+                            Date
+                        </Typography>
+                        <Input
+                            placeholder="Date"
+                            type="date"
+                            defaultValue={dateInput}
+                            onChange={onDateInputChange}
+                            style={{
+                                width: "100%",
+                            }}
+                        />
+                        <Typography variant='body1' style={{
+                            marginTop: "10px",
+                        }}>
+                            Category
+                        </Typography>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={categoryInput}
+                            label="Age"
+                            onChange={handleCategoryChange}
+                            style={{
+                                width: "100%",
+                                height: "50px"
+                            }}
+                            ref={inputSelectCategoryRef}
+                        >
+                            <MenuItem value={'Food & Drink'}>Food & Drink</MenuItem>
+                            <MenuItem value={'Petrol'}>Petrol</MenuItem>
+                            <MenuItem value={'Entertainment'}>Entertainment</MenuItem>
+                            <MenuItem value={'Party'}>Party</MenuItem>
+                            <MenuItem value={'Giving'}>Giving</MenuItem>
+                            <MenuItem value={'Rental fee'}>Rental fee</MenuItem>
+                            <MenuItem value={'Shopping'}>Shopping</MenuItem>
+                            <MenuItem value={'Others'}>Others</MenuItem>
+                        </Select>
+                        <Typography variant='body1' style={{
+                            marginTop: "10px",
+                        }}>
+                            Description
+                        </Typography>
+                        <TextField
+                            variant="outlined" color="success"
+                            onChange={onDescriptionChange}
+                            style={{
+                                width: "100%",
+                            }}
+                            value={descriptionInput}
+                        />
+                        <Typography variant='body1' style={{
+                            marginTop: "10px",
+                        }}>
+                            Amount
+                        </Typography>
+                        <Input
+                            type="number"
+                            onChange={onAmountChange}
+                            value={amountInput}
+                            style={{
+                                width: "100%",
+                                color: "red",
+                                fontWeight: "bold"
+                            }}
+                        />
+                        <div style={{
+                            display: "flex",
+                            flexDirection: "row-reverse",
+                            marginTop: "8px"
+                        }}>
+                            <Button type="submit" variant="contained" style={{ marginLeft: "4px" }} endIcon={<AddIcon />}>
+                                Add
+                            </Button>
+                            <Button variant="outlined" style={{ marginLeft: "4px" }} startIcon={<RestartAltIcon />}>
+                                Reset
+                            </Button>
+                        </div>
+                    </form>
+                </Grid>
             </Grid>
-        </Grid>
+        </Container>
     )
 }

@@ -15,10 +15,6 @@ import { NavComponent } from '../components/common/nav/nav';
 
 function FinanceComponent() {
   return (
-    <div>
-      <Grid item xs={12} md={12}>
-        <NavComponent />
-      </Grid>
       <Routes>
         <Route path="/" element={<OverviewPage />}  />
         <Route path="/expense-by-category" element={<ExpenseByCategoryPage />} />
@@ -27,7 +23,6 @@ function FinanceComponent() {
         <Route path="/expense-daily" element={<DailyExpensePage />} />
         <Route path="/profile/cv" element={<MyCV />} />
       </Routes>
-    </div>
   );
 }
 

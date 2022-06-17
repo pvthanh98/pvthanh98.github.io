@@ -10,31 +10,37 @@ import { CategoryExpenseRow } from '../interfaces/category-expense-row';
 import { MonthlyLimitationTableComponent } from '../components/tables/monthly-limitation-table';
 import { MonthlyLimitationRow } from '../interfaces/monthly-limitation-row';
 import { LinenearProgressLoading } from '../components/common/common-component';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setAuth } from '../redux/actions/auth.action';
+import { RootState } from '../redux/store';
+import { fetchMonthlyLimitData } from '../redux/actions/monthly-limitation-expense.action';
+import { Container } from '@mui/system';
+import { NavComponent } from '../components/common/nav/nav';
 
 
 export const MonthlyLimitationPage = () => {
-    const [monthlyLimitData, setMonthlyLimitData] = useState<Array<MonthlyLimitationRow>>([]);
-    const [isLoad, setIsLoad] = useState<boolean>(true);
+    const monthlyLimitData = useSelector((state: RootState) => state.monthlyLimitReducer.value)
+    const [isLoad, setIsLoad] = useState<boolean>(false);
     const dispatch = useDispatch();
     useEffect(() => {
-        getOverviewExpense();
+        if (monthlyLimitData.length === 0) {
+            getOverviewExpense();
+        }
     }, []);
 
     const getOverviewExpense = async () => {
-        try{
-            const response = await axios.get(`${process.env.REACT_APP_SERVER_HOST}/dashboard/monthly-limitation`,{
+        try {
+            setIsLoad(true)
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_HOST}/dashboard/monthly-limitation`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("accessToken")}`
                 }
             });
             if (response.data) {
-                setMonthlyLimitData([...response.data])
+                dispatch(fetchMonthlyLimitData([...response.data]))
             }
             setIsLoad(false)
         } catch (e: any) {
-            console.log(e)
             if (e.response.status === 401) {
                 dispatch(setAuth(false));
                 localStorage.removeItem("accessToken");
@@ -43,16 +49,22 @@ export const MonthlyLimitationPage = () => {
         }
     }
     return (
-        <Grid container spacing={2}>
-            <LinenearProgressLoading isLoad={isLoad} />
+        <Container>
             <Grid item xs={12} md={12}>
-                <Typography variant="h5" style={{ fontWeight: "bold", marginTop: "8px" }}>
-                    Monthly Limitation
-                </Typography>
+                <h3>ThanhPhan</h3>
+                <NavComponent />
             </Grid>
-            <Grid item xs={12} md={12}>
-                <MonthlyLimitationTableComponent rows={monthlyLimitData} />
-            </Grid>     
-        </Grid>
+            <Grid container spacing={2}>
+                <LinenearProgressLoading isLoad={isLoad} />
+                <Grid item xs={12} md={12}>
+                    <Typography variant="h5" style={{ fontWeight: "bold", marginTop: "8px" }}>
+                        Monthly Limitation
+                    </Typography>
+                </Grid>
+                <Grid item xs={12} md={12}>
+                    <MonthlyLimitationTableComponent rows={monthlyLimitData} />
+                </Grid>
+            </Grid>
+        </Container>
     )
 }

@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit'
 import { setAuth } from '../actions/auth.action';
 
 const initialState = {
-    value: false
+    value: localStorage.getItem("accessToken") ? true : false
 }
 
 const authReducer = createReducer(initialState, (builder) => {
