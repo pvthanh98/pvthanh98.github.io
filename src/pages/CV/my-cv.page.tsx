@@ -303,7 +303,7 @@ export function MyCV() {
 
               }}
             >
-              To save my CV, please click on the <b>Browser menu</b> at the top right corner, then click on <b>Print</b> item, then click on <b>Save As PDF</b> <br />
+              To save my CV, click on the <b>browser menu</b> at the top right corner, then click on <b>Print</b> item, <b>Save As PDF</b> <br />
               Thank you for viewing my profile.
               <Link to="/">Go to home page</Link>
             </Typography>
