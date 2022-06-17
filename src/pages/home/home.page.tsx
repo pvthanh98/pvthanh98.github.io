@@ -58,7 +58,10 @@ export function HomePage() {
                 Message: {log.message}
               </div>
               <div>
-                Created At: {moment(log.createdAt).fromNow()}
+                Created At: {moment(log.createdAt).format("DD-MMM-YY, h:mm:ss a")} ({moment(log.createdAt).fromNow()})
+              </div>
+              <div>
+                {moment(log.createdAt).fromNow()}
               </div>
               <hr />
             </div>
