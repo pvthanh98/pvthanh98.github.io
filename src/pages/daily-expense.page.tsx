@@ -136,11 +136,11 @@ export const DailyExpensePage = () => {
     return (
         <Container>
             <Grid item xs={12} md={12}>
+                <LinenearProgressLoading isLoad={isLoad} />
                 <h3>ThanhPhan</h3>
                 <NavComponent />
             </Grid>
             <Grid container spacing={2}>
-                <LinenearProgressLoading isLoad={isLoad} />
                 <Grid item xs={12} md={12}>
                     <Typography variant="h5" style={{ fontWeight: "bold", marginTop: "8px" }}>
                         Daily Expense
