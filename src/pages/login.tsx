@@ -6,8 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setAuth } from '../redux/actions/auth.action';
 
 import { Button, CircularProgress, Input } from '@mui/material';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { RootState } from '../redux/store';
+import { Box } from '@mui/system';
 
 
 export const LoginPage = () => {
@@ -105,12 +106,14 @@ export const LoginPage = () => {
                                 color="success"
                                 type="submit"
                             >
-                               {
-                                isLoad ? <CircularProgress color="inherit" size="25px" /> : "Login"
-                               }
-                                
-                            </Button>
+                                {
+                                    isLoad ? <CircularProgress color="inherit" size="25px" /> : "Login"
+                                }
 
+                            </Button>
+                            <Box sx={{display:"flex", justifyContent:"right", marginTop:"8px"}}>
+                                <Link to="/">Go to home page</Link>
+                            </Box>
                         </div>
                     </form>
                 </div>
