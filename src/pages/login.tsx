@@ -60,7 +60,12 @@ export const LoginPage = () => {
                     <form
                         onSubmit={onSubmit}
                         style={{
-                            width: "500px"
+                            width: "400px",
+                            border:"2px solid #bebebe",
+                            padding:"30px",
+                            minHeight:"600px",
+                            borderRadius:"12px",
+                            boxShadow:"5px 10px #888888"
                         }}
                     >
                         <Typography variant='h5' style={{
