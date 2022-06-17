@@ -4,7 +4,10 @@ import styles from './nav.module.css';
 export const NavComponent = () => {
     return <ul className={styles.nav}>
         <li>
-            <Link to="/finance">Home</Link>
+            <Link to="/">Home</Link>
+        </li>
+        <li>
+            <Link to="/finance">Dashboard</Link>
         </li>
         <li>
             <Link to="/finance/expense-daily">Daily</Link>

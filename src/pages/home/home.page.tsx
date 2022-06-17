@@ -51,17 +51,20 @@ export function HomePage() {
                 marginTop: "8px"
               }}
             >
-              <div>
+              {/* <div>
                 Log ID: {log.id}
-              </div>
+              </div> */}
               <div>
                 Message: {log.message}
               </div>
               <div>
-                Created At: {moment(log.createdAt).format("DD-MMM-YY, h:mm:ss a")} ({moment(log.createdAt).fromNow()})
+                From: {log.from}
               </div>
               <div>
-                {moment(log.createdAt).fromNow()}
+                Type: {log.type}
+              </div>
+              <div>
+                Created At: {moment(log.createdAt).format("DD-MMM-YY, h:mm:ss a")} ({moment(log.createdAt).fromNow()})
               </div>
               <hr />
             </div>
