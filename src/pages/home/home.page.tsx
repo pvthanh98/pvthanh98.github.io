@@ -27,7 +27,7 @@ export function HomePage() {
   }
   return (
     <div>
-      <h3>ThanhPhan Hello</h3>
+      <h3>ThanhPhan</h3>
       <NavComponent />
 
       <Box sx={{display:"flex", alignItems:"center"}}>
