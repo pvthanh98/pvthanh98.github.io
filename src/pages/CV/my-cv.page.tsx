@@ -1,7 +1,7 @@
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -17,8 +17,31 @@ import {
 } from '@mui/icons-material';
 import { Box } from "@mui/system";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 export function MyCV() {
+  const [xsLeftColumnValue, setXsLeftColumnValue] = useState(12);
+  const [xsRightColumnValue, setXsRightColumnValue] = useState(12);
+  const [isMobileMode, setisMobileMode] = useState(true);
+  const [boxShadowRightValue, setBoxShadowRightValue] = useState(5);
+  const [boxShadowBottomValue, setBoxShadowBottomValue] = useState(5);
+
+  const handleChangeMode = () => {
+    if (isMobileMode) {
+      //set print mode
+      setXsLeftColumnValue(5);
+      setXsRightColumnValue(7);
+      setBoxShadowRightValue(0);
+      setBoxShadowBottomValue(0);
+    } else {
+      setXsLeftColumnValue(12);
+      setXsRightColumnValue(12);
+      setBoxShadowRightValue(5);
+      setBoxShadowBottomValue(5);
+    }
+    setisMobileMode(!isMobileMode);
+  }
+
   return (
     <Box
       sx={{
@@ -36,8 +59,8 @@ export function MyCV() {
       <Container
         sx={{
           backgroundColor: "#f1f1f1",
-          minHeight: "1200px",
-          boxShadow: "5px 5px #b4b4b4"
+          minHeight: `1200px`,
+          boxShadow: `${boxShadowRightValue}px ${boxShadowBottomValue}px #b4b4b4`
         }}
 
       >
@@ -46,7 +69,7 @@ export function MyCV() {
         >
           <Grid
             item
-            xs={12}
+            xs={xsLeftColumnValue}
             md={5}
             style={{
               padding: "8px"
@@ -177,11 +200,10 @@ export function MyCV() {
           </Grid>
           <Grid
             item
-            xs={12}
+            xs={xsRightColumnValue}
             md={7}
             sx={{
               padding: "16px 8px 16px 8px",
-
             }}
           >
             <Typography
@@ -250,10 +272,24 @@ export function MyCV() {
               fontSize: "20px",
               fontWeight: "bold"
             }}>
-              Back-End Developer (01/04/2021 - Present)
+              Software Engineer (04/05/2021 - Present)
             </Typography>
             <Typography>
-              Company: Appcore <br />
+              Company: <strong style={{color:"#39a139"}}>Nashtech</strong> <br />
+              - Analysis and design the database and system <br />
+              - Build APIs and NodeJs (Nest/Express) <br />
+              - Code as a Back-End Developer
+              - Code as a Font-End Developer
+            </Typography>
+
+            <Typography style={{
+              fontSize: "20px",
+              fontWeight: "bold"
+            }}>
+              Back-End Developer (01/04/2021 - 15/04/2022)
+            </Typography>
+            <Typography>
+              Company: <strong>Appcore</strong> <br />
               - Build APIs with Django RestFramework and NodeJs (Nest) <br />
               - Analysis and design the database and system
             </Typography>
@@ -265,7 +301,7 @@ export function MyCV() {
               Full-Stack Developer (01/07/2020 - 06/12/2020)
             </Typography>
             <Typography>
-              Company: TMA Solutions (HCM City) <br />
+              Company: <strong>TMA Solutions</strong> <br />
               - Internship and work part-time <br />
               - Build APIs with NodeJs (ExpressJS) <br />
               - Make UI and web font-end with ReactJS <br />
@@ -295,18 +331,40 @@ export function MyCV() {
           </Grid>
           <Grid xs={12} md={12} sx={{ marginBottom: "16px" }}>
             <hr style={{ marginTop: "16px" }} />
-            <Typography
-              sx={{
-                marginTop: "16px",
-                fontSize: "12px",
-                fontStyle: "italic",
+            {
+              true && (
+                <Typography
+                  sx={{
+                    marginTop: "16px",
+                    fontSize: "12px",
+                    fontStyle: "italic",
 
-              }}
-            >
-              To save my CV, click on the <b>browser menu</b> at the top right corner, then click on <b>Print</b> item, <b>Save As PDF</b> <br />
-              Thank you for viewing my profile.
-              <Link to="/">Go to home page</Link>
-            </Typography>
+                  }}
+                >
+                  To save my CV: <br />
+                  - Use browser on pc<br />
+                  - Switch to print mode
+                  {' '}
+                  <Button
+                    variant="contained"
+                    color="success"
+                    size="small"
+                    sx={{
+                      fontSize: "8px"
+                    }}
+                    onClick={handleChangeMode}
+                  >
+                    {
+                      isMobileMode ? "PRINT MODE" : "MOBILE MODE"
+                    }
+                  </Button> <br />
+                  - Click on the <b>browser menu</b> at the top right corner <br />
+                  - Click on <b>Print</b> item <br />
+                  - Click <b>Save As PDF</b> <br />
+                  Thank you for viewing my profile. <Link to="/">Go to home page</Link>
+                </Typography>
+              )
+            }
           </Grid>
         </Grid>
       </Container>
