@@ -21,7 +21,7 @@ function FinanceComponent() {
         <Route path="/monthly-limitation" element={<MonthlyLimitationPage />} />
         <Route path="/expense-by-month" element={<YearMonthlyPage />} />
         <Route path="/expense-daily" element={<DailyExpensePage />} />
-        <Route path="/profile/cv" element={<MyCV />} />
+        {/* <Route path="/about" element={<MyCV />} /> */}
       </Routes>
   );
 }

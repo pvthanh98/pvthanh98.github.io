@@ -97,7 +97,6 @@ export const ExpenseByCategoryPage = () => {
             <Grid container spacing={2}>
                 <Grid item xs={12} md={12}>
                     <LinenearProgressLoading isLoad={isLoad} />
-                    <h3>ThanhPhan</h3>
                     <NavComponent />
                 </Grid>
                 <Grid item xs={12} md={12}>

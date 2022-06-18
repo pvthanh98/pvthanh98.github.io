@@ -2,15 +2,41 @@
     .nav {
         display: flex;
         flex-direction: row;
+        justify-content: left;
+        align-items: center;
     }
 
     .nav li {
         text-decoration: none;
         list-style-type: none;
-        width: 200px;
+        width: 100px;
         text-align: center;
         padding: 8px;
     }
+
+    .liContainer{
+        position: relative;
+    }
+
+    .liContainer:hover .ulContainer li{
+        padding: 8px;
+        display: block;
+    }
+
+    .ulContainer{
+        position: absolute;
+        left:0;
+        top:40px
+    }
+    .ulContainer li{
+        padding: 8px;
+        display: none;
+        text-align: left;
+    }
+
+    /* .ulContainer li:hover{
+        color:"red"
+    } */
 }
 
 @media only screen and (max-width: 690px) {
@@ -25,4 +51,5 @@
         text-align: left;
         padding: 8px;
     }
+    
 }

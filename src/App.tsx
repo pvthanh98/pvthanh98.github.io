@@ -17,7 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/cv" element={<MyCV />} />
+        <Route path="/about" element={<MyCV />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/finance/*" element={<FinanceComponent />} />
         </Route>

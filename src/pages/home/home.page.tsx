@@ -41,7 +41,6 @@ export function HomePage() {
   return (
     <div>
       <Container>
-        <h3>ThanhPhan</h3>
         <NavComponent />
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Button

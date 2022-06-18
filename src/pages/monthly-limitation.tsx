@@ -52,7 +52,6 @@ export const MonthlyLimitationPage = () => {
         <Container>
             <Grid item xs={12} md={12}>
                 <LinenearProgressLoading isLoad={isLoad} />
-                <h3>ThanhPhan</h3>
                 <NavComponent />
             </Grid>
             <Grid container spacing={2}> 
