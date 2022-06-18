@@ -68,13 +68,17 @@ export function MonthlyLimitationTableComponent(props: MonthlyLimitationData) {
                 {row.category}
               </TableCell>
               <TableCell align="left">
-                <CurrencyFormat value={row.currentAmount} prefix={'đ'} />
+                <CurrencyFormat value={row.currentAmount} prefix={'đ'} color="green" />
               </TableCell>
               <TableCell align="left">
-                <CurrencyFormat value={row.limit} prefix={'đ'} />
+                <CurrencyFormat value={row.limit} prefix={'đ'} color="green"  />
               </TableCell>
               <TableCell align="left">
-                <CurrencyFormat value={row.remainingCost} prefix={'đ'} />
+                <CurrencyFormat 
+                  value={row.remainingCost} 
+                  prefix={'đ'} 
+                  color={row.remainingCost <= 0 ? "red" : "green"} 
+                />
               </TableCell>
             </TableRow>
           ))}

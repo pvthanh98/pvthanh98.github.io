@@ -7,7 +7,7 @@ interface LinearProgressInterface {
 }
 
 export const CurrencyFormat = (props: CurrencyFormatInterface) => {
-    return <div style={{ color: "red", fontWeight: "bold" }}>
+    return <div style={{ color: props.color ? props.color : "red", fontWeight: "bold" }}>
         <NumberFormat
             value={props.value}
             displayType={'text'}

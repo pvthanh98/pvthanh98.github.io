@@ -14,6 +14,10 @@ import { RootState } from '../redux/store';
 import { fetchDailyData, fetchMonthlyData, fetchYearlyData } from '../redux/actions/category-expense.action';
 import { Container } from '@mui/system';
 import { NavComponent } from '../components/common/nav/nav';
+import { DailyExpenseTableComponent } from '../components/tables/daily-expense-table';
+import { DailyExpenseRow } from '../interfaces/daily-expense-row';
+import { Box, CircularProgress, MenuItem, Select } from '@mui/material';
+import { ExpenseCategoryHttp } from '../constants/expense-category-http';
 
 
 export const ExpenseByCategoryPage = () => {
@@ -21,14 +25,38 @@ export const ExpenseByCategoryPage = () => {
     const monthlyData = useSelector((state: RootState) => state.categoryExpense.monthly);
     const yearlyData = useSelector((state: RootState) => state.categoryExpense.yearly);
 
+    const [expenseByCategory, setExpenseByCategory] = useState<Array<DailyExpenseRow>>([]);
+    const [selectedCategory, setSelectedCategory] = useState(ExpenseCategoryHttp.FOOD.value)
     const [isLoad, setIsLoad] = useState<boolean>(false);
+    const [isCategoryLoad, setCategoryLoad] = useState<boolean>(false);
     const dispatch = useDispatch();
 
     useEffect(() => {
         if (dailyData.length === 0 || monthlyData.length === 0 || yearlyData.length === 0) {
             getOverviewExpense();
         }
+        loadExpenseByCategory(selectedCategory)
     }, []);
+
+    const loadExpenseByCategory = async (category:string) => {
+        try {
+            setCategoryLoad(true);
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_HOST}/dashboard/expense-by-category-by/${category}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                }
+            });
+            setExpenseByCategory(response.data.data);
+            
+            setCategoryLoad(false)
+        } catch (e: any) {
+            if (e.response && e.response.status === 401) {
+                dispatch(setAuth(false));
+                localStorage.removeItem("accessToken");
+            }
+            setCategoryLoad(false)
+        }
+    }
 
     const getOverviewExpense = async () => {
         try {
@@ -58,6 +86,12 @@ export const ExpenseByCategoryPage = () => {
         }
 
     }
+
+    const onSelectChange = (e: any) => {
+        setSelectedCategory(e.target.value)
+        loadExpenseByCategory(e.target.value)
+    }
+
     return (
         <Container>
             <Grid container spacing={2}>
@@ -89,7 +123,35 @@ export const ExpenseByCategoryPage = () => {
                     </Typography>
                     <CategoryExpenseTableComponent rows={yearlyData} />
                 </Grid>
-
+                <Grid item xs={12} md={12}>
+                    <Typography variant="h6" style={{ marginTop: "8px" }}>
+                        Expense By {' '}
+                        <Select
+                            value={selectedCategory}
+                            size="small"
+                            sx={{
+                                color:"green"
+                            }}
+                            onChange={onSelectChange}
+                        >
+                            <MenuItem value={ExpenseCategoryHttp.FOOD.value}>{ExpenseCategoryHttp.FOOD.title}</MenuItem>
+                            <MenuItem value={ExpenseCategoryHttp.PETROL.value}>{ExpenseCategoryHttp.PETROL.title}</MenuItem>
+                            <MenuItem value={ExpenseCategoryHttp.ENTERTAINMENT.value}>{ExpenseCategoryHttp.ENTERTAINMENT.title}</MenuItem>
+                            <MenuItem value={ExpenseCategoryHttp.PARTY.value}>{ExpenseCategoryHttp.PARTY.title}</MenuItem>
+                            <MenuItem value={ExpenseCategoryHttp.GIVING.value}>{ExpenseCategoryHttp.GIVING.title}</MenuItem>
+                            <MenuItem value={ExpenseCategoryHttp.RENTAL_FEE.value}>{ExpenseCategoryHttp.RENTAL_FEE.title}</MenuItem>
+                            <MenuItem value={ExpenseCategoryHttp.SHOPPING.value}>{ExpenseCategoryHttp.SHOPPING.title}</MenuItem>
+                            <MenuItem value={ExpenseCategoryHttp.OTHERS.value}>{ExpenseCategoryHttp.OTHERS.title}</MenuItem>
+                        </Select>
+                    </Typography>
+                    <Box
+                        sx={{display:"flex",justifyContent:"center", marginTop:"8px"}}
+                    >
+                        {isCategoryLoad && <CircularProgress color="inherit" />}
+                    </Box>
+                    <DailyExpenseTableComponent rows={expenseByCategory} editRows={[]} />
+                   
+                </Grid>
             </Grid>
         </Container>
     )
