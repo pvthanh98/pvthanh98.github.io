@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setAuth } from '../redux/actions/auth.action';
 
 import { Button, CircularProgress, Container, Input } from '@mui/material';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { RootState } from '../redux/store';
 import { Box } from '@mui/system';
 
@@ -17,6 +17,7 @@ export const LoginPage = () => {
     const [isLoad, setIsLoad] = useState<boolean>(false);
     const dispatch = useDispatch();
     const authState = useSelector((state: RootState) => state.isAuth)
+    const navigate = useNavigate();
 
     const onEmailChange = (e: any) => {
         setEmail(e.target.value)
@@ -37,6 +38,7 @@ export const LoginPage = () => {
                 localStorage.setItem("accessToken", response.data.access_token)
                 dispatch(setAuth(true))
                 setIsLoad(false);
+                navigate("/")
             } else {
                 alert(
                     "Email or password cannot be empty"
@@ -55,7 +57,7 @@ export const LoginPage = () => {
     return (
         <Container>
             <Grid container spacing={2}>
-                {authState.value && <Navigate to="/finance" />}
+                {/* {authState.value && <Navigate to="/finance" />} */}
                 <Grid item xs={12} md={12}>
                     <div style={{
                         marginTop: "8px",
