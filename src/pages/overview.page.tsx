@@ -58,6 +58,9 @@ export const OverviewPage = () => {
                 dispatch(setAuth(false))
                 localStorage.removeItem("accessToken");
             }
+            if (e.response.status === 403) {
+                alert("Permission denied")
+            }
             setIsLoad(false)
         }
     }

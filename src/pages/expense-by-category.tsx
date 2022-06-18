@@ -1,12 +1,8 @@
 import { useEffect, useState } from 'react';
-import { TableComponent } from '../components/tables/overview-table';
-import { OverviewRow } from '../interfaces/overview-row';
-import { convertCategoryExpenseData, convertOverviewData } from '../utils/util';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import axios from 'axios';
 import { CategoryExpenseTableComponent } from '../components/tables/category-expense-table';
-import { CategoryExpenseRow } from '../interfaces/category-expense-row';
 import { LinenearProgressLoading } from '../components/common/common-component';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAuth } from '../redux/actions/auth.action';
@@ -81,6 +77,9 @@ export const ExpenseByCategoryPage = () => {
             if (e.response && e.response.status === 401) {
                 dispatch(setAuth(false));
                 localStorage.removeItem("accessToken");
+            }
+            if (e.response.status === 403) {
+                alert("Permission denied")
             }
             setIsLoad(false)
         }

@@ -93,6 +93,9 @@ export const DailyExpensePage = () => {
                 localStorage.removeItem("accessToken");
                 dispatch(setAuth(false))
             }
+            if (e.response.status === 403) {
+                alert("Permission denied")
+            }
             setIsLoad(false)
         }
     }
@@ -111,6 +114,9 @@ export const DailyExpensePage = () => {
             if (e.response.status === 401) {
                 localStorage.removeItem("accessToken");
                 dispatch(setAuth(false))
+            }
+            if (e.response.status === 403) {
+                alert("Permission denied")
             }
             setIsLoad(false)
         }
