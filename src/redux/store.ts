@@ -6,6 +6,9 @@ import overviewExpenseReducer from './reducers/overview-expense.reducer';
 import categoryExpenseReducer from './reducers/category-expense.reducer';
 import monthlyLimitReducer from './reducers/limit-expense.reducer';
 import monthByExpenseReducer from './reducers/month-by-year.reducer';
+import profileReducer from './reducers/profile.reducer';
+import userReducer from './reducers/user.reducer';
+import commonReducer from './reducers/common.reducer';
 const store = configureStore({
   reducer: {
     dailyExpense: dailyExpenseReducer,
@@ -14,7 +17,10 @@ const store = configureStore({
     overviewExpense: overviewExpenseReducer,
     categoryExpense: categoryExpenseReducer,
     monthlyLimitReducer: monthlyLimitReducer,
-    monthByYear: monthByExpenseReducer
+    monthByYear: monthByExpenseReducer,
+    profile: profileReducer,
+    users: userReducer,
+    common: commonReducer
   },
 })
 

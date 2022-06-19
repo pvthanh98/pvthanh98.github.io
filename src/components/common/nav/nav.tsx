@@ -31,6 +31,12 @@ export const NavComponent = () => {
             </ul>
         </li>
         <li>
+            <Link to="/profile">Profile</Link>
+        </li>
+        <li>
+            <Link to="/user">User</Link>
+        </li>
+        <li>
             <Link to="/about">About</Link>
         </li>
         <li>

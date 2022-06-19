@@ -10,6 +10,9 @@ import { MyCV } from './pages/CV/my-cv.page';
 import FinanceComponent from './pages/finance-index.page';
 import { HomePage } from './pages/home/home.page';
 import { LoginPage } from './pages/login';
+import { ProfilePage } from './pages/profile';
+import UserContainer from './pages/user/user.container';
+import { UserPage } from './pages/user/user.page';
 
 function App() {
   return (
@@ -20,7 +23,10 @@ function App() {
         <Route path="/about" element={<MyCV />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/finance/*" element={<FinanceComponent />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/user/*" element={<UserContainer />} />
         </Route>
+
       </Routes>
     </HashRouter>
   );

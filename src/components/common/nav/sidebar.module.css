@@ -1,0 +1,14 @@
+.nav {
+ 
+}
+
+.nav li {
+    padding: 8px;
+    list-style-type: none;
+    border:1px solid #eaeaea;
+}
+
+.nav li b {
+    color: black;
+    text-decoration: none;
+}
