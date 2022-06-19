@@ -12,7 +12,7 @@ export const FriendCardComponent = ({friend}: FriendCardComponentProps) => {
             sx={{
                 border: "2px solid #bbbbbb",
                 padding: "16px",
-                width: "100%",
+                width: "95%",
                 boxShadow: "2px 2px #bbbbbb",
                 display: "flex",
                 alignItems: "center",

@@ -19,6 +19,18 @@ export type FriendRowType = {
 }
 
 
+export type FriendRequestRowType = {
+    friendShipId: string,
+    userId: string,
+    firstName: string,
+    lastName: string,
+    image: string,
+    status: string,
+    createdAt: string,
+    updatedAt: string,
+}
+
+
 export enum UserSideBarEnum {
     ALL_USER="All User",
     FRIEND_LIST="Friend_List",
