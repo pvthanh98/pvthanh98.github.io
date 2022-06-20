@@ -1,32 +1,48 @@
-import Container from '@mui/material/Container';
 import {
-  BrowserRouter,
+
   Routes,
   Route,
   HashRouter
 } from "react-router-dom";
 import ProtectedRoute from './components/route/protected-route';
-import { MyCV } from './pages/CV/my-cv.page';
-import FinanceComponent from './pages/finance-index.page';
-import { HomePage } from './pages/home/home.page';
-import { LoginPage } from './pages/login';
-import { ProfilePage } from './pages/profile';
-import UserContainer from './pages/user/user.container';
-import { UserPage } from './pages/user/user.page';
+import { publicRoutes, privateRoutes } from './routes/route.routes';
 
 function App() {
+  const renderPublicRoutes = () => {
+    return publicRoutes.map(route => {
+      const LayoutContainer = route.layout;
+      const Component = route.component
+      const Element = (
+        <LayoutContainer>
+           <Component />
+        </LayoutContainer>
+      )
+      return <Route key={route.path} path={route.path} element={Element} />
+    })
+  }
+
+  const renderPrivateRoutes = () => {
+    const PrivateRouteComponents  = privateRoutes.map(route => {
+      const LayoutContainer = route.layout;
+      const Component = route.component
+      const Element = (
+        <LayoutContainer>
+           <Component />
+        </LayoutContainer>
+      )
+      return <Route key={route.path} path={route.path} element={Element} />
+    })
+    return (
+      <Route element={<ProtectedRoute />}>
+        {PrivateRouteComponents}
+      </Route>
+    )
+  }
   return (
     <HashRouter>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/about" element={<MyCV />} />
-        <Route element={<ProtectedRoute />}>
-          <Route path="/finance/*" element={<FinanceComponent />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/user/*" element={<UserContainer />} />
-        </Route>
-
+        {renderPublicRoutes()}
+        {renderPrivateRoutes()}
       </Routes>
     </HashRouter>
   );

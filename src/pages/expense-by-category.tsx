@@ -96,7 +96,6 @@ export const ExpenseByCategoryPage = () => {
             <Grid container spacing={2}>
                 <Grid item xs={12} md={12}>
                     <LinenearProgressLoading isLoad={isLoad} />
-                    <NavComponent />
                 </Grid>
                 <Grid item xs={12} md={12}>
                     <Typography variant="h5" style={{ fontWeight: "bold", marginTop: "8px" }}>

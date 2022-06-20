@@ -61,7 +61,6 @@ export const UserFriendList = () => {
         <Container>
             <Grid item xs={12} md={12}>
                 <LinenearProgressLoading isLoad={isLoad} />
-                <NavComponent />
             </Grid>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={4}>

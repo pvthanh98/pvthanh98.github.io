@@ -41,7 +41,6 @@ export function HomePage() {
   return (
     <div>
       <Container>
-        <NavComponent />
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Button
             variant="contained"
