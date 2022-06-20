@@ -40,7 +40,8 @@ export const UserFriendList = () => {
                     firstName: data.friend.firstName,
                     lastName: data.friend.lastName,
                     image: data.friend.image,
-                    status: data.status
+                    status: data.status,
+                    email: data.friend.email
                 })
             }
             console.log(resultsConvert)
