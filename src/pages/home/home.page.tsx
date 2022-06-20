@@ -41,23 +41,6 @@ export function HomePage() {
   return (
     <div>
       <Container>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Button
-            variant="contained"
-            color="primary"
-            endIcon={<ConnectWithoutContactIcon />}
-            onClick={pingServer}
-            sx={{
-              '@media only screen and (max-width: 690px)':{
-                  width:"100%"
-              }
-            }}
-          >
-            {
-              isLoad ? <CircularProgress size="30px" color="inherit" /> : "PING"
-            }
-          </Button>
-        </Box>
         <Box>
           {
             logs.map((log: any) => {
@@ -95,7 +78,7 @@ export function HomePage() {
               fontStyle: "italic",
               textDecoration: "underline",
               cursor: "pointer",
-              marginBottom: "8px",
+              marginBottom: "16px 0px 16px 0px",
               textAlign: "center"
             }}
           >
@@ -104,6 +87,23 @@ export function HomePage() {
               isLoad ? "Loading..." : "Load More"
             }
           </Typography>
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center", marginBottom:"16px" }}>
+          <Button
+            variant="contained"
+            color="primary"
+            endIcon={<ConnectWithoutContactIcon />}
+            onClick={pingServer}
+            sx={{
+              '@media only screen and (max-width: 690px)': {
+                width: "100%"
+              }
+            }}
+          >
+            {
+              isLoad ? <CircularProgress size="30px" color="inherit" /> : "PING"
+            }
+          </Button>
         </Box>
       </Container>
     </div>
