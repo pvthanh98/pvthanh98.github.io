@@ -10,6 +10,7 @@ export function HomePage() {
   const [logs, setLogs] = useState<any[]>([]);
   const [isLoad, setIsLoad] = useState(false);
   const [page, setPage] = useState(1);
+  const [isFirstRender, setIsFirstRender] = useState(true);
 
   useEffect(() => {
     loadLogs()
@@ -21,6 +22,7 @@ export function HomePage() {
     const { result } = response.data;
     setLogs([...result])
     setIsLoad(false);
+    setIsFirstRender(false)
   }
 
   const pingServer = async () => {
@@ -82,29 +84,33 @@ export function HomePage() {
               textAlign: "center"
             }}
           >
-
             {
               isLoad ? "Loading..." : "Load More"
             }
           </Typography>
         </Box>
-        <Box sx={{ display: "flex", alignItems: "center", marginBottom:"16px" }}>
-          <Button
-            variant="contained"
-            color="primary"
-            endIcon={<ConnectWithoutContactIcon />}
-            onClick={pingServer}
-            sx={{
-              '@media only screen and (max-width: 690px)': {
-                width: "100%"
-              }
-            }}
-          >
-            {
-              isLoad ? <CircularProgress size="30px" color="inherit" /> : "PING"
-            }
-          </Button>
-        </Box>
+        {
+          !isFirstRender && (
+            <Box sx={{ display: "flex", alignItems: "center", marginBottom: "16px" }}>
+
+              <Button
+                variant="contained"
+                color="primary"
+                endIcon={<ConnectWithoutContactIcon />}
+                onClick={pingServer}
+                sx={{
+                  '@media only screen and (max-width: 690px)': {
+                    width: "100%"
+                  }
+                }}
+              >
+                {
+                  isLoad ? <CircularProgress size="30px" color="inherit" /> : "PING"
+                }
+              </Button>
+            </Box>
+          )
+        }
       </Container>
     </div>
   );
