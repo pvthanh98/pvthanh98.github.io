@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { NavComponent } from "../../components/common/nav/nav";
 import axios from 'axios';
 import moment from 'moment';
 import { Button, CircularProgress, Container, Typography } from "@mui/material";
@@ -52,9 +51,6 @@ export function HomePage() {
                     marginTop: "8px"
                   }}
                 >
-                  {/* <div>
-                Log ID: {log.id}
-              </div> */}
                   <div>
                     Message: {log.message}
                   </div>
@@ -80,7 +76,7 @@ export function HomePage() {
               fontStyle: "italic",
               textDecoration: "underline",
               cursor: "pointer",
-              marginBottom: "16px 0px 16px 0px",
+              margin: "16px 0px 16px 0px",
               textAlign: "center"
             }}
           >
@@ -89,28 +85,27 @@ export function HomePage() {
             }
           </Typography>
         </Box>
+        <Box>
         {
           !isFirstRender && (
-            <Box sx={{ display: "flex", alignItems: "center", marginBottom: "16px" }}>
-
-              <Button
-                variant="contained"
-                color="primary"
-                endIcon={<ConnectWithoutContactIcon />}
-                onClick={pingServer}
-                sx={{
-                  '@media only screen and (max-width: 690px)': {
-                    width: "100%"
-                  }
-                }}
-              >
-                {
-                  isLoad ? <CircularProgress size="30px" color="inherit" /> : "PING"
-                }
-              </Button>
-            </Box>
+            <Button
+              variant="contained"
+              color="primary"
+              endIcon={<ConnectWithoutContactIcon />}
+              onClick={pingServer}
+              sx={{
+                '@media only screen and (max-width: 690px)': {
+                  width: "100%"
+                },
+              }}
+            >
+              {
+                isLoad ? <CircularProgress size="30px" color="inherit" /> : "PING"
+              }
+            </Button>
           )
         }
+        </Box>
       </Container>
     </div>
   );

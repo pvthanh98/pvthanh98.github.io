@@ -16,7 +16,7 @@ function AppLayout({children}: AppLayoutProps) {
         xs={12} 
         md={12}
         sx={{
-          paddingTop:"8px"
+          paddingTop:"8px",
         }}
       >
         {children}
