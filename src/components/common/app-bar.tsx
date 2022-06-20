@@ -163,7 +163,6 @@ function AppBarComponent() {
                      <FinanceMenu title={page.title} handleCloseNavMenu={handleCloseNavMenu}/>
                   </Button>
               )
-              
             })}
           </Box>
         </Toolbar>

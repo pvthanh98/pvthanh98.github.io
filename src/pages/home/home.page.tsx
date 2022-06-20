@@ -30,11 +30,11 @@ export function HomePage() {
   }
 
   const onLoadMore = async () => {
-    setPage(page+1);
+    setPage(page + 1);
     setIsLoad(true)
-    const response = await axios.get(`${process.env.REACT_APP_SERVER_HOST}/common/log?page=${page+1}`);
+    const response = await axios.get(`${process.env.REACT_APP_SERVER_HOST}/common/log?page=${page + 1}`);
     const { result } = response.data;
-    setLogs([...logs,...result])
+    setLogs([...logs, ...result])
     setIsLoad(false);
   }
 
@@ -47,12 +47,16 @@ export function HomePage() {
             color="primary"
             endIcon={<ConnectWithoutContactIcon />}
             onClick={pingServer}
+            sx={{
+              '@media only screen and (max-width: 690px)':{
+                  width:"100%"
+              }
+            }}
           >
             {
               isLoad ? <CircularProgress size="30px" color="inherit" /> : "PING"
             }
           </Button>
-
         </Box>
         <Box>
           {
@@ -85,15 +89,17 @@ export function HomePage() {
           }
         </Box>
         <Box>
-          <Typography 
+          <Typography
             onClick={onLoadMore}
             sx={{
-              fontStyle:"italic",
+              fontStyle: "italic",
               textDecoration: "underline",
-              cursor:"pointer",
-            }} 
+              cursor: "pointer",
+              marginBottom: "8px",
+              textAlign: "center"
+            }}
           >
-            
+
             {
               isLoad ? "Loading..." : "Load More"
             }
