@@ -3,7 +3,7 @@ import { UserSideBarEnum } from '../../types/common.type';
 import { updateUserSidebarAction } from '../actions/common.action';
 
 const initialState = {
-    userSidebar: "All User" as UserSideBarEnum
+    userSidebar: UserSideBarEnum.FRIEND_LIST as UserSideBarEnum
 }
 
 const commonReducer = createReducer(initialState, (builder) => {

@@ -24,8 +24,8 @@ const pages = [
     path: path.PROFILE_PATH
   },
   {
-    title: 'Users',
-    path: path.USER_PATH
+    title: 'Friend',
+    path: path.USER_FRIEND_PATH
   },
   {
     title: 'About',

@@ -17,21 +17,6 @@ export const UserSideBarComponent = ({ activeValue }: UserSidebarProps) => {
         >
             <li>
                 <Link
-                    to="/user/"
-                    style={{
-                        textDecoration: "none",
-                    }}
-                    onClick={()=>dispatch(updateUserSidebarAction(UserSideBarEnum.ALL_USER))}
-                >
-                    <b 
-                        style={{ color: (activeValue === UserSideBarEnum.ALL_USER) ? "red" : "black"}}
-                    >
-                        All User
-                    </b>
-                </Link>
-            </li>
-            <li>
-                <Link
                     to="/user/friend"
                     style={{
                         textDecoration: "none",
@@ -57,6 +42,21 @@ export const UserSideBarComponent = ({ activeValue }: UserSidebarProps) => {
                         style={{ color: (activeValue === UserSideBarEnum.FRIEND_REQUEST) ? "red" : "black"}}
                     >
                         Friend Request
+                    </b>
+                </Link>
+            </li>
+            <li>
+                <Link
+                    to="/user/"
+                    style={{
+                        textDecoration: "none",
+                    }}
+                    onClick={()=>dispatch(updateUserSidebarAction(UserSideBarEnum.ALL_USER))}
+                >
+                    <b 
+                        style={{ color: (activeValue === UserSideBarEnum.ALL_USER) ? "red" : "black"}}
+                    >
+                        All User
                     </b>
                 </Link>
             </li>

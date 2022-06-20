@@ -14,9 +14,30 @@ interface ProfileCard {
 
 export interface ProfileCardProps {
     profile: ProfileCard;
-} 
+}
 
-export const ProfileCard = ({profile}: ProfileCardProps) => {
+export interface UserCardProps {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    image: string;
+    isActive: boolean;
+    createdAt: string;
+}
+
+export interface FriendCardProps {
+    id: string;
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    image?: string;
+    isActive?: boolean;
+    createdAt?: string;
+    status?: string
+}
+
+export const ProfileCard = ({ profile }: ProfileCardProps) => {
     return (
         <Grid
             item
@@ -24,67 +45,274 @@ export const ProfileCard = ({profile}: ProfileCardProps) => {
             xs={12}
             md={6}
             sx={{
-                border: "1px solid #193f50",
                 padding: "8px",
-                backgroundColor: "#173948",
-                color: "#f1f1f1",
-                boxShadow: "3px 3px #173948",
             }}
         >
             <Grid
-                item
-                xs={12}
-                md={7}
-            >
-                <Box
-                    sx={{
-                        display: "flex",
-                        alignItems: "center",
-                    }}
-
-                >
-                    <Avatar
-                        sx={{
-                            height: "80px",
-                            width: "80px"
-                        }}
-                        src={profile.image}
-                    />
-                    <Typography
-                        variant="h4"
-                        sx={{
-                            marginLeft: "8px"
-                        }}
-                    >
-                        {profile.firstName} {profile.lastName}
-                    </Typography>
-                </Box>
-                <Typography variant="body1" sx={{ marginTop: "8px" }}>
-                    Email: {profile.email}
-                </Typography>
-                <Typography variant="body1">
-                    Status: {profile.isActive ? "Active" : "Disactive"}
-                </Typography>
-                <Typography variant="body1">
-                    Join Date: {moment(profile.createdAt).format("DD MMM YYYY")}
-                </Typography>
-            </Grid>
-            <Grid
-                item
-                xs={12}
-                md={5}
+                container
                 sx={{
-                    textAlign: "right"
+                    border: "1px solid #193f50",
+                    padding: "8px",
+                    backgroundColor: "#173948",
+                    color: "#f1f1f1",
+                    boxShadow: "3px 3px #173948",
                 }}
             >
-                <Button
-                    variant="contained"
-                    color="inherit"
+                <Grid
+                    item
+                    xs={12}
+                    md={7}
                 >
-                    <Typography variant="body1" style={{ color: "#173948" }}>
-                        Update
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                        }}
+
+                    >
+                        <Avatar
+                            sx={{
+                                height: "80px",
+                                width: "80px"
+                            }}
+                            src={profile.image}
+                        />
+                        <Typography
+                            variant="h4"
+                            sx={{
+                                marginLeft: "8px"
+                            }}
+                        >
+                            {profile.firstName} {profile.lastName}
+                        </Typography>
+                    </Box>
+                    <Typography variant="body1" sx={{ marginTop: "8px" }}>
+                        Email: {profile.email}
                     </Typography>
-                </Button>
+                    <Typography variant="body1">
+                        Status: {profile.isActive ? "Active" : "Disactive"}
+                    </Typography>
+                    <Typography variant="body1">
+                        Join Date: {moment(profile.createdAt).format("DD MMM YYYY")}
+                    </Typography>
+                </Grid>
+                <Grid
+                    item
+                    xs={12}
+                    md={5}
+                    sx={{
+                        textAlign: "right"
+                    }}
+                >
+                    {/* <Button
+                        variant="contained"
+                        color="inherit"
+                    >
+                        <Typography variant="body1" style={{ color: "#173948" }}>
+                            Update
+                        </Typography>
+                    </Button> */}
+                </Grid>
+            </Grid>
+        </Grid >
+    )
+}
+
+
+export const UserCard = ({
+    id, firstName,
+    lastName,
+    email,
+    image,
+    isActive,
+    createdAt
+}: UserCardProps) => {
+    return (
+        <Grid
+            item
+            container
+            xs={12}
+            md={12}
+            sx={{
+                padding: "8px",
+            }}
+        >
+            <Grid
+                container
+                sx={{
+                    border: "1px solid #193f50",
+                    padding: "16px",
+                    backgroundColor: "#173948",
+                    color: "#f1f1f1",
+                    boxShadow: "3px 3px #173948",
+                }}
+            >
+                <Grid
+                    item
+                    xs={12}
+                    md={7}
+                >
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                        }}
+                    >
+                        <Avatar
+                            sx={{
+                                height: "80px",
+                                width: "80px"
+                            }}
+                            src={image}
+                        />
+                        <Typography
+                            variant="h4"
+                            sx={{
+                                marginLeft: "8px"
+                            }}
+                        >
+                            {firstName} {lastName}
+                        </Typography>
+                    </Box>
+                    <Typography variant="body1" sx={{ marginTop: "8px" }}>
+                        Email: {email}
+                    </Typography>
+                    <Typography variant="body1">
+                        Status: {isActive ? "Active" : "Disactive"}
+                    </Typography>
+                    <Typography variant="body1">
+                        Join Date: {moment(createdAt).format("DD MMM YYYY")}
+                    </Typography>
+                </Grid>
+                <Grid
+                    item
+                    xs={12}
+                    md={5}
+                    sx={{
+                        textAlign: "right"
+                    }}
+                >
+                    <Button
+                        variant="contained"
+                        color="inherit"
+                    >
+                        <Typography variant="body1" style={{ color: "#173948" }}>
+                            Send Request
+                        </Typography>
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        sx={{
+                            marginLeft:"8px"
+                        }}
+                    >
+                        <Typography variant="body1" style={{ color: "#f1f1f1" }}>
+                           Profile
+                        </Typography>
+                    </Button>
+                </Grid>
+            </Grid>
+        </Grid >
+    )
+}
+
+
+export const FriendCard = ({
+    id, 
+    firstName,
+    lastName,
+    email,
+    image,
+    isActive,
+    createdAt,
+    status
+}: FriendCardProps) => {
+    return (
+        <Grid
+            item
+            container
+            xs={12}
+            md={12}
+            sx={{
+                padding: "8px",
+            }}
+        >
+            <Grid
+                container
+                sx={{
+                    border: "1px solid #193f50",
+                    padding: "16px",
+                    backgroundColor: "#173948",
+                    color: "#f1f1f1",
+                    boxShadow: "3px 3px #173948",
+                }}
+            >
+                <Grid
+                    item
+                    xs={12}
+                    md={7}
+                >
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                        }}
+                    >
+                        <Avatar
+                            sx={{
+                                height: "80px",
+                                width: "80px"
+                            }}
+                            src={image}
+                        />
+                        <Typography
+                            variant="h4"
+                            sx={{
+                                marginLeft: "8px"
+                            }}
+                        >
+                            {firstName} {lastName}
+                        </Typography>
+                    </Box>
+                    <Typography variant="body1" sx={{ marginTop: "8px" }}>
+                        Email: {email}
+                    </Typography>
+                    <Typography variant="body1">
+                        Status: {status}
+                    </Typography>
+                    <Typography variant="body1">
+                        Join Date: {moment(createdAt).format("DD MMM YYYY")}
+                    </Typography>
+                </Grid>
+                <Grid
+                    item
+                    xs={12}
+                    md={5}
+                    sx={{
+                        textAlign: "right"
+                    }}
+                >
+                    <Button
+                        variant="contained"
+                        color="error"
+                    >
+                        <Typography variant="body1" style={{ color: "#f1f1f1" }}>
+                            Unfriend
+                        </Typography>
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        sx={{
+                            marginLeft:"8px"
+                        }}
+                    >
+                        <Typography variant="body1" style={{ color: "#f1f1f1" }}>
+                           Profile
+                        </Typography>
+                    </Button>
+                </Grid>
             </Grid>
         </Grid >
     )

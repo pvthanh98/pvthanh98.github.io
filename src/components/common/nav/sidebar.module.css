@@ -1,5 +1,6 @@
 .nav {
- 
+    margin: 0;
+    padding: 8px;
 }
 
 .nav li {

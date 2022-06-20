@@ -11,6 +11,7 @@ import { setAuth } from '../../redux/actions/auth.action';
 import { RootState } from '../../redux/store';
 import { UserSideBarComponent } from '../../components/common/nav/user-side-bar';
 import { FriendCardComponent } from '../../components/common/friend-card.component';
+import { FriendCard } from '../../components/common/card';
 
 
 export const UserFriendList = () => {
@@ -69,8 +70,8 @@ export const UserFriendList = () => {
                 <Grid item xs={12} md={8}>
                 {
                     friends.map(friend => (
-                        <FriendCardComponent
-                            friend={friend}
+                        <FriendCard
+                            {...friend}
                         />
                     ))
                     }

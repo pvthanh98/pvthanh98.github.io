@@ -10,12 +10,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setAuth } from '../../redux/actions/auth.action';
 import { RootState } from '../../redux/store';
 import { UserSideBarComponent } from '../../components/common/nav/user-side-bar';
+import { UserCard } from '../../components/common/card';
 
 
 export const UserPage = () => {
     const [isLoad, setIsLoad] = useState<boolean>(false);
     const users = useSelector((state: RootState) => state.users.value);
-    const userSidebarValue = useSelector((state:RootState) => state.common.userSidebar);
+    const userSidebarValue = useSelector((state: RootState) => state.common.userSidebar);
     const [searchValue, setSearchValue] = useState("")
     const dispatch = useDispatch();
 
@@ -76,13 +77,17 @@ export const UserPage = () => {
             <Grid item xs={12} md={12}>
                 <LinenearProgressLoading isLoad={isLoad} />
             </Grid>
-            <Grid container spacing={2}>
-                <Grid item xs={12} md={4}>
+            <Grid container>
+                <Grid item xs={12} md={3}>
                     <UserSideBarComponent activeValue={userSidebarValue} />
                 </Grid>
-                <Grid item xs={12} md={8} display={'flex'} flexDirection={'column'} >
+                <Grid item xs={12} md={9} display={'flex'} flexDirection={'column'} >
                     <form
                         onSubmit={onSearch}
+                        style={{
+                            marginLeft:"8px",
+                            marginTop:"8px"
+                        }}
                     >
                         Name
                         <TextField
@@ -105,20 +110,22 @@ export const UserPage = () => {
                         <Button sx={{ marginRight: "4px" }} variant='contained' color="inherit">Clear</Button>
                         <Button variant='contained' type="submit">Search</Button>
                     </Box>
-                    {
-                        users.map(user => (
-                            <UserCardComponent
-                                key={user.id}
-                                id={user.id}
-                                firstName={user.firstName}
-                                lastName={user.lastName}
-                                email={user.email}
-                                createdAt={user.createdAt}
-                                isActive={user.isActive}
-                                image={user.image}
-                            />
-                        ))
-                    }
+                    <Grid container>
+                        {
+                            users.map(user => (
+                                <UserCard
+                                    id={user.id}
+                                    firstName={user.firstName}
+                                    lastName={user.lastName}
+                                    email={user.email}
+                                    createdAt={user.createdAt}
+                                    isActive={user.isActive}
+                                    image={user.image}
+                                />
+                            ))
+                        }
+
+                    </Grid>
                     <Typography
                         variant="body1"
                         fontSize={'16px'} fontStyle="italic"

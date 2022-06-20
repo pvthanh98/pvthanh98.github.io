@@ -1,15 +1,24 @@
-import { Avatar, Button, Container, Grid, Input, Typography } from '@mui/material';
+import { Container, Grid, TextField, Typography, } from '@mui/material';
 import { Box } from '@mui/system';
 import { useEffect, useState } from 'react';
 import { LinenearProgressLoading } from '../../components/common/common-component';
-import { NavComponent } from '../../components/common/nav/nav';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateProfile } from '../../redux/actions/profile.action';
 import { setAuth } from '../../redux/actions/auth.action';
 import { RootState } from '../../redux/store';
-import moment from 'moment';
 import { ProfileCard } from '../../components/common/card';
+import "./profile.css"
+
+const styles = {
+    root: {
+        background: "black"
+    },
+    input: {
+        color: "white"
+    }
+};
+
 
 export const ProfilePage = () => {
     const [isLoad, setIsLoad] = useState<boolean>(false);
@@ -55,13 +64,14 @@ export const ProfilePage = () => {
             setIsLoad(false)
         }
     }
+
     return (
         <Container>
             <Grid item xs={12} md={12}>
                 <LinenearProgressLoading isLoad={isLoad} />
             </Grid>
-            <Grid container sx={{marginTop:"4px"}}>
-               <ProfileCard profile={profile} />  
+            <Grid container sx={{ marginTop: "4px" }}>
+                <ProfileCard profile={profile} />
             </Grid>
         </Container >
     )
