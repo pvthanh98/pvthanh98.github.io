@@ -9,6 +9,7 @@ import { updateProfile } from '../../redux/actions/profile.action';
 import { setAuth } from '../../redux/actions/auth.action';
 import { RootState } from '../../redux/store';
 import moment from 'moment';
+import { ProfileCard } from '../../components/common/card';
 
 export const ProfilePage = () => {
     const [isLoad, setIsLoad] = useState<boolean>(false);
@@ -59,104 +60,9 @@ export const ProfilePage = () => {
             <Grid item xs={12} md={12}>
                 <LinenearProgressLoading isLoad={isLoad} />
             </Grid>
-            <Grid container spacing={2}>
-                <Grid
-                    item
-                    xs={12}
-                    md={12}
-                >
-                    <Box
-                        sx={{
-                            border: "2px solid #bbbbbb",
-                            padding: "16px",
-                            maxWidth: "600px",
-                            boxShadow: "3px 3px"
-                        }}
-                    >
-                        <Box
-                            sx={{
-                                display: "flex",
-                                alignItems: "center"
-                            }}
-                        >
-                            <Avatar
-                                sx={{
-                                    height: "80px",
-                                    width: "80px"
-                                }}
-                                src={profile.image}
-                            />
-
-                            {
-                                !isModified && <Typography variant='h4' sx={{
-                                    marginLeft: "8px"
-                                }}>
-                                    {profile.firstName} {profile.lastName}
-                                </Typography>
-                            }
-                            {
-                                isModified && (
-                                    <Box
-                                        sx={{
-                                            marginLeft: "8px"
-                                        }}
-                                    >
-                                        <Box>
-
-                                            <Input value={profile.firstName} />
-                                        </Box>
-                                        <Box>
-
-                                            <Input value={profile.lastName} />
-                                        </Box>
-
-                                        <Box
-                                            sx={{
-                                                marginTop: "4px"
-                                            }}
-                                        >
-                                            <Input type="file" />
-                                        </Box>
-
-                                    </Box>
-                                )
-                            }
-
-                        </Box>
-                        {
-                            isModified && (
-                                    <Button variant="contained" style={{ marginLeft: "8px", marginTop: "8px" }}>
-                                        Save
-                                    </Button>
-                            )
-                        }
-                        <Box
-                            sx={{
-                                marginTop: "16px"
-                            }}
-                        >
-                            Email: {profile.email}
-                        </Box>
-
-                        <Box
-                            sx={{
-                                marginTop: "8px"
-                            }}
-                        >
-                            Status: {profile.isActive ? "Active" : "Disactive"}
-                        </Box>
-                        <Box
-                            sx={{
-                                marginTop: "8px"
-                            }}
-                        >
-                            Join Date: {moment(profile.createdAt).format("DD MMM YYYY")}
-                        </Box>
-
-                    </Box>
-
-                </Grid>
+            <Grid container sx={{marginTop:"4px"}}>
+               <ProfileCard profile={profile} />  
             </Grid>
-        </Container>
+        </Container >
     )
 }

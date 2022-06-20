@@ -10,6 +10,7 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import * as path from '../../routes/path';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 const StyledMenu = styled((props: MenuProps) => (
   <Menu
@@ -93,7 +94,7 @@ export default function FinanceMenu({ title, handleCloseNavMenu }: Props) {
         onClose={()=>handleClose(null)}
       >
         <MenuItem onClick={()=>handleClose(path.FINANCE_OVERVIEW_PATH)} disableRipple>
-          <EditIcon />
+          <AssignmentIcon />
           Overview
         </MenuItem>
         <MenuItem onClick={()=>handleClose(path.FINANCE_EXPENSE_DAILY_PATH)} disableRipple>
