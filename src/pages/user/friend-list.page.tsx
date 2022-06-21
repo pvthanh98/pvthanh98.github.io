@@ -59,6 +59,35 @@ export const UserFriendList = () => {
         }
     }
 
+    const unFriend = async (friendId: string) => {
+        try {
+            setIsLoad(true)
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST}/user/friend/unfriend`,{
+                friendId
+            }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                }
+            });
+            loadFriends()
+            setIsLoad(false)
+        } catch (e: any) {
+            console.log(e.response)
+            if (e.response.status === 401) {
+                localStorage.removeItem("accessToken");
+                dispatch(setAuth(false));
+            }
+            if (e.response.status === 403) {
+                alert("Permission denied")
+            }
+
+            if (e.response.status === 400) {
+                alert(e.response.data.message)
+            }
+            setIsLoad(false)
+        }
+    }
+
     return (
         <Container>
             <Grid item xs={12} md={12}>
@@ -72,7 +101,9 @@ export const UserFriendList = () => {
                 {
                     friends.map(friend => (
                         <FriendCard
+                            key={friend.id}
                             {...friend}
+                            unFriend={unFriend}
                         />
                     ))
                     }

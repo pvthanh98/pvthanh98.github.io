@@ -72,6 +72,34 @@ export const UserPage = () => {
         }
     }
 
+    const sendFriendRequest = async (friendId: string) => {
+        try {
+            setIsLoad(true)
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST}/user/friend`,{
+                friendId
+            }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                }
+            });
+            loadUsers()
+        } catch (e: any) {
+            console.log(e, )
+            if (e.response.status === 401) {
+                localStorage.removeItem("accessToken");
+                dispatch(setAuth(false));
+            }
+            if (e.response.status === 403) {
+                alert("Permission denied")
+            }
+
+            if (e.response.status === 400) {
+                alert(e.response.data.message)
+            }
+            setIsLoad(false)
+        }
+    }
+
     return (
         <Container>
             <Grid item xs={12} md={12}>
@@ -107,13 +135,13 @@ export const UserPage = () => {
                             textAlign: "right"
                         }}
                     >
-                        <Button sx={{ marginRight: "4px" }} variant='contained' color="inherit">Clear</Button>
                         <Button variant='contained' type="submit">Search</Button>
                     </Box>
                     <Grid container>
                         {
                             users.map(user => (
                                 <UserCard
+                                    key={user.id}
                                     id={user.id}
                                     firstName={user.firstName}
                                     lastName={user.lastName}
@@ -121,6 +149,7 @@ export const UserPage = () => {
                                     createdAt={user.createdAt}
                                     isActive={user.isActive}
                                     image={user.image}
+                                    sendFriendRequest={sendFriendRequest}
                                 />
                             ))
                         }

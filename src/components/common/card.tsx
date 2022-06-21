@@ -24,6 +24,7 @@ export interface UserCardProps {
     image: string;
     isActive: boolean;
     createdAt: string;
+    sendFriendRequest: (friendId: string) => void;
 }
 
 export interface FriendCardProps {
@@ -34,7 +35,8 @@ export interface FriendCardProps {
     image?: string;
     isActive?: boolean;
     createdAt?: string;
-    status?: string
+    status?: string;
+    unFriend: (friendId: string) => void;
 }
 
 export const ProfileCard = ({ profile }: ProfileCardProps) => {
@@ -125,7 +127,8 @@ export const UserCard = ({
     email,
     image,
     isActive,
-    createdAt
+    createdAt,
+    sendFriendRequest
 }: UserCardProps) => {
     return (
         <Grid
@@ -195,12 +198,13 @@ export const UserCard = ({
                     <Button
                         variant="contained"
                         color="inherit"
+                        onClick={()=>sendFriendRequest(id)}
                     >
                         <Typography variant="body1" style={{ color: "#173948" }}>
                             Send Request
                         </Typography>
                     </Button>
-                    <Button
+                    {/* <Button
                         variant="contained"
                         color="primary"
                         sx={{
@@ -210,7 +214,7 @@ export const UserCard = ({
                         <Typography variant="body1" style={{ color: "#f1f1f1" }}>
                            Profile
                         </Typography>
-                    </Button>
+                    </Button> */}
                 </Grid>
             </Grid>
         </Grid >
@@ -226,7 +230,8 @@ export const FriendCard = ({
     image,
     isActive,
     createdAt,
-    status
+    status,
+    unFriend
 }: FriendCardProps) => {
     return (
         <Grid
@@ -296,12 +301,13 @@ export const FriendCard = ({
                     <Button
                         variant="contained"
                         color="error"
+                        onClick={()=>unFriend(id)}
                     >
                         <Typography variant="body1" style={{ color: "#f1f1f1" }}>
                             Unfriend
                         </Typography>
                     </Button>
-                    <Button
+                    {/* <Button
                         variant="contained"
                         color="primary"
                         sx={{
@@ -311,7 +317,7 @@ export const FriendCard = ({
                         <Typography variant="body1" style={{ color: "#f1f1f1" }}>
                            Profile
                         </Typography>
-                    </Button>
+                    </Button> */}
                 </Grid>
             </Grid>
         </Grid >
