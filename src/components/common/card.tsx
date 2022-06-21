@@ -1,6 +1,7 @@
 import { Avatar, Button, Grid, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import moment from 'moment';
+import { FriendCardComponentProps } from "./friend-request-card.component";
 
 interface ProfileCard {
     firstName: string;
@@ -318,6 +319,107 @@ export const FriendCard = ({
                            Profile
                         </Typography>
                     </Button> */}
+                </Grid>
+            </Grid>
+        </Grid >
+    )
+}
+
+
+
+export const FriendRequestCard = ({
+    friend,
+    onResponsRequset
+}: FriendCardComponentProps) => {
+    return (
+        <Grid
+            item
+            container
+            xs={12}
+            md={12}
+            sx={{
+                padding: "8px",
+            }}
+        >
+            <Grid
+                container
+                sx={{
+                    border: "1px solid #193f50",
+                    padding: "16px",
+                    backgroundColor: "#173948",
+                    color: "#f1f1f1",
+                    boxShadow: "3px 3px #173948",
+                }}
+            >
+                <Grid
+                    item
+                    xs={12}
+                    md={7}
+                >
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                        }}
+                    >
+                        <Avatar
+                            sx={{
+                                height: "80px",
+                                width: "80px"
+                            }}
+                            src={friend.image}
+                        />
+                        <Typography
+                            variant="h4"
+                            sx={{
+                                marginLeft: "8px"
+                            }}
+                        >
+                            {friend.firstName} {friend.lastName}
+                        </Typography>
+                    </Box>
+                    {/* <Typography variant="body1" sx={{ marginTop: "8px" }}>
+                        Email: {friend.email}
+                    </Typography> */}
+                    <Typography variant="body1">
+                        Status: {friend.status}
+                    </Typography>
+                    <Typography variant="body1">
+                        Join Date: {moment(friend.createdAt).format("DD MMM YYYY")}
+                    </Typography>
+                </Grid>
+                <Grid
+                    item
+                    xs={12}
+                    md={5}
+                    sx={{
+                        textAlign: "right"
+                    }}
+                >
+                    <Button
+                        variant="contained"
+                        color="inherit"
+                        sx={{
+                            marginLeft:"8px"
+                        }}
+                        onClick={() => onResponsRequset('denied', friend.friendShipId)}
+                    >
+                        <Typography variant="body1" style={{ color: "red" }}>
+                           Denied
+                        </Typography>
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        sx={{
+                            marginLeft:"8px"
+                        }}
+                        onClick={() => onResponsRequset('accept', friend.friendShipId)}
+                    >
+                        <Typography variant="body1" style={{ color: "#f1f1f1" }}>
+                           Accept
+                        </Typography>
+                    </Button>
                 </Grid>
             </Grid>
         </Grid >

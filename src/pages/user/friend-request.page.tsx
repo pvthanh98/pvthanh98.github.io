@@ -11,6 +11,7 @@ import { setAuth } from '../../redux/actions/auth.action';
 import { RootState } from '../../redux/store';
 import { UserSideBarComponent } from '../../components/common/nav/user-side-bar';
 import { FriendRequestCardComponent } from '../../components/common/friend-request-card.component';
+import { FriendRequestCard } from '../../components/common/card';
 
 
 export const UserFriendRequest = () => {
@@ -100,7 +101,7 @@ export const UserFriendRequest = () => {
                 <Grid item xs={12} md={8} display={'flex'} flexDirection={'column'} >
                     {
                         friendRequests.map(request=>(
-                            <FriendRequestCardComponent 
+                            <FriendRequestCard 
                                 key={request.friendShipId} 
                                 friend={request} 
                                 onResponsRequset={onResponsRequset}
