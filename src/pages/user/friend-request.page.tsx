@@ -12,6 +12,8 @@ import { RootState } from '../../redux/store';
 import { UserSideBarComponent } from '../../components/common/nav/user-side-bar';
 import { FriendRequestCardComponent } from '../../components/common/friend-request-card.component';
 import { FriendRequestCard } from '../../components/common/card';
+import { updateUserSidebarAction } from '../../redux/actions/common.action';
+import { UserSideBarEnum } from '../../types/common.type';
 
 
 export const UserFriendRequest = () => {
@@ -23,6 +25,7 @@ export const UserFriendRequest = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        dispatch(updateUserSidebarAction(UserSideBarEnum.FRIEND_REQUEST))
         loadFriends();
     }, [])
 

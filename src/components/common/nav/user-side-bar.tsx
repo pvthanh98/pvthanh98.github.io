@@ -1,7 +1,7 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+// import { useEffect } from "react";
+// import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom"
-import { updateUserSidebarAction } from "../../../redux/actions/common.action";
+// import { updateUserSidebarAction } from "../../../redux/actions/common.action";
 import { UserSideBarEnum } from "../../../types/common.type";
 import styles from './sidebar.module.css';
 
@@ -10,7 +10,7 @@ export interface UserSidebarProps {
 }
 
 export const UserSideBarComponent = ({ activeValue }: UserSidebarProps) => {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     return (
         <ul
             className={styles.nav}
@@ -21,7 +21,7 @@ export const UserSideBarComponent = ({ activeValue }: UserSidebarProps) => {
                     style={{
                         textDecoration: "none",
                     }}
-                    onClick={()=>dispatch(updateUserSidebarAction(UserSideBarEnum.FRIEND_LIST))}
+                    // onClick={()=>dispatch(updateUserSidebarAction(UserSideBarEnum.FRIEND_LIST))}
                 >
                     <b
                         style={{ color: (activeValue === UserSideBarEnum.FRIEND_LIST) ? "red" : "black"}}
@@ -36,7 +36,7 @@ export const UserSideBarComponent = ({ activeValue }: UserSidebarProps) => {
                     style={{
                         textDecoration: "none"
                     }}
-                    onClick={()=>dispatch(updateUserSidebarAction(UserSideBarEnum.FRIEND_REQUEST))}
+                    // onClick={()=>dispatch(updateUserSidebarAction(UserSideBarEnum.FRIEND_REQUEST))}
                 >
                     <b
                         style={{ color: (activeValue === UserSideBarEnum.FRIEND_REQUEST) ? "red" : "black"}}
@@ -51,7 +51,7 @@ export const UserSideBarComponent = ({ activeValue }: UserSidebarProps) => {
                     style={{
                         textDecoration: "none",
                     }}
-                    onClick={()=>dispatch(updateUserSidebarAction(UserSideBarEnum.ALL_USER))}
+                    // onClick={()=>dispatch(updateUserSidebarAction(UserSideBarEnum.ALL_USER))}
                 >
                     <b 
                         style={{ color: (activeValue === UserSideBarEnum.ALL_USER) ? "red" : "black"}}

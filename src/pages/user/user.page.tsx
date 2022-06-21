@@ -11,6 +11,8 @@ import { setAuth } from '../../redux/actions/auth.action';
 import { RootState } from '../../redux/store';
 import { UserSideBarComponent } from '../../components/common/nav/user-side-bar';
 import { UserCard } from '../../components/common/card';
+import { updateUserSidebarAction } from '../../redux/actions/common.action';
+import { UserSideBarEnum } from '../../types/common.type';
 
 
 export const UserPage = () => {
@@ -21,10 +23,8 @@ export const UserPage = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        dispatch(updateUserSidebarAction(UserSideBarEnum.ALL_USER))
         loadUsers();
-        console.log({
-            userSidebarValue
-        })
     }, [])
 
     const onSearch = async (e: any) => {
