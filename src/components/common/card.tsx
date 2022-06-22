@@ -47,9 +47,6 @@ export const ProfileCard = ({ profile }: ProfileCardProps) => {
             container
             xs={12}
             md={6}
-            sx={{
-                padding: "8px",
-            }}
         >
             <Grid
                 container
@@ -138,7 +135,7 @@ export const UserCard = ({
             xs={12}
             md={12}
             sx={{
-                padding: "8px",
+                marginBottom:"8px"
             }}
         >
             <Grid
@@ -241,7 +238,7 @@ export const FriendCard = ({
             xs={12}
             md={12}
             sx={{
-                padding: "8px",
+                marginBottom:"8px"
             }}
         >
             <Grid
@@ -296,7 +293,10 @@ export const FriendCard = ({
                     xs={12}
                     md={5}
                     sx={{
-                        textAlign: "right"
+                        textAlign:"right",
+                        '@media (max-width: 600px)':{
+                            marginTop: "8px",
+                        }
                     }}
                 >
                     <Button
@@ -338,7 +338,7 @@ export const FriendRequestCard = ({
             xs={12}
             md={12}
             sx={{
-                padding: "8px",
+                marginBottom:"8px"
             }}
         >
             <Grid

@@ -28,6 +28,10 @@ const pages = [
     path: path.USER_FRIEND_PATH
   },
   {
+    title: 'Messenger',
+    path: path.MESSENGER_PATH
+  },
+  {
     title: 'About',
     path: path.ABOUT_PATH
   }

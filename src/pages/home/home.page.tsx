@@ -86,25 +86,25 @@ export function HomePage() {
           </Typography>
         </Box>
         <Box>
-        {
-          !isFirstRender && (
-            <Button
-              variant="contained"
-              color="primary"
-              endIcon={<ConnectWithoutContactIcon />}
-              onClick={pingServer}
-              sx={{
-                '@media only screen and (max-width: 690px)': {
-                  width: "100%"
-                },
-              }}
-            >
-              {
-                isLoad ? <CircularProgress size="30px" color="inherit" /> : "PING"
-              }
-            </Button>
-          )
-        }
+          {
+            !isFirstRender && (
+              <Button
+                variant="contained"
+                color="primary"
+                endIcon={<ConnectWithoutContactIcon />}
+                onClick={pingServer}
+                sx={{
+                  '@media only screen and (max-width: 690px)': {
+                    width: "100%"
+                  },
+                }}
+              >
+                {
+                  isLoad ? <CircularProgress size="30px" color="inherit" /> : "PING"
+                }
+              </Button>
+            )
+          }
         </Box>
       </Container>
     </div>

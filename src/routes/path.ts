@@ -11,3 +11,4 @@ export const FINANCE_EXPENSE_BY_CATEGORY_PATH = "/finance/expense-by-category"
 export const FINANCE_MONTHLY_LIMITATION_PATH = "/finance/monthly-limitation"
 export const FINANCE_EXPENSE_BY_MONTH_PATH = "/finance/expense-by-month"
 export const FINANCE_EXPENSE_DAILY_PATH = "/finance/expense-daily";
+export const MESSENGER_PATH = "/messenger";

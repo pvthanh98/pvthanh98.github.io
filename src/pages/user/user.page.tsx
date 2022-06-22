@@ -1,4 +1,4 @@
-import { Avatar, Button, Container, Grid, Input, TextField, Typography } from '@mui/material';
+import { Avatar, Button, Grid, TextField, Typography, Container } from '@mui/material';
 import { Box } from '@mui/system';
 import { useEffect, useState } from 'react';
 import { LinenearProgressLoading } from '../../components/common/common-component';
@@ -102,9 +102,7 @@ export const UserPage = () => {
 
     return (
         <Container>
-            <Grid item xs={12} md={12}>
-                <LinenearProgressLoading isLoad={isLoad} />
-            </Grid>
+            <LinenearProgressLoading isLoad={isLoad} />
             <Grid container>
                 <Grid item xs={12} md={3}>
                     <UserSideBarComponent activeValue={userSidebarValue} />
@@ -137,7 +135,7 @@ export const UserPage = () => {
                     >
                         <Button variant='contained' type="submit">Search</Button>
                     </Box>
-                    <Grid container>
+                    <Grid container sx={{marginTop:"8px"}} >
                         {
                             users.map(user => (
                                 <UserCard
@@ -162,7 +160,8 @@ export const UserPage = () => {
                             paddingTop: "16px",
                             paddingBottom: "16px",
                             textDecoration: "underline",
-                            cursor: "pointer"
+                            cursor: "pointer",
+                            paddingLeft:"8px"
                         }}
                     >
                         {

@@ -19,7 +19,7 @@ import { UserSideBarEnum } from '../../types/common.type';
 export const UserFriendList = () => {
     const [isLoad, setIsLoad] = useState<boolean>(false);
     const friends = useSelector((state: RootState) => state.users.friends);
-    const userSidebarValue = useSelector((state:RootState) => state.common.userSidebar);
+    const userSidebarValue = useSelector((state: RootState) => state.common.userSidebar);
     const [searchValue, setSearchValue] = useState("")
     const dispatch = useDispatch();
 
@@ -37,7 +37,7 @@ export const UserFriendList = () => {
                 }
             });
             const resultsConvert = []
-            for(let data of response.data.result) {
+            for (let data of response.data.result) {
                 resultsConvert.push({
                     id: data.friend.id,
                     firstName: data.friend.firstName,
@@ -65,7 +65,7 @@ export const UserFriendList = () => {
     const unFriend = async (friendId: string) => {
         try {
             setIsLoad(true)
-            const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST}/user/friend/unfriend`,{
+            const response = await axios.post(`${process.env.REACT_APP_SERVER_HOST}/user/friend/unfriend`, {
                 friendId
             }, {
                 headers: {
@@ -93,22 +93,20 @@ export const UserFriendList = () => {
 
     return (
         <Container>
-            <Grid item xs={12} md={12}>
-                <LinenearProgressLoading isLoad={isLoad} />
-            </Grid>
+            <LinenearProgressLoading isLoad={isLoad} />
             <Grid container spacing={2}>
                 <Grid item xs={12} md={4}>
                     <UserSideBarComponent activeValue={userSidebarValue} />
                 </Grid>
                 <Grid item xs={12} md={8}>
-                {
-                    friends.map(friend => (
-                        <FriendCard
-                            key={friend.id}
-                            {...friend}
-                            unFriend={unFriend}
-                        />
-                    ))
+                    {
+                        friends.map(friend => (
+                            <FriendCard
+                                key={friend.id}
+                                {...friend}
+                                unFriend={unFriend}
+                            />
+                        ))
                     }
                 </Grid>
             </Grid>

@@ -13,6 +13,7 @@ import { UserFriendRequest } from "../pages/user/friend-request.page";
 import { UserPage } from "../pages/user/user.page";
 import { DailyExpensePage } from "../pages/daily-expense.page";
 import * as path from './path';
+import { MessengerPage } from "../pages/messenger/messenger.page";
 
 export const publicRoutes = [
   {
@@ -77,5 +78,10 @@ export const privateRoutes = [
     path: path.FINANCE_EXPENSE_DAILY_PATH,
     layout: AppLayout,
     component: DailyExpensePage
+  },
+  {
+    path: path.MESSENGER_PATH,
+    layout: AppLayout,
+    component: MessengerPage
   }
 ]

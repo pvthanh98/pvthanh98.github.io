@@ -18,7 +18,7 @@ export const CurrencyFormat = (props: CurrencyFormatInterface) => {
 
 export const LinenearProgressLoading = (props: LinearProgressInterface) => {
     if (props.isLoad) return (
-        <Grid item xs={12} md={12}>
+        <Grid item xs={12} md={12} sx={{marginBottom:"8px"}}>
             <LinearProgress />
         </Grid>
     )
