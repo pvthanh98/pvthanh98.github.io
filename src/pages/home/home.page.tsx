@@ -9,7 +9,7 @@ import SendIcon from '@mui/icons-material/Send';
 import { io } from "socket.io-client";
 import { MessageBroadcast } from "../../types/message-socket";
 
-const socket: any = io('http://localhost:8080');
+const socket: any = io('https://tp-finance-server.herokuapp.com');
 
 export function HomePage() {
   const chatContainerRef = useRef<HTMLDivElement>(null);
