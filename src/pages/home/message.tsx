@@ -104,7 +104,7 @@ export interface MessageItemProps {
     isLeft: boolean;
     name: string;
     body: string;
-    id: string
+    id: string;
 }
 
 export const MessageItem = (props: MessageItemProps) => {

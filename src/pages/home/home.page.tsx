@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from 'axios';
 import moment from 'moment';
 import { Button, CircularProgress, Grid, TextField, Typography } from "@mui/material";
@@ -9,39 +9,36 @@ import SendIcon from '@mui/icons-material/Send';
 import { io } from "socket.io-client";
 import { MessageBroadcast } from "../../types/message-socket";
 
+const socket: any = io('http://localhost:8080');
 
 export function HomePage() {
+  const chatContainerRef = useRef<HTMLDivElement>(null);
   const [logs, setLogs] = useState<any[]>([]);
   const [isLoad, setIsLoad] = useState(false);
   const [page, setPage] = useState(1);
   const [isFirstRender, setIsFirstRender] = useState(true);
   const [messages, setMessages] = useState<Array<MessageBroadcast>>([])
+  const [userName, setUserName] = useState("");
+  const [userNameInput, setUserNameInput] = useState("");
+  const [userId, setUserId] = useState("");
+  const [messageBodyInput, setMessageBodyInput] = useState("");
 
 
   useEffect(() => {
     loadLogs();
-    const socket: any = io('http://localhost:8080');
-    socket.emit('client_emit_broadcast_message', {
-      user: {
-        name: "Thanh Phan"
-      },
-      body: "Hello everyone"
-    })
+  }, [])
+
+  useEffect(() => {
     socket.on('server_emit_broadcast_message', function (data: MessageBroadcast) {
-      console.log({
-        message: data
-      })
-      setMessages([
-        ...messages,
-        {
-          user: {
-            name: data.user.name
-          },
-          body: data.body
-        }
+      console.log("I RECEI=VE MESSAGE")
+      setMessages(oldMessages => [
+        oldMessages[2],
+        oldMessages[1],
+        oldMessages[0],
+        data
       ])
     })
-  }, [])
+  }, [socket])
 
   const loadLogs = async () => {
     setIsLoad(true)
@@ -68,72 +65,109 @@ export function HomePage() {
   }
 
   const renderMessage = () => {
-    return messages.map((message, index) => (
-      <MessageItem
-        id="1313121342343"
-        name={message.user.name}
-        body={message.body}
-        key={index}
-        isLeft={(index % 2) === 0}
-      />
-    ))
+    return messages.map((message, index) => {
+      return (
+        <MessageItem
+          id={message.user.id}
+          name={message.user.name}
+          body={message.body}
+          key={index}
+          isLeft={(message.user.id.toString() === userId)}
+        />
+      )
+    })
+  }
+
+  const submitUserChat = (e: any) => {
+    e.preventDefault();
+    setUserId(`${Math.random().toString()}-tp-site`)
+    setUserName(userNameInput);
+    setUserNameInput("")
+  }
+
+  const submitMessage = (e: any) => {
+    e.preventDefault();
+    socket.emit('client_emit_broadcast_message', {
+      user: {
+        id: userId,
+        name: userName
+      },
+      body: messageBodyInput
+    });
+    setMessageBodyInput("")
   }
 
   return (
     <Grid container>
-      <Grid xs={12} md={3} sx={{ padding: "8px" }}>
-        <Typography variant="h6" fontWeight={700}>
-          Chat Info
-        </Typography>
-        <Box
-          sx={{ marginTop: "8px" }}
-        >
-          <Typography variant="body2">
-            Name
+      <Grid item xs={12} md={3} sx={{ padding: "8px" }}>
+        {
+          !userId && (
+            <Box>
+              <Typography variant="h6" fontWeight={700}>
+                Chat Info
+              </Typography>
+              <form
+                style={{ marginTop: "8px" }}
+                onSubmit={submitUserChat}
+              >
+                <Typography variant="body2">
+                  Name
+                </Typography>
+                <TextField
+                  variant="standard"
+                  placeholder={'Place you name'}
+                  fullWidth
+                  value={userNameInput}
+                  onChange={e => setUserNameInput(e.target.value)}
+                />
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "right"
+                  }}
+                >
+                  <Button
+                    variant="contained"
+                    color="inherit"
+                    sx={{
+                      marginTop: "8px"
+                    }}
+                  >
+                    Clear
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{
+                      marginTop: "8px",
+                      marginLeft: "8px"
+                    }}
+                    type="submit"
+                  >
+                    Chat
+                  </Button>
+                </Box>
+              </form>
+            </Box>
+          )
+        }
+
+        {!userId && (
+          <Typography fontStyle={'italic'} sx={{ marginTop: "8px" }}>
+            Please input your name to start chatting...
           </Typography>
-          <TextField
-            variant="standard"
-            placeholder={'Place you name'}
-            fullWidth
-          />
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "right"
-            }}
-          >
-            <Button
-              variant="contained"
-              color="inherit"
-              sx={{
-                marginTop: "8px"
-              }}
-            >
-              Clear
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              sx={{
-                marginTop: "8px",
-                marginLeft: "8px"
-              }}
-            >
-              Chat
-            </Button>
-          </Box>
-        </Box>
+        )}
 
         <Box>
           <Typography variant="h6" fontWeight={600}>
-            Thanh Phan
+            {userName}
           </Typography>
           <Typography variant="body2" fontSize={10}>
-            ...c37c0afded27
+            {userId}
           </Typography>
         </Box>
       </Grid>
-      <Grid xs={12} md={6} sx={{ padding: "8px" }}>
+      <Grid item xs={12} md={6} sx={{ padding: "8px" }}>
         <Box
           sx={{
             border: "1px solid #e0e0e0",
@@ -148,22 +182,28 @@ export function HomePage() {
         >
           {renderMessage()}
         </Box>
-        <Box
-          sx={{ display: 'flex' }}
+        <form
+          style={{ display: userId ? 'flex' : 'none' }}
+          onSubmit={submitMessage}
         >
           <TextField
             sx={{
               width: "100%"
             }}
+            value={messageBodyInput}
+            onChange={e => setMessageBodyInput(e.target.value)}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            endIcon={<SendIcon />}
+            type="submit"
           >
-            Place.....
-          </TextField>
-          <Button variant="contained" color="primary" endIcon={<SendIcon />}>
             SEND
           </Button>
-        </Box>
+        </form>
       </Grid>
-      <Grid xs={12} md={3} sx={{ padding: "8px" }}>
+      <Grid item xs={12} md={3} sx={{ padding: "8px" }}>
         <Typography variant="h5" fontWeight={700}>
           Server Alive
         </Typography>
@@ -175,6 +215,7 @@ export function HomePage() {
                   style={{
                     marginTop: "8px"
                   }}
+                  key={Math.random().toString()}
                 >
                   <div>
                     Message: {log.message}
