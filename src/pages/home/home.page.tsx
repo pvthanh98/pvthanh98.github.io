@@ -30,13 +30,21 @@ export function HomePage() {
 
   useEffect(() => {
     socket.on('server_emit_broadcast_message', function (data: MessageBroadcast) {
-      console.log("I RECEI=VE MESSAGE")
-      setMessages(oldMessages => [
-        oldMessages[2],
-        oldMessages[1],
-        oldMessages[0],
-        data
-      ])
+      setMessages((oldMessages: MessageBroadcast[]) => {
+        if (oldMessages.length >= 3){
+          return [
+            oldMessages[2],
+            oldMessages[1],
+            oldMessages[0],
+            {...data}
+          ]
+        }
+        return [
+          ...oldMessages,
+          data
+        ]
+      })
+      
     })
   }, [socket])
 
