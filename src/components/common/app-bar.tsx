@@ -51,7 +51,8 @@ function AppBarComponent() {
   return (
     <AppBar position="static"
       sx={{
-        backgroundColor: "#173948"
+        backgroundColor: "#173948",
+        boxShadow: "0px 12px 12px -10px #000000"
       }}
     >
       <Container maxWidth="xl">
