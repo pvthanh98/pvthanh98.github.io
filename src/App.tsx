@@ -14,7 +14,7 @@ function App() {
       const Component = route.component
       const Element = (
         <LayoutContainer>
-           <Component />
+           <Component {...route.componentProps} />
         </LayoutContainer>
       )
       return <Route key={route.path} path={route.path} element={Element} />

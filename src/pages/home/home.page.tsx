@@ -6,12 +6,14 @@ import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact
 import { Box } from "@mui/system";
 import { MessageItem } from "./message";
 import SendIcon from '@mui/icons-material/Send';
-import { io } from "socket.io-client";
 import { MessageBroadcast } from "../../types/message-socket";
+import * as socketEvent from '../../types/socket-event.constant';
 
-const socket: any = io('https://tp-finance-server.herokuapp.com');
+export interface HomePagePropType {
+  socket?: any
+}
 
-export function HomePage() {
+export function HomePage({socket}: HomePagePropType) {
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const [logs, setLogs] = useState<any[]>([]);
   const [isLoad, setIsLoad] = useState(false);
@@ -22,30 +24,32 @@ export function HomePage() {
   const [userNameInput, setUserNameInput] = useState("");
   const [userId, setUserId] = useState("");
   const [messageBodyInput, setMessageBodyInput] = useState("");
-
-
+ 
   useEffect(() => {
     loadLogs();
   }, [])
 
   useEffect(() => {
-    socket.on('server_emit_broadcast_message', function (data: MessageBroadcast) {
-      setMessages((oldMessages: MessageBroadcast[]) => {
-        if (oldMessages.length >= 3){
+    chatContainerRef.current?.scrollIntoView();
+  }, [messages])
+
+  useEffect(() => {
+    if (socket) {
+      socket.on(socketEvent.SERVER_EMIT_BROADCAST_MESSAGE, function (data: MessageBroadcast) {
+        setMessages((oldMessages: MessageBroadcast[]) => {
+          if (oldMessages.length >= 3) {
+            return [
+              ...oldMessages,
+              { ...data }
+            ]
+          }
           return [
-            oldMessages[2],
-            oldMessages[1],
-            oldMessages[0],
-            {...data}
+            ...oldMessages,
+            data
           ]
-        }
-        return [
-          ...oldMessages,
-          data
-        ]
+        })
       })
-      
-    })
+    }
   }, [socket])
 
   const loadLogs = async () => {
@@ -74,14 +78,28 @@ export function HomePage() {
 
   const renderMessage = () => {
     return messages.map((message, index) => {
+      if ((messages.length - 1) === index)
+        return (
+          <div ref={chatContainerRef}>
+            <MessageItem
+              id={message.user.id}
+              name={message.user.name}
+              body={message.body}
+              key={index}
+              isLeft={(message.user.id.toString() === userId)}
+            />
+          </div>
+        )
       return (
-        <MessageItem
-          id={message.user.id}
-          name={message.user.name}
-          body={message.body}
-          key={index}
-          isLeft={(message.user.id.toString() === userId)}
-        />
+        <div>
+          <MessageItem
+            id={message.user.id}
+            name={message.user.name}
+            body={message.body}
+            key={index}
+            isLeft={(message.user.id.toString() === userId)}
+          />
+        </div>
       )
     })
   }
@@ -95,7 +113,7 @@ export function HomePage() {
 
   const submitMessage = (e: any) => {
     e.preventDefault();
-    socket.emit('client_emit_broadcast_message', {
+    socket.emit(socketEvent.CLIENT_EMIT_BROADCAST_MESSAGE, {
       user: {
         id: userId,
         name: userName
@@ -103,6 +121,10 @@ export function HomePage() {
       body: messageBodyInput
     });
     setMessageBodyInput("")
+  }
+
+  const onInputChange = (e:any) => {
+    setMessageBodyInput(e.target.value)
   }
 
   return (
@@ -199,7 +221,7 @@ export function HomePage() {
               width: "100%"
             }}
             value={messageBodyInput}
-            onChange={e => setMessageBodyInput(e.target.value)}
+            onChange={onInputChange}
           />
           <Button
             variant="contained"
@@ -218,9 +240,8 @@ export function HomePage() {
         <Box
           sx={{
             height: "67vh",
-            overflow:"scroll",
+            overflow: "scroll",
             overflowX: "hidden",
-            // overflowY: "hidden"
           }}
         >
           {
