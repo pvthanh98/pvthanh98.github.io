@@ -179,7 +179,7 @@ export function HomePage() {
         <Box
           sx={{
             border: "1px solid #e0e0e0",
-            height: "550px",
+            height: "75vh",
             borderRadius: "8px",
             paddingTop: "8px",
             paddingLeft: "8px",
@@ -215,7 +215,14 @@ export function HomePage() {
         <Typography variant="h5" fontWeight={700}>
           Server Alive
         </Typography>
-        <Box>
+        <Box
+          sx={{
+            height: "67vh",
+            overflow:"scroll",
+            overflowX: "hidden",
+            // overflowY: "hidden"
+          }}
+        >
           {
             logs.map((log: any) => {
               return (
