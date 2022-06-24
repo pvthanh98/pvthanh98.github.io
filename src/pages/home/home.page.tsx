@@ -13,7 +13,7 @@ export interface HomePagePropType {
   socket?: any
 }
 
-export function HomePage({socket}: HomePagePropType) {
+export function HomePage({ socket }: HomePagePropType) {
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const [logs, setLogs] = useState<any[]>([]);
   const [isLoad, setIsLoad] = useState(false);
@@ -24,7 +24,7 @@ export function HomePage({socket}: HomePagePropType) {
   const [userNameInput, setUserNameInput] = useState("");
   const [userId, setUserId] = useState("");
   const [messageBodyInput, setMessageBodyInput] = useState("");
- 
+
   useEffect(() => {
     loadLogs();
   }, [])
@@ -123,13 +123,18 @@ export function HomePage({socket}: HomePagePropType) {
     setMessageBodyInput("")
   }
 
-  const onInputChange = (e:any) => {
+  const onInputChange = (e: any) => {
     setMessageBodyInput(e.target.value)
   }
 
   return (
     <Grid container>
-      <Grid item xs={12} md={3} sx={{ padding: "8px" }}>
+      <Grid
+        item
+        xs={12}
+        md={3}
+        sx={{ padding: "8px" }}
+      >
         {
           !userId && (
             <Box>
@@ -197,118 +202,131 @@ export function HomePage({socket}: HomePagePropType) {
           </Typography>
         </Box>
       </Grid>
-      <Grid item xs={12} md={6} sx={{ padding: "8px" }}>
-        <Box
-          sx={{
-            border: "1px solid #e0e0e0",
-            height: "75vh",
-            borderRadius: "8px",
-            paddingTop: "8px",
-            paddingLeft: "8px",
-            paddingRight: "8px",
-            overflow: "scroll",
-            overflowX: "hidden"
-          }}
-        >
-          {renderMessage()}
-        </Box>
-        <form
-          style={{ display: userId ? 'flex' : 'none' }}
-          onSubmit={submitMessage}
-        >
-          <TextField
-            sx={{
-              width: "100%"
-            }}
-            value={messageBodyInput}
-            onChange={onInputChange}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            endIcon={<SendIcon />}
-            type="submit"
+      {
+        userId && (
+          <Grid
+            item
+            xs={12}
+            md={userId ? 12 : 6}
+            sx={{ padding: "8px" }}
           >
-            SEND
-          </Button>
-        </form>
-      </Grid>
-      <Grid item xs={12} md={3} sx={{ padding: "8px" }}>
-        <Typography variant="h5" fontWeight={700}>
-          Server Alive
-        </Typography>
-        <Box
-          sx={{
-            height: "67vh",
-            overflow: "scroll",
-            overflowX: "hidden",
-          }}
-        >
-          {
-            logs.map((log: any) => {
-              return (
-                <div
-                  style={{
-                    marginTop: "8px"
-                  }}
-                  key={Math.random().toString()}
-                >
-                  <div>
-                    Message: {log.message}
-                  </div>
-                  <div>
-                    From: {log.from}
-                  </div>
-                  <div>
-                    Type: {log.type}
-                  </div>
-                  <div>
-                    Created At: {moment(log.createdAt).format("DD-MMM-YY, h:mm:ss a")} ({moment(log.createdAt).fromNow()})
-                  </div>
-                  <hr />
-                </div>
-              )
-            })
-          }
-        </Box>
-        <Box>
-          <Typography
-            onClick={onLoadMore}
-            sx={{
-              fontStyle: "italic",
-              textDecoration: "underline",
-              cursor: "pointer",
-              margin: "16px 0px 16px 0px",
-              textAlign: "center"
-            }}
-          >
-            {
-              isLoad ? "Loading..." : "Load More"
-            }
-          </Typography>
-        </Box>
-        <Box>
-          {
-            !isFirstRender && (
+            <Box
+              sx={{
+                border: "1px solid #e0e0e0",
+                height: !userId ? "75vh" : "68vh",
+                borderRadius: "8px",
+                paddingTop: "8px",
+                paddingLeft: "8px",
+                paddingRight: "8px",
+                overflow: "scroll",
+                overflowX: "hidden"
+              }}
+            >
+              {renderMessage()}
+            </Box>
+            <form
+              style={{ display: userId ? 'flex' : 'none' }}
+              onSubmit={submitMessage}
+            >
+              <TextField
+                sx={{
+                  width: "100%"
+                }}
+                value={messageBodyInput}
+                onChange={onInputChange}
+              />
               <Button
                 variant="contained"
                 color="primary"
-                endIcon={<ConnectWithoutContactIcon />}
-                onClick={pingServer}
+                endIcon={<SendIcon />}
+                type="submit"
+              >
+                SEND
+              </Button>
+            </form>
+          </Grid>
+        )
+      }
+      {
+        !userId && (
+          <Grid item xs={12} md={9} sx={{ padding: "8px" }}>
+            <Typography variant="h5" fontWeight={700}>
+              Server Alive
+            </Typography>
+            <Box
+              sx={{
+                height: "67vh",
+                overflow: "scroll",
+                overflowX: "hidden",
+              }}
+            >
+              {
+                logs.map((log: any) => {
+                  return (
+                    <div
+                      style={{
+                        marginTop: "8px"
+                      }}
+                      key={Math.random().toString()}
+                    >
+                      <div>
+                        Message: {log.message}
+                      </div>
+                      <div>
+                        From: {log.from}
+                      </div>
+                      <div>
+                        Type: {log.type}
+                      </div>
+                      <div>
+                        Created At: {moment(log.createdAt).format("DD-MMM-YY, h:mm:ss a")} ({moment(log.createdAt).fromNow()})
+                      </div>
+                      <hr />
+                    </div>
+                  )
+                })
+              }
+            </Box>
+            <Box>
+              <Typography
+                onClick={onLoadMore}
                 sx={{
-                  '@media only screen and (max-width: 690px)': {
-                    width: "100%"
-                  },
+                  fontStyle: "italic",
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                  margin: "16px 0px 16px 0px",
+                  textAlign: "center"
                 }}
               >
                 {
-                  isLoad ? <CircularProgress size="30px" color="inherit" /> : "PING"
+                  isLoad ? "Loading..." : "Load More"
                 }
-              </Button>
-            )
-          }
-        </Box>
-      </Grid>
+              </Typography>
+            </Box>
+            <Box>
+              {
+                !isFirstRender && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    endIcon={<ConnectWithoutContactIcon />}
+                    onClick={pingServer}
+                    sx={{
+                      '@media only screen and (max-width: 690px)': {
+                        width: "100%"
+                      },
+                    }}
+                  >
+                    {
+                      isLoad ? <CircularProgress size="30px" color="inherit" /> : "PING"
+                    }
+                  </Button>
+                )
+              }
+            </Box>
+          </Grid>
+        )
+      }
     </Grid>
   );
 }
