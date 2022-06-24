@@ -1,16 +1,15 @@
-import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function AppBarOnlyLogoComponent() {
-  const navigate = useNavigate();
   return (
     <AppBar position="static"
       sx={{
-        backgroundColor: "#173948"
+        backgroundColor: "#173948",
+        boxShadow: "0px 12px 12px -10px #000000"
       }}
     >
       <Container maxWidth="xl">
@@ -18,8 +17,6 @@ function AppBarOnlyLogoComponent() {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -30,11 +27,11 @@ function AppBarOnlyLogoComponent() {
               textDecoration: 'none',
             }}
           >
-            <Link 
+            <Link
               to="/"
               style={{
-                textDecoration:"none",
-                color:"white"
+                textDecoration: "none",
+                color: "white"
               }}
             >
               ThanhPhan
@@ -44,8 +41,6 @@ function AppBarOnlyLogoComponent() {
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href=""
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -57,12 +52,20 @@ function AppBarOnlyLogoComponent() {
               textDecoration: 'none',
             }}
           >
-            ThanhPhan
+            <Link
+              to="/"
+              style={{
+                textDecoration: "none",
+                color: "white"
+              }}
+            >
+              ThanhPhan
+            </Link>
           </Typography>
         </Toolbar>
       </Container>
     </AppBar>
-  );
+  )
 }
 
 export default AppBarOnlyLogoComponent;

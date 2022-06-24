@@ -329,7 +329,7 @@ export function MyCV() {
             </Typography>
 
           </Grid>
-          <Grid xs={12} md={12} sx={{ marginBottom: "16px" }}>
+          <Grid item xs={12} md={12} sx={{ marginBottom: "16px" }}>
             <hr style={{ marginTop: "16px" }} />
             {
               true && (

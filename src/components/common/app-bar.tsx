@@ -16,7 +16,7 @@ import * as path from '../../routes/path';
 
 const pages = [
   {
-    title:'Finance', 
+    title: 'Finance',
     path: null
   },
   {
@@ -44,9 +44,9 @@ function AppBarComponent() {
     setAnchorElNav(event.currentTarget);
   };
 
-  const handleCloseNavMenu = (link:string | null) => {
+  const handleCloseNavMenu = (link: string | null) => {
     setAnchorElNav(null);
-    if(link) navigate(link)
+    if (link) navigate(link)
   };
   return (
     <AppBar position="static"
@@ -60,7 +60,6 @@ function AppBarComponent() {
           <Typography
             variant="h6"
             noWrap
-            component="a"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -71,11 +70,11 @@ function AppBarComponent() {
               textDecoration: 'none',
             }}
           >
-            <Link 
+            <Link
               to="/"
               style={{
-                textDecoration:"none",
-                color:"white"
+                textDecoration: "none",
+                color: "white"
               }}
             >
               ThanhPhan
@@ -106,7 +105,7 @@ function AppBarComponent() {
                 horizontal: 'left',
               }}
               open={Boolean(anchorElNav)}
-              onClose={()=>handleCloseNavMenu(null)}
+              onClose={() => handleCloseNavMenu(null)}
               sx={{
                 display: { xs: 'block', md: 'none' },
               }}
@@ -114,9 +113,9 @@ function AppBarComponent() {
               {pages.map((page) => {
                 if (page.title !== "Finance") {
                   return (
-                    <MenuItem sx={{width:"200px"}} key={page.path} onClick={()=>handleCloseNavMenu(page.path)}>
+                    <MenuItem sx={{ width: "200px" }} key={page.path} onClick={() => handleCloseNavMenu(page.path)}>
                       <Typography textAlign="center">
-                          {page.title}
+                        {page.title}
                       </Typography>
                     </MenuItem>
                   )
@@ -131,8 +130,6 @@ function AppBarComponent() {
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href=""
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -144,28 +141,37 @@ function AppBarComponent() {
               textDecoration: 'none',
             }}
           >
-            ThanhPhan
+            <Link
+              to="/"
+              style={{
+                textDecoration: "none",
+                color: "white"
+              }}
+            >
+              ThanhPhan
+            </Link>
+
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => {
-              if(page.title !=="Finance"){
+              if (page.title !== "Finance") {
                 return (
                   <Button
                     key={page.path}
-                    onClick={()=>handleCloseNavMenu(page.path)}
+                    onClick={() => handleCloseNavMenu(page.path)}
                     sx={{ my: 2, color: 'white', display: 'block' }}
                   >
-                     {page.title}
+                    {page.title}
                   </Button>
                 )
               } else return (
-                <Button
-                    key={page.path}
-                    onClick={()=>handleCloseNavMenu(null)}
-                    sx={{ my: 2, color: 'white', display: 'block' }}
-                  >
-                     <FinanceMenu title={page.title} handleCloseNavMenu={handleCloseNavMenu}/>
-                  </Button>
+                <Box
+                  key={page.path}
+                  onClick={() => handleCloseNavMenu(null)}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  <FinanceMenu title={page.title} handleCloseNavMenu={handleCloseNavMenu} />
+                </Box>
               )
             })}
           </Box>
