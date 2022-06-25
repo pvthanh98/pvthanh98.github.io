@@ -15,6 +15,7 @@ import { DailyExpensePage } from "../pages/daily-expense.page";
 import * as path from './path';
 import { MessengerPage } from "../pages/messenger/messenger.page";
 import { io } from "socket.io-client";
+import ChatLayout from "../layouts/chat.layout";
 const socket: any = io('https://tp-finance-server.herokuapp.com');
 // const socket: any = io('http://localhost:8080');
 
@@ -98,7 +99,7 @@ export const privateRoutes = [
   },
   {
     path: path.MESSENGER_PATH,
-    layout: AppLayout,
+    layout: ChatLayout,
     component: MessengerPage,
     componentProps: {}
   }

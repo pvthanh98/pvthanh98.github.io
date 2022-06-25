@@ -5,6 +5,7 @@ export const CardMessenger = () => {
     return (
         <Box
             sx={{
+                width:"100%",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
@@ -12,6 +13,7 @@ export const CardMessenger = () => {
                 padding: "0px 8px 0px 8px",
                 backgroundColor: "#ddd9d9",
                 cursor: "pointer",
+                boxSizing: "border-box",
                 '&:hover': {
                     backgroundColor: "#173948",
                     color: "white"
