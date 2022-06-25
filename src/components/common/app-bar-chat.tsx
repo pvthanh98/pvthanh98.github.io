@@ -52,7 +52,8 @@ function AppBarChatComponent() {
     <AppBar position="static"
       sx={{
         backgroundColor: "#173948",
-        boxShadow: "0px 12px 12px -10px #000000"
+        boxShadow: "0px 12px 12px -10px #000000",
+        width:"100%"
       }}
     >
       <Container maxWidth="xl">

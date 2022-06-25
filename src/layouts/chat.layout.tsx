@@ -11,32 +11,39 @@ interface AppLayoutProps {
 
 function ChatLayout({ children }: AppLayoutProps) {
   return (
-    <Grid
-      container
+    <Box
       display='flex'
       justifyContent={'center'}
       paddingTop={'8px'}
       sx={{
         backgroundColor: "#173948",
-        minHeight: "100vh"
+        minHeight: "100vh",
       }}
     >
-      <Box>
+      <Box
+        sx={{
+          '@media (max-width: 590px)': {
+            minWidth: "100%",
+          },
+          '@media (min-width: 600px)': {
+            minWidth: "70vh",
+          },
+        }}
+      >
         <AppBarChatComponent />
         <Box
           sx={{
-            minWidth: "70vh",
             outline: "2px solid #173948",
             padding: "0xpx 8px 8px 8px",
             minHeight: "88vh",
             borderRadius: "12px",
-            backgroundColor: "#f0f0f0"
+            backgroundColor: "#f0f0f0",
           }}
         >
           {children}
         </Box >
       </Box>
-    </Grid>
+    </Box>
   );
 }
 

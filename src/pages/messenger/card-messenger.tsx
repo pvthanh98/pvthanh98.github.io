@@ -54,10 +54,6 @@ export const CardMessenger = () => {
                 </Box>
             </Box>
             <Box
-                sx={{
-                    minWidth: "50px",
-                    textAlign: "center"
-                }}
             >
                 2 giờ
             </Box>
