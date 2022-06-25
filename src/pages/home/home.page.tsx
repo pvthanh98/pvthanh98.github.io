@@ -8,6 +8,7 @@ import { MessageItem } from "./message";
 import SendIcon from '@mui/icons-material/Send';
 import { MessageBroadcast } from "../../types/message-socket";
 import * as socketEvent from '../../types/socket-event.constant';
+import { converMessageDBToMessageItem } from "../../utils/util";
 
 export interface HomePagePropType {
   socket?: any
@@ -17,7 +18,9 @@ export function HomePage({ socket }: HomePagePropType) {
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const [logs, setLogs] = useState<any[]>([]);
   const [isLoad, setIsLoad] = useState(false);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1); // logs 
+  const [messagePage, setMessagePage] = useState(1);
+
   const [isFirstRender, setIsFirstRender] = useState(true);
   const [messages, setMessages] = useState<Array<MessageBroadcast>>([])
   const [userName, setUserName] = useState("");
@@ -27,30 +30,35 @@ export function HomePage({ socket }: HomePagePropType) {
 
   useEffect(() => {
     loadLogs();
+    loadMessages();
   }, [])
+
 
   useEffect(() => {
     chatContainerRef.current?.scrollIntoView();
-  }, [messages])
+  }, [messages, userId])
 
   useEffect(() => {
     if (socket) {
       socket.on(socketEvent.SERVER_EMIT_BROADCAST_MESSAGE, function (data: MessageBroadcast) {
         setMessages((oldMessages: MessageBroadcast[]) => {
-          if (oldMessages.length >= 3) {
-            return [
-              ...oldMessages,
-              { ...data }
-            ]
-          }
           return [
             ...oldMessages,
-            data
+            { ...data }
           ]
         })
       })
     }
   }, [socket])
+
+
+  const loadMessages = async () => {
+      setIsLoad(true)
+      const response = await axios.get(`${process.env.REACT_APP_SERVER_HOST}/common/chat/public-message?page=${messagePage}`);
+      const { result } = response.data;
+      setMessages(msgs => [...msgs, ...converMessageDBToMessageItem(result).reverse()])
+      setIsLoad(false);
+  }
 
   const loadLogs = async () => {
     setIsLoad(true)
@@ -80,24 +88,24 @@ export function HomePage({ socket }: HomePagePropType) {
     return messages.map((message, index) => {
       if ((messages.length - 1) === index)
         return (
-          <div ref={chatContainerRef}>
+          <div ref={chatContainerRef} key={index}>
             <MessageItem
               id={message.user.id}
               name={message.user.name}
               body={message.body}
-              key={index}
               isLeft={(message.user.id.toString() === userId)}
+              fromNow={moment(message.createdAt).fromNow()}
             />
           </div>
         )
       return (
-        <div>
+        <div key={index}>
           <MessageItem
             id={message.user.id}
             name={message.user.name}
             body={message.body}
-            key={index}
             isLeft={(message.user.id.toString() === userId)}
+            fromNow={moment(message.createdAt).fromNow()}
           />
         </div>
       )
@@ -222,6 +230,9 @@ export function HomePage({ socket }: HomePagePropType) {
                 overflowX: "hidden"
               }}
             >
+              {/* <Box textAlign={'center'}>
+                <Button onClick={()=>setMessagePage(page=>page+1)}>Load more</Button>
+              </Box> */}
               {renderMessage()}
             </Box>
             <form

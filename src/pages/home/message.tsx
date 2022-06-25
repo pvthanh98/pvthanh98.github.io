@@ -5,9 +5,10 @@ interface MessageProps {
     name: string;
     id: string;
     body: string;
+    fromNow?: string;
 }
 
-const MessageLeft = ({ id, name, body }: MessageProps) => {
+const MessageLeft = ({ id, name, body, fromNow }: MessageProps) => {
     return (
         <Box
             sx={{
@@ -46,12 +47,20 @@ const MessageLeft = ({ id, name, body }: MessageProps) => {
                 >
                     {body}
                 </Box>
+                <Typography
+                    variant="body2"
+                    fontStyle={'italic'}
+                    fontSize={'12px'}
+                    marginTop={'4px'}
+                 >
+                   {fromNow}
+                 </Typography>
             </Box>
         </Box>
     )
 }
 
-const MessageRight = ({ id, name, body }: MessageProps) => {
+const MessageRight = ({ id, name, body, fromNow }: MessageProps) => {
     return (
         <Box
             sx={{
@@ -87,6 +96,14 @@ const MessageRight = ({ id, name, body }: MessageProps) => {
                 >
                     {body}
                 </Box>
+                <Typography
+                    variant="body2"
+                    fontStyle={'italic'}
+                    fontSize={'12px'}
+                    marginTop={'4px'}
+                 >
+                  {fromNow}
+                 </Typography>
             </Box>
 
             <Avatar
@@ -105,6 +122,7 @@ export interface MessageItemProps {
     name: string;
     body: string;
     id: string;
+    fromNow?: string;
 }
 
 export const MessageItem = (props: MessageItemProps) => {
