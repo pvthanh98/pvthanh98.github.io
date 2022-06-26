@@ -1,5 +1,6 @@
 import { Avatar, Typography } from "@mui/material"
 import { Box } from "@mui/system"
+import moment from "moment"
 import { MessengerMessageItem as MessengerMessageItemInterface } from "../../types/message.type"
 interface MessengerMessageItemProps extends MessengerMessageItemInterface {
     userId: string //myuserId
@@ -20,18 +21,23 @@ const MessageLeft = (props: MessengerMessageItemProps) => {
                     width: "50px",
                 }}
             />
-            <Box
-                sx={{
-                    border: "1px solid #747474",
-                    padding: "16px",
-                    borderRadius: "12px",
-                    backgroundColor: "#792e0a",
-                    color: "#f1f1f1",
-                    marginLeft:"8px"
+            <Box>
+                <Box
+                    sx={{
+                        border: "1px solid #747474",
+                        padding: "16px",
+                        borderRadius: "12px",
+                        backgroundColor: "#792e0a",
+                        color: "#f1f1f1",
+                        marginLeft: "8px"
 
-                }}
-            >
-                {props.body}
+                    }}
+                >
+                    {props.body}
+                </Box>
+                <Typography fontStyle={'italic'} fontSize={'10px'}>
+                    {moment(props.createdAt).fromNow()}
+                </Typography>
             </Box>
         </Box>
     )
@@ -45,16 +51,21 @@ const MessageRight = (props: MessengerMessageItemProps) => {
                 marginBottom: "16px"
             }}
         >
-            <Box
-                sx={{
-                    border: "1px solid #747474",
-                    marginLeft: "8px",
-                    marginrRight: "8px",
-                    padding: "16px",
-                    borderRadius: "12px",
-                }}
-            >
-                {props.body}
+            <Box>
+                <Box
+                    sx={{
+                        border: "1px solid #747474",
+                        marginLeft: "8px",
+                        marginrRight: "8px",
+                        padding: "16px",
+                        borderRadius: "12px",
+                    }}
+                >
+                    {props.body}
+                </Box>
+                <Typography fontStyle={'italic'} fontSize={'10px'}>
+                    {moment(props.createdAt).fromNow()}
+                </Typography>
             </Box>
             <Avatar
                 src={props.fromUser.image}

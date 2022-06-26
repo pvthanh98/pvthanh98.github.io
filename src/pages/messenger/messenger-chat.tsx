@@ -143,20 +143,6 @@ export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
             conversationId: params.conversationId
         });
 
-        console.log({
-            EMIT: {
-                fromUser: {
-                    id: profile.id,
-                    firstName: profile.firstName,
-                    lastName: profile.lastName,
-                    image: profile.image,
-                    isMe: true
-                },
-                body: messageBodyInput,
-                type: "text",
-                conversationId: params.conversationId
-            }
-        })
         setMessageBodyInput("")
     }
 
