@@ -84,7 +84,6 @@ export const UserPage = () => {
             });
             loadUsers()
         } catch (e: any) {
-            console.log(e, )
             if (e.response.status === 401) {
                 localStorage.removeItem("accessToken");
                 dispatch(setAuth(false));

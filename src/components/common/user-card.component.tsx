@@ -35,7 +35,6 @@ export const UserCardComponent = ({id, firstName, lastName, email, isActive, cre
             if (e.response.status === 403) {
                 alert("Permission denied")
             }
-            console.log(e.response.data)
             setIsLoad(false)
         }
     }

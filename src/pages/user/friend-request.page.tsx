@@ -50,7 +50,6 @@ export const UserFriendRequest = () => {
                     updatedAt: data.updatedAt
                 })
             }
-            console.log("hahaha",resultsConvert)
             dispatch(updateFriendRequestAction(resultsConvert))
             setIsLoad(false)
         } catch (e: any) {

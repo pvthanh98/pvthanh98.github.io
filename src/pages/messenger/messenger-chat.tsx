@@ -1,18 +1,13 @@
 import { Box } from '@mui/system';
 import { useEffect, useRef, useState } from 'react';
-import { CardMessenger } from './card-messenger';
 import axios from 'axios';
 import { setAuth } from '../../redux/actions/auth.action';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateConversationListAction } from '../../redux/actions/messenger.action';
 import { RootState } from '../../redux/store';
-import { ChatHeader } from './chat-header-messenger';
 import { MessengerMessageItem } from './message';
 import { MessengerMessageItem as MessengerMessageItemInterface } from '../../types/message.type';
 import { useParams } from 'react-router-dom';
-import { Button, CircularProgress, TextField } from '@mui/material';
-import SendIcon from '@mui/icons-material/Send';
-import { IconButton } from '@mui/material';
+import { Button, CircularProgress, TextField, Typography } from '@mui/material';
 import * as socketEvent from '../../types/socket-event.constant';
 import { updateProfile } from '../../redux/actions/profile.action';
 
@@ -22,10 +17,10 @@ export interface MessengerChatPagePropType {
 
 export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
     const chatContainerRef = useRef<HTMLDivElement>(null);
+    const typingRef = useRef<HTMLDivElement>(null);
     const [isLoad, setIsLoad] = useState<boolean>(false);
+    const [isTyping, setIsTyping] = useState<boolean>(false);
     const [messages, setMessages] = useState<MessengerMessageItemInterface[]>([]);
-    const [userId, setUserId] = useState<string>('');
-    const conversations = useSelector((state: RootState) => state.messengerApp.conversations)
     const dispatch = useDispatch();
     const params: any = useParams();
     const [messageBodyInput, setMessageBodyInput] = useState("");
@@ -41,6 +36,10 @@ export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
     useEffect(() => {
         chatContainerRef.current?.scrollIntoView();
     }, [messages])
+
+    useEffect(() => {
+        typingRef.current?.scrollIntoView();
+    }, [isTyping])
 
     const loadProfile = async () => {
         try {
@@ -68,14 +67,12 @@ export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
         try {
             if (conversationId) {
                 setIsLoad(true);
-                console.log(`${process.env.REACT_APP_SERVER_HOST}/chat/conversation/${conversationId}/message`)
                 const response = await axios.get(`${process.env.REACT_APP_SERVER_HOST}/chat/conversation/${conversationId}/message`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("accessToken")}`
                     }
                 });
                 setMessages([...response.data.result].reverse())
-                setUserId(response.data.userId)
                 setIsLoad(false)
             }
         } catch (e: any) {
@@ -93,6 +90,7 @@ export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
                 return (
                     <Box
                         ref={chatContainerRef}
+                        key={`${msg.id}-box-${Math.random()}`}
                     >
                         <MessengerMessageItem
                             key={msg.id}
@@ -108,25 +106,34 @@ export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
                     </Box>
                 )
             } else {
-                return <Box>
-                    <MessengerMessageItem
-                        key={msg.id}
-                        userId={profile.id}
-                        body={msg.body}
-                        createdAt={msg.createdAt}
-                        fromUser={msg.fromUser}
-                        id={msg.id}
-                        type={msg.type}
-                        updatedAt={msg.updatedAt}
+                return (
+                    <Box
+                        key={`${msg.id}-box-${Math.random()}`}
+                    >
+                        <MessengerMessageItem
+                            key={msg.id}
+                            userId={profile.id}
+                            body={msg.body}
+                            createdAt={msg.createdAt}
+                            fromUser={msg.fromUser}
+                            id={msg.id}
+                            type={msg.type}
+                            updatedAt={msg.updatedAt}
 
-                    />
-                </Box>
+                        />
+                    </Box>
+                )
             }
         })
     }
 
     const onInputChange = (e: any) => {
         setMessageBodyInput(e.target.value)
+        if (e.target.value !== "") {
+            socket.emit(socketEvent.CLIENT_EMIT_TYPING, { conversationId: params.conversationId })
+        } else {
+            socket.emit(socketEvent.CLIENT_EMIT_NOT_TYPING, { conversationId: params.conversationId })
+        }
     }
 
     const submitMessage = (e: any) => {
@@ -144,6 +151,7 @@ export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
         });
 
         setMessageBodyInput("")
+        setIsTyping(false);
     }
 
     useEffect(() => {
@@ -151,9 +159,6 @@ export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
             token: localStorage.getItem('accessToken')
         })
         socket.on(socketEvent.SERVER_EMIT_PRIVATE_MESSAGE, function (data: any) {
-            console.log({
-                RECEUVE: data
-            })
             setMessages(msgs => {
                 return [
                     ...msgs,
@@ -161,6 +166,15 @@ export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
                 ]
             })
         })
+
+        socket.on(socketEvent.SERVER_EMIT_TYPING, function (data: any) {
+            setIsTyping(true)
+        });
+
+        socket.on(socketEvent.SERVER_EMIT_NOT_TYPING, function (data: any) {
+            setIsTyping(false)
+        });
+
     }, [socket])
 
 
@@ -185,7 +199,15 @@ export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
                 }}
             >
                 {renderMessages()}
+                {
+                    isTyping && (
+                        <Typography ref={typingRef}>
+                            Typing...
+                        </Typography>
+                    )
+                }
             </Box>
+
             <form
                 style={{
                     display: 'flex'

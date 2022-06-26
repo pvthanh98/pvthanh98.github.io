@@ -47,7 +47,6 @@ export const UserFriendList = () => {
                     email: data.friend.email
                 })
             }
-            console.log(resultsConvert)
             dispatch(updateFriendAction(resultsConvert))
             setIsLoad(false)
         } catch (e: any) {
@@ -75,7 +74,6 @@ export const UserFriendList = () => {
             loadFriends()
             setIsLoad(false)
         } catch (e: any) {
-            console.log(e.response)
             if (e.response.status === 401) {
                 localStorage.removeItem("accessToken");
                 dispatch(setAuth(false));
