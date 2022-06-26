@@ -2,7 +2,7 @@ import { Avatar, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import { MessengerMessageItem as MessengerMessageItemInterface } from "../../types/message.type"
 interface MessengerMessageItemProps extends MessengerMessageItemInterface {
-    isMe?: boolean //myuserId
+    userId: string //myuserId
 }
 
 const MessageLeft = (props: MessengerMessageItemProps) => {
@@ -69,7 +69,7 @@ const MessageRight = (props: MessengerMessageItemProps) => {
 }
 
 export const MessengerMessageItem = (props: MessengerMessageItemProps) => {
-    return props.isMe ? (
+    return props.userId === props.fromUser.id ? (
         <MessageLeft {...props} />
     ) : (
         <MessageRight {...props} />

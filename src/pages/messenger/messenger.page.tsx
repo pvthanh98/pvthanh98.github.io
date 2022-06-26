@@ -6,16 +6,18 @@ import { setAuth } from '../../redux/actions/auth.action';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateConversationListAction } from '../../redux/actions/messenger.action';
 import { RootState } from '../../redux/store';
+import { useNavigate } from 'react-router-dom';
 
 
 export const MessengerPage = () => {
     const [isLoad, setIsLoad] = useState<boolean>(false);
     const conversations = useSelector((state: RootState) => state.messengerApp.conversations)
     const dispatch = useDispatch();
+    const navigate = useNavigate()
 
-    useEffect(()=>{
+    useEffect(() => {
         loadConversation();
-    },[]) 
+    }, [])
 
     const loadConversation = async () => {
         try {
@@ -38,20 +40,24 @@ export const MessengerPage = () => {
 
     const renderConversations = () => {
         return conversations.map(conv => (
-            <CardMessenger 
-                key={conv.id}
-                firstName={conv.partner.firstName}
-                lastName={conv.partner.lastName}
-                image={conv.partner.image}
-                updatedAt={conv.updatedAt}
-                lastMessage={conv.lastMessage}
-            />
+            <Box
+                onClick={()=> navigate(`/messenger/chat/${conv.id}`) }
+            >
+                <CardMessenger
+                    key={conv.id}
+                    firstName={conv.partner.firstName}
+                    lastName={conv.partner.lastName}
+                    image={conv.partner.image}
+                    updatedAt={conv.updatedAt}
+                    lastMessage={conv.lastMessage}
+                />
+            </Box>
         ))
     }
 
 
     return (
-        <Box 
+        <Box
             sx={{
                 padding: "0px 4px 2px 4px"
             }}
