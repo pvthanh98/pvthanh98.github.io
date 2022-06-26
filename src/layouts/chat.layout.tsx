@@ -1,9 +1,6 @@
-import { Grid } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
-import AppBarComponent from "../components/common/app-bar";
 import AppBarChatComponent from "../components/common/app-bar-chat";
-import AppBarOnlyLogoComponent from "../components/common/app-bar-only-logo";
 
 interface AppLayoutProps {
   children: React.ReactNode
@@ -22,10 +19,10 @@ function ChatLayout({ children }: AppLayoutProps) {
     >
       <Box
         sx={{
-          '@media (max-width: 590px)': {
+          '@media (max-width: 412px)': {
             minWidth: "100%",
           },
-          '@media (min-width: 600px)': {
+          '@media (min-width: 413px)': {
             minWidth: "70vh",
           },
         }}
