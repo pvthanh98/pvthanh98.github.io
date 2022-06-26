@@ -17,8 +17,8 @@ import { MessengerPage } from "../pages/messenger/messenger.page";
 import { io } from "socket.io-client";
 import ChatLayout from "../layouts/chat.layout";
 import { MessengerChatPage, MessengerChatPagePropType } from "../pages/messenger/messenger-chat";
-// const socket: any = io('https://tp-finance-server.herokuapp.com');
-const socket: any = io('http://localhost:8080');
+const socket: any = io('https://tp-finance-server.herokuapp.com');
+// const socket: any = io('http://localhost:8080');
 
 export const publicRoutes = [
   {
