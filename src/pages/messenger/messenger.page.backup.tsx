@@ -4,7 +4,6 @@ import { FriendCard } from '../../components/common/card';
 import { LinenearProgressLoading } from '../../components/common/common-component';
 import { CardMessenger } from './card-messenger';
 import { ChatHeader } from './chat-header-messenger';
-import { MessageLeft, MessageRight } from './message';
 import SendIcon from '@mui/icons-material/Send';
 
 
@@ -16,12 +15,12 @@ export const MessengerPage = () => {
             </Grid>
             <Grid container sx={{ marginTop: "0px", }}>
                 <Grid item xs={12} md={3} sx={{ paddingLeft: "8px" }}>
+                    {/* <CardMessenger />
                     <CardMessenger />
                     <CardMessenger />
                     <CardMessenger />
                     <CardMessenger />
-                    <CardMessenger />
-                    <CardMessenger />
+                    <CardMessenger /> */}
                 </Grid>
                 <Grid
                     item
@@ -44,7 +43,7 @@ export const MessengerPage = () => {
                             overflowX: "hidden"
                         }}
                     >
-                        <MessageLeft />
+                        {/* <MessageLeft />
                         <MessageRight />
                         <MessageLeft />
                         <MessageRight />
@@ -55,7 +54,7 @@ export const MessengerPage = () => {
                         <MessageLeft />
                         <MessageRight />
                         <MessageLeft />
-                        <MessageRight />
+                        <MessageRight /> */}
                     </Box>
                     <Box
                         sx={{display:'flex'}}

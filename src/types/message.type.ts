@@ -11,3 +11,18 @@ export interface MessageResponseType {
         name: string,
     }
 }
+
+export interface MessengerMessageItem {
+    id: string;
+    body: string;
+    type: string;
+    createdAt: string;
+    updatedAt: string;
+    fromUser: {
+        id: string;
+        firstName: string;
+        lastName: string;
+        image: string;
+        isMe: boolean
+    }
+}

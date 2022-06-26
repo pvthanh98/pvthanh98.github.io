@@ -16,7 +16,7 @@ export interface HomePagePropType {
 
 export function HomePage({ socket }: HomePagePropType) {
   const chatContainerRef = useRef<HTMLDivElement>(null);
-  const [logs, setLogs] = useState<any[]>([]);
+  const [logs, setLogs] = useState<any[]>([]); 
   const [isLoad, setIsLoad] = useState(false);
   const [page, setPage] = useState(1); // logs 
   const [messagePage, setMessagePage] = useState(1);

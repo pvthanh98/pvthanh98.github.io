@@ -9,6 +9,7 @@ import monthByExpenseReducer from './reducers/month-by-year.reducer';
 import profileReducer from './reducers/profile.reducer';
 import userReducer from './reducers/user.reducer';
 import commonReducer from './reducers/common.reducer';
+import messengerAppReducer from './reducers/messenger-app.reducer';
 const store = configureStore({
   reducer: {
     dailyExpense: dailyExpenseReducer,
@@ -20,7 +21,8 @@ const store = configureStore({
     monthByYear: monthByExpenseReducer,
     profile: profileReducer,
     users: userReducer,
-    common: commonReducer
+    common: commonReducer,
+    messengerApp: messengerAppReducer
   },
 })
 
