@@ -184,11 +184,6 @@ export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
 
     const onInputChange = (e: any) => {
         setMessageBodyInput(e.target.value)
-        if (e.target.value !== "") {
-            socket.emit(socketEvent.CLIENT_EMIT_TYPING, { conversationId: params.conversationId })
-        } else {
-            socket.emit(socketEvent.CLIENT_EMIT_NOT_TYPING, { conversationId: params.conversationId })
-        }
     }
 
     const submitMessage = (e: any) => {
