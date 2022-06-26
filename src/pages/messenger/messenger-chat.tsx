@@ -7,9 +7,11 @@ import { RootState } from '../../redux/store';
 import { MessengerMessageItem } from './message';
 import { MessengerMessageItem as MessengerMessageItemInterface } from '../../types/message.type';
 import { useParams } from 'react-router-dom';
-import { Button, CircularProgress, TextField, Typography } from '@mui/material';
+import { Button, CircularProgress, TextField, Typography, IconButton } from '@mui/material';
 import * as socketEvent from '../../types/socket-event.constant';
 import { updateProfile } from '../../redux/actions/profile.action';
+import RefreshIcon from '@mui/icons-material/Refresh';
+
 
 export interface MessengerChatPagePropType {
     socket?: any
@@ -17,9 +19,11 @@ export interface MessengerChatPagePropType {
 
 export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
     const chatContainerRef = useRef<HTMLDivElement>(null);
+    const firstMessageRef = useRef<HTMLDivElement>(null);
     const typingRef = useRef<HTMLDivElement>(null);
     const [isLoad, setIsLoad] = useState<boolean>(false);
     const [isTyping, setIsTyping] = useState<boolean>(false);
+    const [nextPage, setNextPage] = useState<number>(2);
     const [messages, setMessages] = useState<MessengerMessageItemInterface[]>([]);
     const dispatch = useDispatch();
     const params: any = useParams();
@@ -36,6 +40,10 @@ export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
     useEffect(() => {
         chatContainerRef.current?.scrollIntoView();
     }, [messages])
+
+    useEffect(() => {
+        firstMessageRef.current?.scrollIntoView();
+    }, [nextPage])
 
     useEffect(() => {
         typingRef.current?.scrollIntoView();
@@ -84,45 +92,92 @@ export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
         }
     }
 
+    const loadMoreMessages = async () => {
+        try {
+            if (params.conversationId) {
+                setIsLoad(true);
+                const response = await axios.get(`${process.env.REACT_APP_SERVER_HOST}/chat/conversation/${params.conversationId}/message?page=${nextPage}`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`
+                    }
+                });
+                setMessages(oldMessages => {
+                    return [
+                        ...response.data.result.reverse(),
+                        ...oldMessages
+                    ]
+                })
+                setNextPage(next => (next + 1))
+                setIsLoad(false)
+            }
+        } catch (e: any) {
+            if (e.response && e.response.status === 401) {
+                dispatch(setAuth(false));
+                localStorage.removeItem("accessToken");
+            }
+            setIsLoad(false)
+        }
+    }
+
     const renderMessages = () => {
         return messages.map((msg, index) => {
-            if (index === (messages.length - 1)) {
-                return (
-                    <Box
-                        ref={chatContainerRef}
-                        key={`${msg.id}-box-${Math.random()}`}
-                    >
-                        <MessengerMessageItem
-                            key={msg.id}
-                            userId={profile.id}
-                            body={msg.body}
-                            createdAt={msg.createdAt}
-                            fromUser={msg.fromUser}
-                            id={msg.id}
-                            type={msg.type}
-                            updatedAt={msg.updatedAt}
+            switch (index) {
+                case (messages.length - 1):
+                    return (
+                        <Box
+                            ref={chatContainerRef}
+                            key={`${msg.id}-box-${Math.random()}`}
+                        >
+                            <MessengerMessageItem
+                                key={msg.id}
+                                userId={profile.id}
+                                body={msg.body}
+                                createdAt={msg.createdAt}
+                                fromUser={msg.fromUser}
+                                id={msg.id}
+                                type={msg.type}
+                                updatedAt={msg.updatedAt}
 
-                        />
-                    </Box>
-                )
-            } else {
-                return (
-                    <Box
-                        key={`${msg.id}-box-${Math.random()}`}
-                    >
-                        <MessengerMessageItem
-                            key={msg.id}
-                            userId={profile.id}
-                            body={msg.body}
-                            createdAt={msg.createdAt}
-                            fromUser={msg.fromUser}
-                            id={msg.id}
-                            type={msg.type}
-                            updatedAt={msg.updatedAt}
+                            />
+                        </Box>
+                    )
+                case 0:
+                    return (
+                        <Box
+                            ref={firstMessageRef}
+                            key={`${msg.id}-box-${Math.random()}`}
+                        >
+                            <MessengerMessageItem
+                                key={msg.id}
+                                userId={profile.id}
+                                body={msg.body}
+                                createdAt={msg.createdAt}
+                                fromUser={msg.fromUser}
+                                id={msg.id}
+                                type={msg.type}
+                                updatedAt={msg.updatedAt}
 
-                        />
-                    </Box>
-                )
+                            />
+                        </Box>
+                    )
+
+                default:
+                    return (
+                        <Box
+                            key={`${msg.id}-box-${Math.random()}`}
+                        >
+                            <MessengerMessageItem
+                                key={msg.id}
+                                userId={profile.id}
+                                body={msg.body}
+                                createdAt={msg.createdAt}
+                                fromUser={msg.fromUser}
+                                id={msg.id}
+                                type={msg.type}
+                                updatedAt={msg.updatedAt}
+                            />
+                        </Box>
+                    )
             }
         })
     }
@@ -206,6 +261,14 @@ export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
                     overflowX: "hidden"
                 }}
             >
+                <Box
+                    sx={{ textAlign: "center" }}
+                    onClick={loadMoreMessages}
+                >
+                    <IconButton aria-label="delete" size="small">
+                        <RefreshIcon fontSize="inherit" />
+                    </IconButton>
+                </Box>
                 {renderMessages()}
                 {
                     isTyping && (
