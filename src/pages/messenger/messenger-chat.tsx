@@ -159,20 +159,28 @@ export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
             token: localStorage.getItem('accessToken')
         })
         socket.on(socketEvent.SERVER_EMIT_PRIVATE_MESSAGE, function (data: any) {
-            setMessages(msgs => {
-                return [
-                    ...msgs,
-                    { ...data }
-                ]
-            })
+            if (data.conversationId === params.conversationId) {
+                setMessages(msgs => {
+                    return [
+                        ...msgs,
+                        { ...data }
+                    ]
+                })
+            }
+
         })
 
         socket.on(socketEvent.SERVER_EMIT_TYPING, function (data: any) {
-            setIsTyping(true)
+            if (data.conversationId === params.conversationId) {
+                setIsTyping(true)
+            }
+
         });
 
         socket.on(socketEvent.SERVER_EMIT_NOT_TYPING, function (data: any) {
-            setIsTyping(false)
+            if (data.conversationId === params.conversationId) {
+                setIsTyping(false)
+            }
         });
 
     }, [socket])
