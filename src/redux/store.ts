@@ -10,6 +10,7 @@ import profileReducer from './reducers/profile.reducer';
 import userReducer from './reducers/user.reducer';
 import commonReducer from './reducers/common.reducer';
 import messengerAppReducer from './reducers/messenger-app.reducer';
+import userRoleReducer from './reducers/role.reducer';
 const store = configureStore({
   reducer: {
     dailyExpense: dailyExpenseReducer,
@@ -22,7 +23,8 @@ const store = configureStore({
     profile: profileReducer,
     users: userReducer,
     common: commonReducer,
-    messengerApp: messengerAppReducer
+    messengerApp: messengerAppReducer,
+    userRole: userRoleReducer
   },
 })
 

@@ -13,6 +13,9 @@ import FinanceMenu from '../../components/common/dropdown-menu';
 import FinanceMenuMobile from '../../components/common/dropdown-menu-mobile';
 import { Link, useNavigate } from 'react-router-dom';
 import * as path from '../../routes/path';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { UserRoleEnum } from '../../enum/user-role.enum';
 
 const pages = [
   {
@@ -43,6 +46,7 @@ function AppBarChatComponent() {
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
+  const userRole = useSelector((state: RootState) => state.userRole.value)
 
   const handleCloseNavMenu = (link: string | null) => {
     setAnchorElNav(null);
@@ -53,7 +57,7 @@ function AppBarChatComponent() {
       sx={{
         backgroundColor: "#173948",
         boxShadow: "0px 12px 12px -10px #000000",
-        width:"100%"
+        width: "100%"
       }}
     >
       <Container maxWidth="xl">
@@ -96,11 +100,15 @@ function AppBarChatComponent() {
                       </Typography>
                     </MenuItem>
                   )
-                } else return (
+                }
+
+                if (page.title === "Finance" && userRole === UserRoleEnum.ADMIN) return (
                   <MenuItem key={page.path}>
                     <FinanceMenuMobile title={page.title} handleCloseNavMenu={handleCloseNavMenu} />
                   </MenuItem>
                 )
+
+                return ''
               })}
             </Menu>
           </Box>

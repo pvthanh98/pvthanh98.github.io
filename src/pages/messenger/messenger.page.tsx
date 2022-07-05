@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateConversationListAction } from '../../redux/actions/messenger.action';
 import { RootState } from '../../redux/store';
 import { useNavigate } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
 
 
 export const MessengerPage = () => {
@@ -41,7 +42,7 @@ export const MessengerPage = () => {
     const renderConversations = () => {
         return conversations.map(conv => (
             <Box
-                onClick={()=> navigate(`/messenger/chat/${conv.id}`) }
+                onClick={() => navigate(`/messenger/chat/${conv.id}`)}
             >
                 <CardMessenger
                     key={conv.id}
@@ -62,6 +63,11 @@ export const MessengerPage = () => {
                 padding: "0px 4px 2px 4px"
             }}
         >
+            {
+                isLoad && <Box sx={{ textAlign: 'center' }}>
+                    <CircularProgress />
+                </Box>
+            }
             {renderConversations()}
         </Box >
     )

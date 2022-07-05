@@ -13,6 +13,9 @@ import FinanceMenu from '../../components/common/dropdown-menu';
 import FinanceMenuMobile from '../../components/common/dropdown-menu-mobile';
 import { Link, useNavigate } from 'react-router-dom';
 import * as path from '../../routes/path';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
+import { UserRoleEnum } from '../../enum/user-role.enum';
 
 const pages = [
   {
@@ -34,11 +37,16 @@ const pages = [
   {
     title: 'About',
     path: path.ABOUT_PATH
+  },
+  {
+    title: 'Login',
+    path: path.LOGIN_PATH
   }
 ];
 
 function AppBarComponent() {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const userRole = useSelector((state: RootState) => state.userRole.value)
   const navigate = useNavigate();
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -119,11 +127,15 @@ function AppBarComponent() {
                       </Typography>
                     </MenuItem>
                   )
-                } else return (
-                  <MenuItem key={page.path}>
-                    <FinanceMenuMobile title={page.title} handleCloseNavMenu={handleCloseNavMenu} />
-                  </MenuItem>
-                )
+                }
+                if (page.title === "Finance" && userRole === UserRoleEnum.ADMIN)
+                  return (
+                    <MenuItem key={page.path}>
+                      <FinanceMenuMobile title={page.title} handleCloseNavMenu={handleCloseNavMenu} />
+                    </MenuItem>
+                  )
+
+                return ''
               })}
             </Menu>
           </Box>
@@ -164,15 +176,20 @@ function AppBarComponent() {
                     {page.title}
                   </Button>
                 )
-              } else return (
-                <Box
-                  key={page.path}
-                  onClick={() => handleCloseNavMenu(null)}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  <FinanceMenu title={page.title} handleCloseNavMenu={handleCloseNavMenu} />
-                </Box>
-              )
+              }
+
+              if (page.title === "Finance" && userRole === UserRoleEnum.ADMIN)
+                return (
+                  <Box
+                    key={page.path}
+                    onClick={() => handleCloseNavMenu(null)}
+                    sx={{ my: 2, color: 'white', display: 'block' }}
+                  >
+                    <FinanceMenu title={page.title} handleCloseNavMenu={handleCloseNavMenu} />
+                  </Box>
+                )
+
+              return ''
             })}
           </Box>
         </Toolbar>

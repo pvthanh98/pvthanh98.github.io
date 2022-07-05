@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from 'axios';
 import moment from 'moment';
-import { Button, CircularProgress, Grid, TextField, Typography } from "@mui/material";
+import { Button, CircularProgress, Container, Grid, TextField, Typography } from "@mui/material";
 import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
 import { Box } from "@mui/system";
 import { MessageItem } from "./message";
@@ -16,7 +16,7 @@ export interface HomePagePropType {
 
 export function HomePage({ socket }: HomePagePropType) {
   const chatContainerRef = useRef<HTMLDivElement>(null);
-  const [logs, setLogs] = useState<any[]>([]); 
+  const [logs, setLogs] = useState<any[]>([]);
   const [isLoad, setIsLoad] = useState(false);
   const [page, setPage] = useState(1); // logs 
   const [messagePage, setMessagePage] = useState(1);
@@ -53,11 +53,11 @@ export function HomePage({ socket }: HomePagePropType) {
 
 
   const loadMessages = async () => {
-      setIsLoad(true)
-      const response = await axios.get(`${process.env.REACT_APP_SERVER_HOST}/common/chat/public-message?page=${messagePage}`);
-      const { result } = response.data;
-      setMessages(msgs => [...msgs, ...converMessageDBToMessageItem(result).reverse()])
-      setIsLoad(false);
+    setIsLoad(true)
+    const response = await axios.get(`${process.env.REACT_APP_SERVER_HOST}/common/chat/public-message?page=${messagePage}`);
+    const { result } = response.data;
+    setMessages(msgs => [...msgs, ...converMessageDBToMessageItem(result).reverse()])
+    setIsLoad(false);
   }
 
   const loadLogs = async () => {
@@ -136,87 +136,84 @@ export function HomePage({ socket }: HomePagePropType) {
   }
 
   return (
-    <Grid container>
-      {
-        !userId && (
-          <Grid item xs={12} md={9} sx={{ padding: "8px" }}>
-            <Typography variant="h5" fontWeight={700}>
-              Server Alive
-            </Typography>
-            <Box
-              sx={{
-                height: "67vh",
-                overflow: "scroll",
-                overflowX: "hidden",
-              }}
-            >
-              {
-                logs.map((log: any) => {
-                  return (
-                    <div
-                      style={{
-                        marginTop: "8px"
-                      }}
-                      key={Math.random().toString()}
-                    >
-                      <div>
-                        Message: {log.message}
-                      </div>
-                      <div>
-                        From: {log.from}
-                      </div>
-                      <div>
-                        Type: {log.type}
-                      </div>
-                      <div>
-                        Created At: {moment(log.createdAt).format("DD-MMM-YY, h:mm:ss a")} ({moment(log.createdAt).fromNow()})
-                      </div>
-                      <hr />
-                    </div>
-                  )
-                })
-              }
-            </Box>
-            <Box>
-              <Typography
-                onClick={onLoadMore}
-                sx={{
-                  fontStyle: "italic",
-                  textDecoration: "underline",
-                  cursor: "pointer",
-                  margin: "16px 0px 16px 0px",
-                  textAlign: "center"
-                }}
+    <Container>
+      <Grid container>
+        {
+          !userId && (
+            <Grid item xs={12} md={12} sx={{ padding: "8px" }}>
+              <Typography variant="h5" fontWeight={700}>
+                Server Alive
+              </Typography>
+              <Box
               >
                 {
-                  isLoad ? "Loading..." : "Load More"
+                  logs.map((log: any) => {
+                    return (
+                      <div
+                        style={{
+                          marginTop: "8px"
+                        }}
+                        key={Math.random().toString()}
+                      >
+                        <div>
+                          Message: {log.message}
+                        </div>
+                        <div>
+                          From: {log.from}
+                        </div>
+                        <div>
+                          Type: {log.type}
+                        </div>
+                        <div>
+                          Created At: {moment(log.createdAt).format("DD-MMM-YY, h:mm:ss a")} ({moment(log.createdAt).fromNow()})
+                        </div>
+                        <hr />
+                      </div>
+                    )
+                  })
                 }
-              </Typography>
-            </Box>
-            <Box>
-              {
-                !isFirstRender && (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    endIcon={<ConnectWithoutContactIcon />}
-                    onClick={pingServer}
-                    sx={{
-                      '@media only screen and (max-width: 690px)': {
-                        width: "100%"
-                      },
-                    }}
-                  >
-                    {
-                      isLoad ? <CircularProgress size="30px" color="inherit" /> : "PING"
-                    }
-                  </Button>
-                )
-              }
-            </Box>
-          </Grid>
-        )
-      }
-    </Grid>
+              </Box>
+              <Box>
+                <Typography
+                  onClick={onLoadMore}
+                  sx={{
+                    fontStyle: "italic",
+                    textDecoration: "underline",
+                    cursor: "pointer",
+                    margin: "16px 0px 16px 0px",
+                    textAlign: "center"
+                  }}
+                >
+                  {
+                    isLoad ? "Loading..." : "Load More"
+                  }
+                </Typography>
+              </Box>
+              <Box>
+                {
+                  !isFirstRender && (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      endIcon={<ConnectWithoutContactIcon />}
+                      onClick={pingServer}
+                      sx={{
+                        '@media only screen and (max-width: 690px)': {
+                          width: "100%"
+                        },
+                      }}
+                    >
+                      {
+                        isLoad ? <CircularProgress size="30px" color="inherit" /> : "PING"
+                      }
+                    </Button>
+                  )
+                }
+              </Box>
+            </Grid>
+          )
+        }
+      </Grid>
+    </Container>
   );
 }

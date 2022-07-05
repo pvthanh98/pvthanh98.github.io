@@ -4,12 +4,14 @@ import Grid from '@mui/material/Grid';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAuth } from '../redux/actions/auth.action';
+import { setRoleAction } from '../redux/actions/role.action';
 
 import { Button, CircularProgress, Container, Input } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { RootState } from '../redux/store';
 import { Box } from '@mui/system';
 import AppBarOnlyLogoComponent from '../components/common/app-bar-only-logo';
+import { UserRoleEnum } from '../enum/user-role.enum';
 
 
 export const LoginPage = () => {
@@ -19,7 +21,7 @@ export const LoginPage = () => {
     const dispatch = useDispatch();
     const authState = useSelector((state: RootState) => state.isAuth)
     const navigate = useNavigate();
-    
+
 
     const onEmailChange = (e: any) => {
         setEmail(e.target.value)
@@ -38,7 +40,10 @@ export const LoginPage = () => {
                     email, password
                 });
                 localStorage.setItem("accessToken", response.data.access_token)
+                const userRole = response.data.isAdmin ? UserRoleEnum.ADMIN : UserRoleEnum.NORMAL_USER;
                 dispatch(setAuth(true))
+                dispatch(setRoleAction(userRole))
+                localStorage.setItem("userRole", userRole)
                 setIsLoad(false);
                 navigate("/")
             } else {

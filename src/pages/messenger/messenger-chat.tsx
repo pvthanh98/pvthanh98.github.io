@@ -24,11 +24,13 @@ export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
     const [isLoad, setIsLoad] = useState<boolean>(false);
     const [isTyping, setIsTyping] = useState<boolean>(false);
     const [nextPage, setNextPage] = useState<number>(2);
+    const [receivedMessage, setReceivedMessage] = useState<boolean>(false);
     const [messages, setMessages] = useState<MessengerMessageItemInterface[]>([]);
     const dispatch = useDispatch();
     const params: any = useParams();
     const [messageBodyInput, setMessageBodyInput] = useState("");
     const profile = useSelector((state: RootState) => state.profile.value)
+
 
     useEffect(() => {
         loadMessages(params.conversationId);
@@ -42,7 +44,7 @@ export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
     }, [messages])
 
     useEffect(() => {
-        firstMessageRef.current?.scrollIntoView();
+        firstMessageRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [nextPage])
 
     useEffect(() => {
@@ -81,6 +83,7 @@ export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
                     }
                 });
                 setMessages([...response.data.result].reverse())
+                setReceivedMessage(false);
                 setIsLoad(false)
             }
         } catch (e: any) {
@@ -107,6 +110,7 @@ export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
                         ...oldMessages
                     ]
                 })
+                setReceivedMessage(false);
                 setNextPage(next => (next + 1))
                 setIsLoad(false)
             }
@@ -115,6 +119,7 @@ export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
                 dispatch(setAuth(false));
                 localStorage.removeItem("accessToken");
             }
+            setReceivedMessage(false);
             setIsLoad(false)
         }
     }
@@ -199,7 +204,7 @@ export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
             type: "text",
             conversationId: params.conversationId
         });
-
+        setReceivedMessage(false);
         setMessageBodyInput("")
         setIsTyping(false);
     }
@@ -216,6 +221,7 @@ export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
                         { ...data }
                     ]
                 })
+                setReceivedMessage(true);
             }
 
         })
@@ -256,14 +262,16 @@ export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
                     overflowX: "hidden"
                 }}
             >
-                <Box
-                    sx={{ textAlign: "center" }}
-                    onClick={loadMoreMessages}
-                >
-                    <IconButton aria-label="delete" size="small">
-                        <RefreshIcon fontSize="inherit" />
-                    </IconButton>
-                </Box>
+                {
+                    !isLoad && <Box
+                        sx={{ textAlign: "center" }}
+                        onClick={loadMoreMessages}
+                    >
+                        <IconButton aria-label="delete" size="small">
+                            <RefreshIcon fontSize="inherit" />
+                        </IconButton>
+                    </Box>
+                }
                 {renderMessages()}
                 {
                     isTyping && (
