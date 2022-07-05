@@ -77,7 +77,7 @@ export const MessengerChatPage = ({ socket }: MessengerChatPagePropType) => {
         try {
             if (conversationId) {
                 setIsLoad(true);
-                const response = await axios.get(`${process.env.REACT_APP_SERVER_HOST}/chat/conversation/${conversationId}/message`, {
+                const response = await axios.get(`${process.env.REACT_APP_SERVER_HOST}/chat/conversation/${conversationId}/message?limit=16`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("accessToken")}`
                     }
