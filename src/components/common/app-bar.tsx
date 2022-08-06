@@ -23,24 +23,12 @@ const pages = [
     path: null
   },
   {
-    title: 'Profile',
-    path: path.PROFILE_PATH
-  },
-  {
-    title: 'Friend',
-    path: path.USER_FRIEND_PATH
-  },
-  {
     title: 'Messenger',
     path: path.MESSENGER_PATH
   },
   {
     title: 'About',
     path: path.ABOUT_PATH
-  },
-  {
-    title: 'Login',
-    path: path.LOGIN_PATH
   }
 ];
 

@@ -4,17 +4,17 @@ import moment from 'moment';
 import { Button, CircularProgress, Container, Grid, TextField, Typography } from "@mui/material";
 import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
 import { Box } from "@mui/system";
-import { MessageItem } from "./message";
+import { MessageItem } from "../home/message";
 import SendIcon from '@mui/icons-material/Send';
 import { MessageBroadcast } from "../../types/message-socket";
 import * as socketEvent from '../../types/socket-event.constant';
 import { converMessageDBToMessageItem } from "../../utils/util";
 
-export interface HomePagePropType {
+export interface LogPropType {
   socket?: any
 }
 
-export function HomePage({ socket }: HomePagePropType) {
+export function LogPage({ socket }: LogPropType) {
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const [logs, setLogs] = useState<any[]>([]);
   const [isLoad, setIsLoad] = useState(false);
