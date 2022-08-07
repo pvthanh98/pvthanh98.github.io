@@ -76,6 +76,7 @@ function AppBarComponent() {
               letterSpacing: '.1rem',
               color: 'inherit',
               textDecoration: 'none',
+              fontSize: "24px"
             }}
           >
             <Link
@@ -121,7 +122,7 @@ function AppBarComponent() {
               {pages.map((page) => {
                 if (page.title !== "Finance") {
                   return (
-                    <MenuItem sx={{ width: "200px" }} key={page.path} onClick={() => handleCloseNavMenu(page.path)}>
+                    <MenuItem sx={{ width: "200px"}} key={page.path} onClick={() => handleCloseNavMenu(page.path)}>
                       <Typography textAlign="center">
                         {page.title}
                       </Typography>
@@ -157,7 +158,7 @@ function AppBarComponent() {
               to="/"
               style={{
                 textDecoration: "none",
-                color: "white"
+                color: "white",
               }}
             >
               ThanhPhan
@@ -171,7 +172,16 @@ function AppBarComponent() {
                   <Button
                     key={page.path}
                     onClick={() => handleCloseNavMenu(page.path)}
-                    sx={{ my: 2, color: 'white', display: 'block' }}
+                    sx={{ 
+                      my: 2, 
+                      color: 'white', 
+                      display: 'block', 
+                      marginRight:"12px" ,
+                      '&:hover': {
+                        backgroundColor: '#6b7b8c',
+                        fontWeight: '700'
+                      }
+                    }}
                   >
                     {page.title}
                   </Button>
@@ -183,7 +193,7 @@ function AppBarComponent() {
                   <Box
                     key={page.path}
                     onClick={() => handleCloseNavMenu(null)}
-                    sx={{ my: 2, color: 'white', display: 'block' }}
+                    sx={{ my: 2, color: 'white', display: 'block', marginRight:"12px"  }}
                   >
                     <FinanceMenu title={page.title} handleCloseNavMenu={handleCloseNavMenu} />
                   </Box>
