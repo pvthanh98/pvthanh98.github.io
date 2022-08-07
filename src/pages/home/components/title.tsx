@@ -1,15 +1,24 @@
-import { Typography } from "@mui/material"
+import Typography from '@mui/material/Typography';
 
-export interface PostTitleProps {
-    title: string
+export interface TitlePropType {
+    title: string,
 }
 
-export const PostTitle = (props: PostTitleProps) => {
+export function Title({ title }: TitlePropType) {
     return (
-        <Typography variant="h4" sx={{
-            marginTop: '12px'
-          }}>
-            {props.title}
+        <Typography
+            sx={{
+                borderRadius: '4px',
+                fontWeight: '700',
+                userSelect: 'none',
+                '&:hover': {
+                    transform: 'translateY(2px)'
+                },
+                color: '#53131E',
+                cursor: 'pointer'
+            }}
+        >
+            {title}
         </Typography>
-    )
+    );
 }

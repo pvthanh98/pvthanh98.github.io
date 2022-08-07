@@ -1,23 +1,16 @@
+import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { PostCard } from "./post-card";
 import { SidebarTitle } from "./sidebar-title";
 
-export interface PostCardContainer {
-    title: string
-}
-
-export function PostCardContainer({title}: PostCardContainer) {
+export function PostCardContainer() {
     return (
         <Box
             sx={{
-                marginTop:"12px",
-                marginBottom: '12px'
+                marginTop:"12px"
             }}
         >
-            <SidebarTitle 
-                title={title} 
-                color="success" 
-            />
+            <SidebarTitle title="Newest Posts" color="success" />
             <PostCard
                 src={'https://imageio.forbes.com/specials-images/imageserve/5ef3f7eec4f2390006f0c356/GUI--Graphical-User-Interface--concept-/960x0.jpg?format=jpg&width=960'}
                 title='How To Become A Flight Attendant And Make $61,640 Each Year'

@@ -1,11 +1,16 @@
 export const ROOT_PATH = "/";
 export const LOGIN_PATH = "/login"
+export const CONTACT_PATH = "/contact"
 export const ABOUT_PATH = "/about"
 export const PROFILE_PATH = "/profile"
 export const USER_PATH = "/user"
 export const USER_FRIEND_PATH = "/user/friend"
 export const USER_FRIEND_REQUEST_PATH = "/user/friend-request"
 export const LOG_PATH = "/log"
+export const BLOG_PATH = "/"
+export const TECHNOLOGY_PATH = "/category/technology"
+export const PROGAMMING_LANGUAGES_PATH = "/category/programming-languages"
+export const LIFE_HACK_PATH = "/category/life-hack"
 
 export const FINANCE_OVERVIEW_PATH = "/finance"
 export const FINANCE_EXPENSE_BY_CATEGORY_PATH = "/finance/expense-by-category"

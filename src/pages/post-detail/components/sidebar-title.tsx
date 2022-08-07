@@ -13,13 +13,11 @@ export function SidebarTitle({ title, color = "primary" }: SidebarTitlePropType)
     <Box
       sx={{
         display: 'flex',
-        alignItems: 'center',
-        marginBottom: '12px',
-        justifyContent: 'center'
+        alignItems: 'center'
       }}
     >
-      <BookIcon color="secondary" />
-      <Typography textAlign={'center'} variant='h6' alignItems={'center'} marginLeft='4px' fontWeight={'500'}>
+      <BookIcon />
+      <Typography variant='h6' alignItems={'center'} marginLeft='4px' fontWeight={'500'}>
         {title}
       </Typography>
     </Box>

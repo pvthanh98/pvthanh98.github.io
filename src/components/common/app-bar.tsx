@@ -23,13 +23,25 @@ const pages = [
     path: null
   },
   {
-    title: 'Messenger',
-    path: path.MESSENGER_PATH
+    title: 'Technology',
+    path: path.TECHNOLOGY_PATH
+  },
+  {
+    title: 'Progamming Languages',
+    path: path.PROGAMMING_LANGUAGES_PATH
+  },
+  {
+    title: 'Life Hacks',
+    path: path.LIFE_HACK_PATH
   },
   {
     title: 'About',
     path: path.ABOUT_PATH
-  }
+  },
+  {
+    title: 'Contact',
+    path: path.CONTACT_PATH
+  },
 ];
 
 function AppBarComponent() {
@@ -48,7 +60,7 @@ function AppBarComponent() {
     <AppBar position="static"
       sx={{
         backgroundColor: "#173948",
-        boxShadow: "0px 12px 12px -10px #000000"
+        boxShadow: "0px 12px 12px -10px #5A464C"
       }}
     >
       <Container maxWidth="xl">
