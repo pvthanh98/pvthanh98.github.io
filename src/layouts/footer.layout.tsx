@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from "@mui/material";
+import { Box, Container, Grid, Typography } from "@mui/material";
 
 function FooterLayout() {
   return (
@@ -14,17 +14,19 @@ function FooterLayout() {
       }}
     >
       <Container>
-        <Grid
-          container
+        <Box
           sx={{
             color: '#ffffff',
             textAlign: 'center'
           }}
         >
           <Typography textAlign={'center'} variant='body2'>
+            Keywords: ThanhPhan, ThanhPhan Personal, ThanhPhan Personal Site, Thanh Phan, Thanh Phan Personal Site, ThanhPhan Site, ThanhPhan Site, ThanhPhan-Site, ThanhPhan-Personal-Site, ThanhPhan-PersonalSite
+          </Typography>
+          <Typography textAlign={'center'} variant='body2'>
             ThanhPhan is a personal website where to share about daily life, technology and stories. Let's give me your idea or any concerns so that i can make the site better. Visit <a href='' style={{ color: '#ffffff' }}>profile</a> to know more about me.
           </Typography>
-        </Grid>
+        </Box>
       </Container>
     </Grid>
   );
