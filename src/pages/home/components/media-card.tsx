@@ -9,12 +9,18 @@ import { Grid } from '@mui/material';
 export interface MediaCardPropType {
   src: string,
   title: string,
-  description: string
+  description: string,
+  onClick: () => void
 }
 
-export function MediaCard({ src, title, description }: MediaCardPropType) {
+export function MediaCard({ src, title, description, onClick }: MediaCardPropType) {
   return (
-    <Grid item xs={12} md={4}>
+    <Grid
+      item
+      xs={12}
+      md={4}
+      onClick={onClick}
+    >
       <Card
         sx={{
           cursor: 'pointer',

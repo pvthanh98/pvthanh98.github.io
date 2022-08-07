@@ -18,6 +18,7 @@ import { io } from "socket.io-client";
 import ChatLayout from "../layouts/chat.layout";
 import { MessengerChatPage, MessengerChatPagePropType } from "../pages/messenger/messenger-chat";
 import { LogPage } from "../pages/logs/log.page";
+import { PostDetailPage } from "../pages/post-detail/post-detail.page";
 const socket: any = io('https://tp-finance-server.herokuapp.com');
 // const socket: any = io('http://localhost:8080');
 
@@ -34,6 +35,12 @@ export const publicRoutes = [
     path: path.LOGIN_PATH,
     layout: BodyLayout,
     component: LoginPage,
+    componentProps: {}
+  },
+  {
+    path: path.POST_DETAIL_PATH,
+    layout: AppLayout,
+    component: PostDetailPage,
     componentProps: {}
   },
   {

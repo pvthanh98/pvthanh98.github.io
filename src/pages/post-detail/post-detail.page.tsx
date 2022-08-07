@@ -1,4 +1,3 @@
-import { useEffect} from "react";
 import { Container, Grid } from "@mui/material";
 import { PostProperty } from "./components/post-property";
 import { PostTitle } from "./components/title";
@@ -6,11 +5,7 @@ import { PostContent } from "./components/post-content";
 import { PostCardContainer } from "./components/post-card-container";
 import CategorySidebardContainter from "./components/cateogry-sidebar-container";
 
-export interface PostDetailPropType {
-  socket?: any
-}
-
-export function PostDetailPage({ socket }: PostDetailPropType) {
+export function PostDetailPage() {
   return (
     <Container>
       <Grid container spacing={2}>
