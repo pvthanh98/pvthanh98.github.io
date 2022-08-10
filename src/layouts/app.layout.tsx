@@ -1,5 +1,4 @@
-import { Grid, Typography } from "@mui/material";
-import { Box, Container } from "@mui/system";
+import { Grid } from "@mui/material";
 import AppBarComponent from "../components/common/app-bar";
 import FooterLayout from "./footer.layout";
 

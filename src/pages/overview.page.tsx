@@ -11,7 +11,6 @@ import { setAuth } from '../redux/actions/auth.action';
 import { RootState } from '../redux/store';
 import { fetchIncomeData, fetchRemainingData, fetchUsageData } from '../redux/actions/overview-expense.action';
 import { Container } from '@mui/system';
-import { NavComponent } from '../components/common/nav/nav';
 
 export const OverviewPage = () => {
 

@@ -20,3 +20,10 @@ export const FINANCE_EXPENSE_BY_MONTH_PATH = "/finance/expense-by-month"
 export const FINANCE_EXPENSE_DAILY_PATH = "/finance/expense-daily";
 export const MESSENGER_PATH = "/messenger";
 export const MESSENGER_CHAT_PATH = "/messenger/chat/:conversationId";
+
+export const ADMIN_HOME = "/admin"
+export const ADMIN_DASHBOARD = "/admin/dashboard"
+export const ADMIN_CATEGORY = "/admin/category"
+export const ADMIN_TAG = "/admin/tag"
+export const ADMIN_POST = "/admin/post"
+export const ADMIN_USER = "/admin/user"
