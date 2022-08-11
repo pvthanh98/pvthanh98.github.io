@@ -1,8 +1,8 @@
 import {
-
   Routes,
   Route,
-  HashRouter
+  // HashRouter,
+  BrowserRouter
 } from "react-router-dom";
 import ProtectedRoute from './components/route/protected-route';
 import { publicRoutes, privateRoutes } from './routes/route.routes';
@@ -39,12 +39,12 @@ function App() {
     )
   }
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Routes>
         {renderPublicRoutes()}
         {renderPrivateRoutes()}
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 
